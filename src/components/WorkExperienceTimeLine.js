@@ -7,7 +7,6 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Button from '@mui/material/Button';
-import { Alert } from '@mui/material';
 
 
 export default function WorkExperienceTimeLine({ work_history, deleteWorkExperience }) {
@@ -71,7 +70,7 @@ export default function WorkExperienceTimeLine({ work_history, deleteWorkExperie
         </Timeline>
       }
       {
-        work_history.length == 0 && <Alert severity='info' sx={{borderRadius:3,padding:3,fontWeight:'bold'}}>No experiences added yet. Start adding new qualification by clicking link above.</Alert>
+        work_history.length == 0 && <Typography align='center'>No experiences added yet. <br></br> Start adding new qualification by clicking link above.</Typography>
       }
     </Box>
 
