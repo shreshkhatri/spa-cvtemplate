@@ -554,6 +554,7 @@ export default function Home() {
       justifyContent: 'flex-start',
       alignItems: 'center',
       minHeight: '100vh',
+      width:'100%'
     }}>
       <Box sx={{
         display: 'flex',
@@ -561,6 +562,7 @@ export default function Home() {
         justifyContent: 'flex-start',
         alignItems: 'center',
         gap: 2,
+      width:'100%',
         paddingX: 10
       }}>
         <Typography variant="h6">  Profile Information </Typography>
