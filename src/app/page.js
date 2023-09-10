@@ -564,8 +564,7 @@ export default function Home() {
         paddingX: {
           xs:2,
           sm:5,
-          md:10,
-          lg:20
+          md:10
         }
       }}>
         <Typography variant="h6">  Profile Information </Typography>
