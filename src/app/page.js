@@ -563,7 +563,11 @@ export default function Home() {
         alignItems: 'center',
         gap: 2,
       width:'100%',
-        paddingX: 10
+        paddingX: {
+          xs:1,
+          sm:5,
+          md:10
+        }
       }}>
         <Typography variant="h6">  Profile Information </Typography>
 
