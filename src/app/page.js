@@ -561,11 +561,7 @@ export default function Home() {
         justifyContent: 'flex-start',
         alignItems: 'center',
         gap: 2,
-        paddingX: {
-          xs:2,
-          sm:5,
-          md:10
-        }
+        paddingX: 10
       }}>
         <Typography variant="h6">  Profile Information </Typography>
 
