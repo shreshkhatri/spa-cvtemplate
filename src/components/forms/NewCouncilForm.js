@@ -28,51 +28,43 @@ const style = {
     p: 2,
 };
 
-
-export default function NewProjectForm({ open, setOpen, addNewProject }) {
-    const projectTitleRef = useRef('');
-    const designationRef = useRef('');
-    const [projectCountry, setProjectCountry] = useState(null);
-    const projectCityRef = useRef('');
-    const [startDate, setStartDate] = useState(null);
+export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
+    const councilRef = useRef('');
+    const [councilCountry,setCouncilCountry] = useState(null);
+    const councilCityRef = useRef('');
+    const [startDate,setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [isContinue, setIsContinue] = useState(false);
-    const descriptionRef = useRef('');
 
-
-    function resetFields() {
-        projectTitleRef.current = '',
-            designationRef.current = '',
-            setProjectCountry(null),
-            projectCityRef.current = '',
-            setStartDate(null),
-            setEndDate(null),
-            setIsContinue(false),
-            descriptionRef.current = ''
+    function resetFields(){
+        councilRef.current=''
+        setCouncilCountry(null)
+        councilCityRef.current=''
+        setStartDate(null)
+        setEndDate(null)
+        setIsContinue(false)
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        addNewProject({
-            projectID: uniqid(),
-            project_title: projectTitleRef.current,
-            designation: designationRef.current,
-            country: projectCountry,
-            city: projectCityRef.current,
-            start_date: JSON.stringify(startDate).substring(1, 11),
-            end_date: JSON.stringify(endDate).substring(1, 11),
-            isContinue: isContinue,
-            description: descriptionRef.current
+        addNewCouncil({
+            councilID: uniqid(),
+            name: councilRef.current,
+            country: councilCountry,
+            city : councilCityRef.current,
+            start_date: JSON.stringify(startDate).substring(1,11),
+            end_date: JSON.stringify(endDate).substring(1,11),
+            isContinue: isContinue
         })
-        resetFields();
-        setOpen(false);
+        resetFields()
+        setOpen(false)
     };
 
     return (
 
         <Modal
-            aria-labelledby="transition-modal-add-new-experience-record"
-            aria-describedby="transition-modal-add-new-education-record"
+            aria-labelledby="transition-modal-add-new-council-record"
+            aria-describedby="transition-modal-add-new-council-record"
             open={open}
             onClose={() => setOpen(false)}
             closeAfterTransition
@@ -94,97 +86,65 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                         ...style
                     }}
                 >
-
-                    <Box component="form" onSubmit={handleSubmit} >
+                    <Box component="form" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} >
-                                <Typography variant='h5'> Project Details</Typography>
+                        <Grid item xs={12} >
+                                <Typography variant='h5'> Council Association Information</Typography>
                             </Grid>
                             <Grid item xs={12} >
                                 <TextField
                                     autoComplete='off'
-                                    name="position-title"
+                                    name="council-name"
                                     required
                                     fullWidth
-                                    id="project-title"
-                                    label="Project Title"
+                                    id="council-name"
+                                    label="Council Name"
                                     size='small'
-                                    ref={projectTitleRef}
+                                    ref={councilRef}
                                     autoFocus
-                                    onChange={e => projectTitleRef.current = e.target.value}
+                                    onChange={e => councilRef.current = e.target.value}
                                 />
                             </Grid>
-                            <Grid item xs={12} >
-                                <TextField
-                                    autoComplete='off'
-                                    name="position-designation"
-                                    required
-                                    fullWidth
-                                    id="project-designation"
-                                    label="Designation"
-                                    size='small'
-                                    ref={designationRef}
-                                    autoFocus
-                                    onChange={e => designationRef.current = e.target.value}
-                                />
-                            </Grid>
-
+                        
                             <Grid item xs={12} sm={6} >
-                                <CountrySelector country={projectCountry} setCountry={setProjectCountry} />
+                            <CountrySelector country={councilCountry} setCountry={setCouncilCountry} />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    required
                                     fullWidth
-                                    id="project-city"
+                                    id="council-city"
                                     label="City "
                                     size='small'
-                                    name="project-city"
+                                    name="council-city"
                                     autoComplete='off'
-                                    ref={projectCityRef}
-                                    onChange={e => projectCityRef.current = e.target.value}
+                                    ref={councilCityRef}
+                                    onChange={e => councilCityRef.current = e.target.value}
                                 />
                             </Grid>
-                            <Grid item xs={12} >
+                            <Grid item xs={6} >
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
                                         <DatePicker value={startDate} label="Start Date" size='small' format='LL' onChange={date => setStartDate(date)} />
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </Grid>
-                            <Grid item xs={6} >
+                            <Grid item xs={12} >
                                 <FormGroup>
-                                    <FormControlLabel control={<Switch
-                                        value={isContinue}
-                                        onChange={() => {
-                                            setIsContinue(!isContinue);
-                                        }}
-                                    />} label='On going Project' />
+                                    <FormControlLabel control={<Switch 
+                                    value={isContinue} 
+                                    onChange={() => {
+                                        setIsContinue(!isContinue);
+                                        }} 
+                                        />} label='Currently associated' />
                                 </FormGroup>
                             </Grid>
-                            <Grid item xs={12} >
+                            <Grid item xs={6} >
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
                                         <DatePicker disabled={isContinue} value={endDate} label="End Date" size='small' format='LL' onChange={date => setEndDate(date)} />
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="project-description"
-                                    label="Project Description"
-                                    size='small'
-                                    name="project-description"
-                                    autoComplete='off'
-                                    multiline
-                                    rows={3}
-                                    ref={descriptionRef}
-                                    onChange={e => descriptionRef.current = e.target.value}
-                                />
-                            </Grid>
-
                         </Grid>
 
                         <Box sx={{
@@ -193,15 +153,15 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                                 xs: 'column',
                                 sm: 'row'
                             },
-                            gap: 1,
-                            padding: 1
+                            paddingTop:1,
+                            gap: 1
                         }}>
                             <Button
                                 fullWidth
                                 size='small'
                                 variant="outlined"
                                 color='inherit'
-                                onClick={() => setOpen(false)}
+                                onClick={()=>setOpen(false)}
                             >
                                 Cancel
                             </Button>
@@ -215,11 +175,9 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                                 Add
                             </Button>
                         </Box>
-
-
                     </Box>
                 </Box>
-            </Fade>
+                </Fade>
         </Modal>
 
 

@@ -3,13 +3,11 @@ import Typography from '@mui/material/Typography';
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Button from '@mui/material/Button';
 
-
-export default function ProjectsTimeline({ projects, deleteProject  }) {
+export default function MembershipTimeLine({ memberships, deleteMembership }) {
     return (
         <Box sx={{
             display: 'flex',
@@ -17,22 +15,19 @@ export default function ProjectsTimeline({ projects, deleteProject  }) {
             width: '100%',
             minHeight:'20vh'
         }}>
-            
             {
-                projects.length != 0 &&
-
+                memberships.length !== 0 &&
                 <Timeline
                     sx={{
                         [`& .${timelineItemClasses.root}:before`]: {
                             flex: 0,
-                            padding: 2,
+                            padding: 1,
                         },
                     }}
                 >
-
                     {
-                        projects.map((project) => {
-                            return <TimelineItem key={project.projectID} >
+                        memberships.map((membership) => {
+                            return <TimelineItem key={membership.membershipID} >
 
                                 <TimelineSeparator>
                                     <TimelineDot color='success' />
@@ -43,22 +38,14 @@ export default function ProjectsTimeline({ projects, deleteProject  }) {
                                         variant="body2"
                                         color="text.secondary"
                                     >
-                                        {project.start_date} - {project.isContinue ? "continue" : project.end_date}
+                                        {membership.start_date} - {membership.isContinue ? "continue" : membership.end_date}
                                     </Typography>
 
                                     <Typography variant="h6" gutterBottom>
-                                        {project.project_title} , {project.designation}
+                                    {membership.membership_type}, {membership.organization}
                                     </Typography>
-                                    <Typography variant="body2" gutterBottom>
-                                        {project.city} , {project.country.label}
-                                    </Typography>
-
-
-
-                                    <Typography variant="body2" gutterBottom>Project Description <br></br>
-                                        {project.description}
-                                    </Typography>
-                                    <Button variant='outlined' color='error' size='small' onClick={()=> deleteProject(project.projectID)}>Delete</Button>
+                                    
+                                    <Button variant='outlined' color='error' size='small' onClick={()=> deleteMembership(membership.membershipID)}>Delete</Button>
                                 </TimelineContent>
                             </TimelineItem>
 
@@ -66,13 +53,10 @@ export default function ProjectsTimeline({ projects, deleteProject  }) {
                         })
                     }
                 </Timeline>
-
             }
-
             {
-                projects.length == 0 && <Typography align='center'>No Projects added yet. <br></br> Start adding new qualification by clicking link above.</Typography>
+                memberships.length == 0 && <Typography align='center'>No memberships added yet. <br></br> Start adding new by clicking button above.</Typography>
             }
         </Box>
-
     );
 }

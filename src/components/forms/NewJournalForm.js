@@ -9,8 +9,6 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { PUBLICATION_TYPES } from '@/data/data';
-import PublicationTypeSelector from '../selectors/PublicationTypeSelector';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
@@ -27,20 +25,28 @@ const style = {
     p: 2,
 };
 
-export default function NewPublicationForm({ open, setOpen, addNewPublication }) {
+
+
+export default function NewJournalForm({ open, setOpen, addNewJournal }) {
     const titleRef = useRef('');
     const [authors, updateAuthors] = useState([]);
-    const [publicationDate, setPublicationDate] = useState(null);
-    const [publicationType, setPublicationType] = useState(PUBLICATION_TYPES[0]);
-    const publicationEventRef = useRef('');
-    const publicationVenueRef = useRef('');
-    const [DOI, setDOI] = useState(null);
-    const editionVolumeRef = useRef('');
-    const abstractRef = useRef('');
-    const publicationURLRef = useRef('');
+    const journalRef = useRef('');
+    const volRef = useRef('');
+    const issueRef = useRef('');
+    const pageRangeRef = useRef('');
+    const [startDate, setStartDate] = useState(null);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [closeAccordion, setCloseAccordion] = useState(false);
+
+    function resetFields() {
+        titleRef.current = ''
+        updateAuthors([])
+        journalRef.current = ''
+        volRef.current = ''
+        issueRef.current = ''
+        pageRangeRef.current = ''
+        setStartDate(null)
+    }
 
     // a function to remove the author from the list
     function removeAuthor(authorID) {
@@ -57,47 +63,33 @@ export default function NewPublicationForm({ open, setOpen, addNewPublication })
         }
     }
 
-    function resetFields(){
-        titleRef.current=''
-        setDOI(null)
-        setPublicationDate(null)
-        setPublicationType(PUBLICATION_TYPES[0])
-        updateAuthors([])
-        publicationEventRef.current=''
-        publicationVenueRef.current=''
-        editionVolumeRef.current=''
-        abstractRef.current=''
-        publicationURLRef.current=''
-    }
 
 
     const handleSubmit = (event) => {
         event.preventDefault();
         if (authors.length === 0) {
-            alert('Please add at least one author for the publication');
+            alert('Please add at least one author for the Journal.');
             return;
         }
-        addNewPublication({
-            publicationID: uniqid(),
+        addNewJournal({
+            journalID: uniqid(),
             title: titleRef.current,
-            type: publicationType,
-            authors: authors,
-            publication_date: JSON.stringify(publicationDate).substring(1, 11),
-            publication_event: publicationEventRef.current,
-            publication_venue: publicationVenueRef.current,
-            DOI: JSON.stringify(DOI).substring(1, 11),
-            edition_volume: editionVolumeRef.current,
-            abstract: abstractRef.current,
-            publication_url: publicationURLRef.current
+            journal: journalRef.current,
+            vol: volRef.current,
+            issue: issueRef.current,
+            published_on: JSON.stringify(startDate).substring(1, 11),
+            page_range: pageRangeRef.current,
+            authors: authors
         })
         resetFields()
         setOpen(false)
     };
 
     return (
+
         <Modal
-            aria-labelledby="transition-modal-add-new-publication-record"
-            aria-describedby="transition-modal-add-new-publication-record"
+            aria-labelledby="transition-modal-add-new-experience-record"
+            aria-describedby="transition-modal-add-new-education-record"
             open={open}
             onClose={() => setOpen(false)}
             closeAfterTransition
@@ -120,22 +112,19 @@ export default function NewPublicationForm({ open, setOpen, addNewPublication })
                     }}
                 >
 
-                    <Box component="form" onSubmit={handleSubmit} >
+                    <Box component="form" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} >
-                                <Typography variant="h6">
-                                    Publication Details
-                                </Typography>
+                                <Typography variant='h5'>Journal Information</Typography>
                             </Grid>
-
                             <Grid item xs={12} >
                                 <TextField
                                     autoComplete='off'
-                                    name="publicationTitle"
+                                    name="journal-title"
                                     required
                                     fullWidth
-                                    id="publicationTitle"
-                                    label="Publication Title"
+                                    id="journal-title"
+                                    label="Title"
                                     size='small'
                                     ref={titleRef}
                                     autoFocus
@@ -143,89 +132,67 @@ export default function NewPublicationForm({ open, setOpen, addNewPublication })
                                 />
                             </Grid>
                             <Grid item xs={12} >
-                                <PublicationTypeSelector publicationType={publicationType} setPublicationType={setPublicationType} />
-                            </Grid>
-                            <Grid item xs={12}>
                                 <TextField
+                                    autoComplete='off'
+                                    name="journal"
                                     required
                                     fullWidth
-                                    id="publication-abstract"
-                                    label="Publication Abastract"
+                                    id="conference"
+                                    label="Journal "
                                     size='small'
-                                    name="publication-abstract"
-                                    autoComplete='off'
-                                    multiline
-                                    rows={3}
-                                    ref={abstractRef}
-                                    onChange={e => abstractRef.current = e.target.value}
+                                    ref={journalRef}
+                                    autoFocus
+                                    onChange={e => journalRef.current = e.target.value}
                                 />
                             </Grid>
-                            <Grid item xs={12} >
+                            <Grid item xs={6} >
                                 <TextField
+                                    autoComplete='off'
+                                    name="vol"
                                     required
                                     fullWidth
-                                    id="publication_event"
-                                    label="Publication Event / Conference"
+                                    id="vol"
+                                    label="Vol. "
                                     size='small'
-                                    name="publication_event"
-                                    autoComplete='off'
-                                    ref={publicationEventRef}
-                                    onChange={e => publicationEventRef.current = e.target.value}
+                                    ref={volRef}
+                                    autoFocus
+                                    onChange={e => volRef.current = e.target.value}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6} >
                                 <TextField
+                                    autoComplete='off'
+                                    name="issue"
                                     required
                                     fullWidth
-                                    id="publication_venue"
-                                    label="Event Venue / Location"
+                                    id="issue"
+                                    label="Issue. "
                                     size='small'
-                                    name="publication_venue"
-                                    autoComplete='off'
-                                    ref={publicationVenueRef}
-                                    onChange={e => publicationVenueRef.current = e.target.value}
+                                    ref={issueRef}
+                                    autoFocus
+                                    onChange={e => issueRef.current = e.target.value}
                                 />
                             </Grid>
-                            <Grid item xs={12} >
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['DatePicker']}>
-                                        <DatePicker format='LL' value={DOI} label="Date of Issue (DOI)" size='small' onChange={date => setDOI(date)} />
-                                    </DemoContainer>
-                                </LocalizationProvider>
-                            </Grid>
-                            <Grid item xs={12} >
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['DatePicker']}>
-                                        <DatePicker format='LL' value={publicationDate} label="Date of Publication" size='small' onChange={date => setPublicationDate(date)} />
-                                    </DemoContainer>
-                                </LocalizationProvider>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="edition_volume"
-                                    label="Edition / vol. "
-                                    size='small'
-                                    name="edition_volume"
-                                    autoComplete='off'
-                                    ref={editionVolumeRef}
-                                    onChange={e => editionVolumeRef.current = e.target.value}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    name="publication_url"
-                                    label="Publication URL"
-                                    size='small'
-                                    id="publication_url"
-                                    autoComplete='off'
-                                    ref={publicationURLRef}
-                                    onChange={e => publicationURLRef.current = e.target.value}
 
+
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    id="page-range"
+                                    label="Page Range"
+                                    size='small'
+                                    name="page-range"
+                                    autoComplete='off'
+                                    ref={pageRangeRef}
+                                    onChange={e => pageRangeRef.current = e.target.value}
                                 />
+                            </Grid>
+                            <Grid item xs={12} >
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DemoContainer components={['DatePicker']}>
+                                        <DatePicker size='small' value={startDate} label="Published Date" format='LL' onChange={date => setStartDate(date)} />
+                                    </DemoContainer>
+                                </LocalizationProvider>
                             </Grid>
 
                         </Grid>
@@ -235,7 +202,7 @@ export default function NewPublicationForm({ open, setOpen, addNewPublication })
                             gap: 1,
                             padding: 1
                         }}>
-                            <Typography>Authors</Typography>
+                            <Typography variant='h6'>Authors</Typography>
 
                             <Box sx={{
                                 display: 'flex',
@@ -268,6 +235,7 @@ export default function NewPublicationForm({ open, setOpen, addNewPublication })
                                     gap: 1
                                 }}>
                                     <TextField
+                                    fullWidth
                                         autoComplete='off'
                                         name="first-name"
                                         value={firstName}
@@ -284,6 +252,7 @@ export default function NewPublicationForm({ open, setOpen, addNewPublication })
                                         id="last-name"
                                         label="Last Name"
                                         size='small'
+                                        fullWidth
                                         autoFocus
                                         onChange={e => setLastName(e.target.value)}
 
@@ -306,8 +275,8 @@ export default function NewPublicationForm({ open, setOpen, addNewPublication })
                                 xs: 'column',
                                 sm: 'row'
                             },
-                            gap: 1,
-                            padding: 1
+                            padding: 1,
+                            gap: 1
                         }}>
                             <Button
                                 fullWidth
@@ -325,13 +294,14 @@ export default function NewPublicationForm({ open, setOpen, addNewPublication })
                                 color='success'
                                 variant='outlined'
                             >
-                                Save
+                                Add
                             </Button>
                         </Box>
                     </Box>
                 </Box>
             </Fade>
         </Modal>
+
 
     );
 }

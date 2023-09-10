@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
+import CardHeader  from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
@@ -10,9 +11,13 @@ import { BsTelephone, BsLinkedin } from 'react-icons/bs';
 import { AiOutlineHome, AiOutlineYoutube, AiFillGithub } from 'react-icons/ai';
 import { BiLogoGitlab } from 'react-icons/bi';
 import { DiBitbucket } from 'react-icons/di';
+import _ from 'lodash';
+import { IconButton, Tooltip } from '@mui/material';
+import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 
 
-export default function BasicInformationSection({ basic_information,setEditBasicInfoMode }) {
+
+export default function BasicInformationSection({ basic_information, setEditBasicInfoMode }) {
 
 
   function capitalizeWords(str) {
@@ -35,8 +40,7 @@ export default function BasicInformationSection({ basic_information,setEditBasic
       xs: 'column',
       sm: 'row'
     },
-    width: '100%',
-    paddingX: 5
+    width: '100%'
   }}>
 
     {
@@ -55,12 +59,27 @@ export default function BasicInformationSection({ basic_information,setEditBasic
     }
 
     <Card sx={{ flexGrow: 1 }} variant="outlined">
-      <CardContent>
+      <CardHeader action={
+        <Tooltip title='Update Basic Details'>
+        <IconButton onClick={() => setEditBasicInfoMode(true)}>
+        <EditNoteOutlinedIcon  />
+        </IconButton>
+    </Tooltip>
+      } />
+      <CardContent >
 
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="h5" gutterBottom sx={{fontWeight:'bold'}}>
           {capitalizeWords(basic_information.first_name + ' ' + basic_information.last_name)}
         </Typography>
 
+        {
+          !_.isEmpty(basic_information.tagline) &&
+          <Typography variant="h6" gutterBottom>
+            {basic_information.tagline}
+          </Typography>
+        }
+
+
 
         <Box sx={{
           display: 'flex',
@@ -69,19 +88,32 @@ export default function BasicInformationSection({ basic_information,setEditBasic
           columnGap: 5,
           rowGap: 1
         }}>
-          <Typography variant="subtitle2" gutterBottom>
-            <BsTelephone size={17} /> {basic_information.mobile_number}
-          </Typography>
-          <Typography variant="subtitle2" gutterBottom>
-            <HiOutlineMail size={17} /> {basic_information.email}
-          </Typography>
-          <Typography variant="subtitle2" gutterBottom>
-            <AiOutlineHome size={17} /> {basic_information.street + ', ' + basic_information.postal_zip_code + ', ' + basic_information.state_province_region} {basic_information.city + ', ' + basic_information.country.label}
-          </Typography>
-          
+          {
+            !_.isEmpty(basic_information.mobile_number) && <Typography variant="subtitle2" gutterBottom>
+              <BsTelephone size={17} /> {basic_information.mobile_number}
+            </Typography>
+          }
+          {
+            !_.isEmpty(basic_information.email) && <Typography variant="subtitle2" gutterBottom>
+              <HiOutlineMail size={17} /> {basic_information.email}
+            </Typography>
+          }
+          {
+            (!_.isEmpty(basic_information.street) ||
+              !_.isEmpty(basic_information.postal_zip_code) ||
+              !_.isEmpty(basic_information.state_province_region) ||
+              !_.isEmpty(basic_information.city) ||
+              !_.isEmpty(basic_information.basic_information))
+            &&
+            <Typography variant="subtitle2" gutterBottom>
+              <AiOutlineHome size={17} /> {basic_information.street + ', ' + basic_information.postal_zip_code + ', ' + basic_information.state_province_region} {basic_information.city + ', ' + (basic_information.country === null ? '' : basic_information.country.label)}
+            </Typography>
+          }
+
+
 
         </Box>
-        <Typography>Media Information</Typography>
+        <Typography variant='body1' sx={{fontWeight:'bold',padding:2}}>Media Information</Typography>
         <Box sx={{
           display: 'flex',
           flexDirection: 'row',
@@ -89,29 +121,44 @@ export default function BasicInformationSection({ basic_information,setEditBasic
           columnGap: 5,
           rowGap: 1
         }}>
-          <Typography variant="subtitle2" gutterBottom>
-            <BsLinkedin size={17} /> {basic_information.linkedIn}
-          </Typography>
-          <Typography variant="subtitle2" gutterBottom>
-            <AiFillGithub size={17} /> {basic_information.gitHub}
-          </Typography>
-          <Typography variant="subtitle2" gutterBottom>
-            <DiBitbucket size={17} /> {basic_information.bitBucket}
-          </Typography>
-          <Typography variant="subtitle2" gutterBottom>
-            <AiOutlineYoutube size={17} /> {basic_information.youTube}
-          </Typography>
-          <Typography variant="subtitle2" gutterBottom>
-            <BiLogoGitlab size={17} /> {basic_information.gitLab}
-          </Typography>
+          {
+            !_.isEmpty(basic_information.linkedIn) &&
+            <Typography variant="subtitle2" gutterBottom>
+              <BsLinkedin  /> {basic_information.linkedIn}
+            </Typography>
+          }
+
+          {
+            !_.isEmpty(basic_information.gitHub) &&
+            <Typography variant="subtitle2" gutterBottom>
+              <AiFillGithub size={17} /> {basic_information.gitHub}
+            </Typography>
+          }
+
+          {
+            !_.isEmpty(basic_information.bitBucket) &&
+            <Typography variant="subtitle2" gutterBottom>
+              <DiBitbucket size={17} /> {basic_information.bitBucket}
+            </Typography>
+
+          }
+
+          {
+            !_.isEmpty(basic_information.youTube) &&
+            <Typography variant="subtitle2" gutterBottom>
+              <AiOutlineYoutube size={17} /> {basic_information.youTube}
+            </Typography>
+          }
+
+          {
+            !_.isEmpty(basic_information.gitLab) &&
+            <Typography variant="subtitle2" gutterBottom>
+              <BiLogoGitlab size={17} /> {basic_information.gitLab}
+            </Typography>
+          }
 
         </Box>
       </CardContent>
-      <CardActions sx={{
-        justifyContent: 'flex-end'
-      }}>
-        <Button color='inherit' variant="outlined" size="small" onClick={()=>setEditBasicInfoMode(true)}>Update Details</Button>
-      </CardActions>
     </Card>
   </Box>
 

@@ -11,7 +11,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { FormGroup, FormControlLabel } from '@mui/material';
 import Switch from '@mui/material/Switch';
-import CountrySelector from '../CountrySelector';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
@@ -28,51 +27,41 @@ const style = {
     p: 2,
 };
 
-
-export default function NewProjectForm({ open, setOpen, addNewProject }) {
-    const projectTitleRef = useRef('');
-    const designationRef = useRef('');
-    const [projectCountry, setProjectCountry] = useState(null);
-    const projectCityRef = useRef('');
+export default function NewMembershipForm({ open, setOpen, addNewMembership }) {
+    const organizationNameRef = useRef('');
+    const membershipTypeRef = useRef('');
+    const [organizationCountry, setOrganizationCountry] = useState(null);
+    const organizationCityRef = useRef('');
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [isContinue, setIsContinue] = useState(false);
-    const descriptionRef = useRef('');
-
 
     function resetFields() {
-        projectTitleRef.current = '',
-            designationRef.current = '',
-            setProjectCountry(null),
-            projectCityRef.current = '',
-            setStartDate(null),
-            setEndDate(null),
-            setIsContinue(false),
-            descriptionRef.current = ''
+        organizationNameRef.current = ''
+        membershipTypeRef.current = ''
+        setStartDate(null)
+        setEndDate(null)
+        setIsContinue(false)
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        addNewProject({
-            projectID: uniqid(),
-            project_title: projectTitleRef.current,
-            designation: designationRef.current,
-            country: projectCountry,
-            city: projectCityRef.current,
+        addNewMembership({
+            membershipID: uniqid(),
+            organization: organizationNameRef.current,
+            membership_type: membershipTypeRef.current,
             start_date: JSON.stringify(startDate).substring(1, 11),
             end_date: JSON.stringify(endDate).substring(1, 11),
-            isContinue: isContinue,
-            description: descriptionRef.current
+            isContinue: isContinue
         })
-        resetFields();
-        setOpen(false);
+        resetFields()
+        setOpen(false)
     };
 
     return (
-
         <Modal
-            aria-labelledby="transition-modal-add-new-experience-record"
-            aria-describedby="transition-modal-add-new-education-record"
+            aria-labelledby="transition-modal-add-new-membership-record"
+            aria-describedby="transition-modal-add-new-membership-record"
             open={open}
             onClose={() => setOpen(false)}
             closeAfterTransition
@@ -94,57 +83,40 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                         ...style
                     }}
                 >
-
-                    <Box component="form" onSubmit={handleSubmit} >
+                    <Box component="form" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} >
-                                <Typography variant='h5'> Project Details</Typography>
+                                <Typography variant='h6'>Membership Information</Typography>
                             </Grid>
                             <Grid item xs={12} >
                                 <TextField
                                     autoComplete='off'
-                                    name="position-title"
+                                    name="organization-name"
                                     required
                                     fullWidth
-                                    id="project-title"
-                                    label="Project Title"
+                                    id="organization-name"
+                                    label="Organization Name"
                                     size='small'
-                                    ref={projectTitleRef}
+                                    ref={organizationNameRef}
                                     autoFocus
-                                    onChange={e => projectTitleRef.current = e.target.value}
+                                    onChange={e => organizationNameRef.current = e.target.value}
                                 />
                             </Grid>
                             <Grid item xs={12} >
                                 <TextField
                                     autoComplete='off'
-                                    name="position-designation"
+                                    name="membership-type"
                                     required
                                     fullWidth
-                                    id="project-designation"
-                                    label="Designation"
+                                    id="membership-type"
+                                    label="Membership Type / Role"
                                     size='small'
-                                    ref={designationRef}
+                                    ref={membershipTypeRef}
                                     autoFocus
-                                    onChange={e => designationRef.current = e.target.value}
+                                    onChange={e => membershipTypeRef.current = e.target.value}
                                 />
                             </Grid>
 
-                            <Grid item xs={12} sm={6} >
-                                <CountrySelector country={projectCountry} setCountry={setProjectCountry} />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="project-city"
-                                    label="City "
-                                    size='small'
-                                    name="project-city"
-                                    autoComplete='off'
-                                    ref={projectCityRef}
-                                    onChange={e => projectCityRef.current = e.target.value}
-                                />
-                            </Grid>
                             <Grid item xs={12} >
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
@@ -159,7 +131,7 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                                         onChange={() => {
                                             setIsContinue(!isContinue);
                                         }}
-                                    />} label='On going Project' />
+                                    />} label='Currently associated' />
                                 </FormGroup>
                             </Grid>
                             <Grid item xs={12} >
@@ -169,22 +141,6 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="project-description"
-                                    label="Project Description"
-                                    size='small'
-                                    name="project-description"
-                                    autoComplete='off'
-                                    multiline
-                                    rows={3}
-                                    ref={descriptionRef}
-                                    onChange={e => descriptionRef.current = e.target.value}
-                                />
-                            </Grid>
-
                         </Grid>
 
                         <Box sx={{
@@ -193,8 +149,8 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                                 xs: 'column',
                                 sm: 'row'
                             },
-                            gap: 1,
-                            padding: 1
+                            padding: 1,
+                            gap: 1
                         }}>
                             <Button
                                 fullWidth
@@ -215,13 +171,9 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                                 Add
                             </Button>
                         </Box>
-
-
                     </Box>
                 </Box>
             </Fade>
         </Modal>
-
-
     );
 }

@@ -14,6 +14,7 @@ import CountrySelector from '../CountrySelector';
 export default function BasicInformationForm({ basic_information, updateBasicInformation, setEditBasicInfoMode }) {
     const [firstName, setFirstName] = useState(basic_information.first_name);
     const [lastName, setLastName] = useState(basic_information.last_name);
+    const [tagline, setTagline] = useState(basic_information.tagline);
     const [isProfilePictureSet, setIsProfilePictureSet] = useState(basic_information.isProfilePictureSet);
     const [url, setURL] = useState(basic_information.url);
     const [mobileNumber, setMobileNumber] = useState(basic_information.mobile_number);
@@ -34,6 +35,7 @@ export default function BasicInformationForm({ basic_information, updateBasicInf
         updateBasicInformation({
             first_name: firstName,
             last_name: lastName,
+            tagline,
             isProfilePictureSet,
             url,
             mobile_number: mobileNumber,
@@ -93,6 +95,18 @@ export default function BasicInformationForm({ basic_information, updateBasicInf
                     }}
                 />
             </Box>
+            <Typography>Tagline</Typography>
+            <TextField
+                    required
+                    id="tagline"
+                    label="Tagline / Current Designation / Highlights"
+                    size='small'
+                    name="tagline"
+                    autoComplete="off"
+                    value={tagline}
+                    onChange={e => setTagline(e.target.value)}
+                    fullWidth
+                />
             <Typography>Contact Information</Typography>
             <Box sx={{
                 display: 'flex',

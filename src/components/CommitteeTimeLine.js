@@ -3,13 +3,12 @@ import Typography from '@mui/material/Typography';
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Button from '@mui/material/Button';
 
 
-export default function ProjectsTimeline({ projects, deleteProject  }) {
+export default function CommitteeTimeLine({ committees, deleteCommittee }) {
     return (
         <Box sx={{
             display: 'flex',
@@ -17,10 +16,8 @@ export default function ProjectsTimeline({ projects, deleteProject  }) {
             width: '100%',
             minHeight:'20vh'
         }}>
-            
             {
-                projects.length != 0 &&
-
+                committees.length !== 0 &&
                 <Timeline
                     sx={{
                         [`& .${timelineItemClasses.root}:before`]: {
@@ -31,8 +28,8 @@ export default function ProjectsTimeline({ projects, deleteProject  }) {
                 >
 
                     {
-                        projects.map((project) => {
-                            return <TimelineItem key={project.projectID} >
+                        committees.map((committee) => {
+                            return <TimelineItem key={committee.committeeID} >
 
                                 <TimelineSeparator>
                                     <TimelineDot color='success' />
@@ -43,22 +40,14 @@ export default function ProjectsTimeline({ projects, deleteProject  }) {
                                         variant="body2"
                                         color="text.secondary"
                                     >
-                                        {project.start_date} - {project.isContinue ? "continue" : project.end_date}
+                                        {committee.start_date} - {committee.isContinue ? "continue" : committee.end_date}
                                     </Typography>
 
                                     <Typography variant="h6" gutterBottom>
-                                        {project.project_title} , {project.designation}
+                                    {committee.designation}, {committee.name} , {committee.city} , {committee.country.label}
                                     </Typography>
-                                    <Typography variant="body2" gutterBottom>
-                                        {project.city} , {project.country.label}
-                                    </Typography>
-
-
-
-                                    <Typography variant="body2" gutterBottom>Project Description <br></br>
-                                        {project.description}
-                                    </Typography>
-                                    <Button variant='outlined' color='error' size='small' onClick={()=> deleteProject(project.projectID)}>Delete</Button>
+                                    
+                                    <Button variant='outlined' color='error' size='small' onClick={()=> deleteCommittee(committee.committeeID)}>Delete</Button>
                                 </TimelineContent>
                             </TimelineItem>
 
@@ -66,11 +55,9 @@ export default function ProjectsTimeline({ projects, deleteProject  }) {
                         })
                     }
                 </Timeline>
-
             }
-
             {
-                projects.length == 0 && <Typography align='center'>No Projects added yet. <br></br> Start adding new qualification by clicking link above.</Typography>
+                committees.length == 0 && <Typography align='center'>No Committees added yet. <br></br> Click Add button to start adding Committee memberships.</Typography>
             }
         </Box>
 

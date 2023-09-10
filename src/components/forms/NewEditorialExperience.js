@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import uniqid from 'uniqid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -12,6 +11,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { FormGroup, FormControlLabel } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import CountrySelector from '../CountrySelector';
+import uniqid from 'uniqid';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
@@ -28,39 +28,39 @@ const style = {
     p: 2,
 };
 
-
-export default function NewProjectForm({ open, setOpen, addNewProject }) {
-    const projectTitleRef = useRef('');
-    const designationRef = useRef('');
-    const [projectCountry, setProjectCountry] = useState(null);
-    const projectCityRef = useRef('');
+export default function NewEditorialExperienceForm({ open, setOpen, addNewEditorialExperience }) {
+    const roleRef = useRef('');
+    const associationRef = useRef('');
+    const [associationCountry, setAssociationCountry] = useState(null);
+    const associationCityRef = useRef('');
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [isContinue, setIsContinue] = useState(false);
-    const descriptionRef = useRef('');
 
+    const descriptionRef = useRef([]);
 
-    function resetFields() {
-        projectTitleRef.current = '',
-            designationRef.current = '',
-            setProjectCountry(null),
-            projectCityRef.current = '',
-            setStartDate(null),
-            setEndDate(null),
-            setIsContinue(false),
-            descriptionRef.current = ''
+    function resetFields(){
+        roleRef.current='',
+        associationRef.current='',
+        setAssociationCountry(null),
+        associationCityRef.current='',
+        setStartDate(null),
+        setEndDate(null),
+        setIsContinue(false),
+        descriptionRef.current=''
     }
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        addNewProject({
-            projectID: uniqid(),
-            project_title: projectTitleRef.current,
-            designation: designationRef.current,
-            country: projectCountry,
-            city: projectCityRef.current,
-            start_date: JSON.stringify(startDate).substring(1, 11),
-            end_date: JSON.stringify(endDate).substring(1, 11),
+        addNewEditorialExperience({
+            experienceID: uniqid(),
+            role: roleRef.current,
+            association: associationRef.current,
+            country: associationCountry,
+            city: associationCityRef.current,
+            start_date: startDate ? JSON.stringify(startDate).substring(1, 11) : '',
+            end_date: endDate ? JSON.stringify(endDate).substring(1, 11) : '',
             isContinue: isContinue,
             description: descriptionRef.current
         })
@@ -69,10 +69,9 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
     };
 
     return (
-
         <Modal
-            aria-labelledby="transition-modal-add-new-experience-record"
-            aria-describedby="transition-modal-add-new-education-record"
+            aria-labelledby="transition-modal-add-new-editorial-experience-record"
+            aria-describedby="transition-modal-add-new-editorial-record"
             open={open}
             onClose={() => setOpen(false)}
             closeAfterTransition
@@ -84,6 +83,7 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
             }}
         >
             <Fade in={open}>
+
                 <Box
                     sx={{
                         display: 'flex',
@@ -95,54 +95,52 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                     }}
                 >
 
-                    <Box component="form" onSubmit={handleSubmit} >
+                    <Box component="form" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} >
-                                <Typography variant='h5'> Project Details</Typography>
+                                <Typography variant='h5'> New Editorial Experience</Typography>
                             </Grid>
                             <Grid item xs={12} >
                                 <TextField
                                     autoComplete='off'
-                                    name="position-title"
+                                    name="editorial-role"
                                     required
                                     fullWidth
-                                    id="project-title"
-                                    label="Project Title"
+                                    id="editorial-role"
+                                    label="Role / Designation"
                                     size='small'
-                                    ref={projectTitleRef}
+                                    ref={roleRef}
                                     autoFocus
-                                    onChange={e => projectTitleRef.current = e.target.value}
+                                    onChange={e => roleRef.current = e.target.value}
                                 />
                             </Grid>
                             <Grid item xs={12} >
                                 <TextField
-                                    autoComplete='off'
-                                    name="position-designation"
                                     required
                                     fullWidth
-                                    id="project-designation"
-                                    label="Designation"
+                                    id="editorial-organization"
+                                    label="Organization / Association / Journal / Conference"
                                     size='small'
-                                    ref={designationRef}
-                                    autoFocus
-                                    onChange={e => designationRef.current = e.target.value}
+                                    name="editorial-organization"
+                                    autoComplete='off'
+                                    ref={associationRef}
+                                    onChange={e => associationRef.current = e.target.value}
                                 />
                             </Grid>
-
                             <Grid item xs={12} sm={6} >
-                                <CountrySelector country={projectCountry} setCountry={setProjectCountry} />
+                                <CountrySelector country={associationCountry} setCountry={setAssociationCountry} />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     required
                                     fullWidth
-                                    id="project-city"
+                                    id="association-city"
                                     label="City "
                                     size='small'
-                                    name="project-city"
+                                    name="association-city"
                                     autoComplete='off'
-                                    ref={projectCityRef}
-                                    onChange={e => projectCityRef.current = e.target.value}
+                                    ref={associationCityRef}
+                                    onChange={e => associationCityRef.current = e.target.value}
                                 />
                             </Grid>
                             <Grid item xs={12} >
@@ -159,7 +157,7 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                                         onChange={() => {
                                             setIsContinue(!isContinue);
                                         }}
-                                    />} label='On going Project' />
+                                    />} label='Currently Associated' />
                                 </FormGroup>
                             </Grid>
                             <Grid item xs={12} >
@@ -169,14 +167,15 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </Grid>
+
                             <Grid item xs={12}>
                                 <TextField
                                     required
                                     fullWidth
-                                    id="project-description"
-                                    label="Project Description"
+                                    id="editorial-description"
+                                    label="Description / Responsibilities / Achievements"
                                     size='small'
-                                    name="project-description"
+                                    name="editorial-description"
                                     autoComplete='off'
                                     multiline
                                     rows={3}

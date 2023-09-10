@@ -7,10 +7,13 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Button from '@mui/material/Button';
-import { Alert } from '@mui/material';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { HiOutlineBriefcase } from 'react-icons/hi';
+import { IconButton, Tooltip } from '@mui/material';
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 
 
-export default function WorkExperienceTimeLine({ work_history, deleteWorkExperience }) {
+export default function AccreditationsTimeLine({ accreditations, deleteAccreditation  }) {
   return (
     <Box sx={{
       display: 'flex',
@@ -18,8 +21,9 @@ export default function WorkExperienceTimeLine({ work_history, deleteWorkExperie
       width: '100%',
       minHeight:'20vh'
     }}>
+      
       {
-        work_history.length != 0 &&
+        accreditations.length != 0 &&
         <Timeline
           sx={{
             [`& .${timelineItemClasses.root}:before`]: {
@@ -30,38 +34,30 @@ export default function WorkExperienceTimeLine({ work_history, deleteWorkExperie
         >
 
           {
-            work_history.map((work_experience,index) => {
-              return <TimelineItem key={work_experience.employmentID} >
+            accreditations.map((accreditation) => {
+              return <TimelineItem key={accreditation.experienceID} >
 
                 <TimelineSeparator>
                   <TimelineDot color='success' />
-                  {(work_history.length-1)!==index && <TimelineConnector />}
+                  
                 </TimelineSeparator>
                 <TimelineContent sx={{ paddingBottom: 3 }}>
-                  <Typography
-                    sx={{ m: 'auto 0' }}
-                    variant="body2"
-                    color="text.secondary"
-                  >
-                    {work_experience.start_date} - {work_experience.isContinue ? "continue" : work_experience.end_date}
-                  </Typography>
+                  
 
                   <Typography variant="h6" gutterBottom>
-                    {work_experience.position_designation} , {work_experience.employer}
+                    {accreditation.role} | {accreditation.organization } | {accreditation.date.substring(0, 4)}
                   </Typography>
                   <Typography variant="body2" gutterBottom>
-                    {work_experience.city} , {work_experience.country.label}
+                    {accreditation.city} , {accreditation.country.label}
                   </Typography>
 
                   <Typography variant="body2" gutterBottom>Duties & Responsibilities <br></br>
-                    {work_experience.duties_responsibilities}
+                    {accreditation.description}
                   </Typography>
 
-                  <Typography variant="body2" gutterBottom>Achievements <br></br>
-                    {work_experience.achievements}
-                  </Typography>
+                
 
-                  <Button variant='outlined' color='error' size='small' onClick={() => deleteWorkExperience(work_experience.employmentID)}>Delete</Button>
+                  <Button variant='outlined' color='error' size='small' onClick={()=> deleteAccreditation(accreditation.experienceID)}>Delete</Button>
                 </TimelineContent>
               </TimelineItem>
 
@@ -71,7 +67,7 @@ export default function WorkExperienceTimeLine({ work_history, deleteWorkExperie
         </Timeline>
       }
       {
-        work_history.length == 0 && <Alert severity='info' sx={{borderRadius:3,padding:3,fontWeight:'bold'}}>No experiences added yet. Start adding new qualification by clicking link above.</Alert>
+        accreditations.length == 0 && <Typography align='center'>No Accreditations added yet. <br></br> Start adding new accreditation by clicking link above.</Typography>
       }
     </Box>
 

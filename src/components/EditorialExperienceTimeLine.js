@@ -7,9 +7,13 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Button from '@mui/material/Button';
+import { HiOutlineBriefcase } from 'react-icons/hi';
+import { IconButton, Tooltip } from '@mui/material';
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 
 
-export default function ProjectsTimeline({ projects, deleteProject  }) {
+
+export default function EditorialExperienceTimeLine({ editorial_experience, deleteEditorialExperience }) {
     return (
         <Box sx={{
             display: 'flex',
@@ -17,10 +21,8 @@ export default function ProjectsTimeline({ projects, deleteProject  }) {
             width: '100%',
             minHeight:'20vh'
         }}>
-            
             {
-                projects.length != 0 &&
-
+                editorial_experience.length != 0 &&
                 <Timeline
                     sx={{
                         [`& .${timelineItemClasses.root}:before`]: {
@@ -31,11 +33,12 @@ export default function ProjectsTimeline({ projects, deleteProject  }) {
                 >
 
                     {
-                        projects.map((project) => {
-                            return <TimelineItem key={project.projectID} >
+                        editorial_experience.map((experience) => {
+                            return <TimelineItem key={experience.experienceID} >
 
                                 <TimelineSeparator>
                                     <TimelineDot color='success' />
+                                    
                                 </TimelineSeparator>
                                 <TimelineContent sx={{ paddingBottom: 3 }}>
                                     <Typography
@@ -43,22 +46,21 @@ export default function ProjectsTimeline({ projects, deleteProject  }) {
                                         variant="body2"
                                         color="text.secondary"
                                     >
-                                        {project.start_date} - {project.isContinue ? "continue" : project.end_date}
+                                        {experience.start_date.length !== 0 ? experience.start_date : 'N/A'} - {experience.isContinue ? "continue" : (experience.end_date.length !== 0 ? experience.end_date : 'N/A')}
                                     </Typography>
 
                                     <Typography variant="h6" gutterBottom>
-                                        {project.project_title} , {project.designation}
+                                        {experience.role} | {experience.association}
                                     </Typography>
                                     <Typography variant="body2" gutterBottom>
-                                        {project.city} , {project.country.label}
+                                        {experience.city} {experience.country ? ' ,' + experience.country.label : ''}
                                     </Typography>
 
-
-
-                                    <Typography variant="body2" gutterBottom>Project Description <br></br>
-                                        {project.description}
+                                    <Typography variant="body2" gutterBottom>
+                                        {experience.description}
                                     </Typography>
-                                    <Button variant='outlined' color='error' size='small' onClick={()=> deleteProject(project.projectID)}>Delete</Button>
+
+                                    <Button variant='outlined' color='error' size='small' onClick={() => deleteEditorialExperience(experience.experienceID)}>Delete</Button>
                                 </TimelineContent>
                             </TimelineItem>
 
@@ -66,11 +68,9 @@ export default function ProjectsTimeline({ projects, deleteProject  }) {
                         })
                     }
                 </Timeline>
-
             }
-
             {
-                projects.length == 0 && <Typography align='center'>No Projects added yet. <br></br> Start adding new qualification by clicking link above.</Typography>
+                editorial_experience.length == 0 && <Typography align='center'>No Records are added yet. <br></br> Start adding new by clicking Add button above.</Typography>
             }
         </Box>
 

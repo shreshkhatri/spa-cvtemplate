@@ -8,10 +8,11 @@ export default function CountrySelector({ country,setCountry }) {
     return (
         <Autocomplete
             id="country-select-demo"
-            sx={{flexGrow:1 }}
+            sx={{ flexGrow:1 }}
             options={countries}
             autoHighlight
             size='small'
+            required
             value ={country}
             onChange={handleChange}
             getOptionLabel={(option) => option.label}

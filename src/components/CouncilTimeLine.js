@@ -3,13 +3,15 @@ import Typography from '@mui/material/Typography';
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Button from '@mui/material/Button';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { GiGraduateCap } from 'react-icons/gi';
+import { IconButton, Tooltip } from '@mui/material';
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 
-
-export default function ProjectsTimeline({ projects, deleteProject  }) {
+export default function CouncilTimeLine({ councils, deleteCouncil }) {
     return (
         <Box sx={{
             display: 'flex',
@@ -17,10 +19,8 @@ export default function ProjectsTimeline({ projects, deleteProject  }) {
             width: '100%',
             minHeight:'20vh'
         }}>
-            
             {
-                projects.length != 0 &&
-
+                councils.length !== 0 &&
                 <Timeline
                     sx={{
                         [`& .${timelineItemClasses.root}:before`]: {
@@ -31,8 +31,8 @@ export default function ProjectsTimeline({ projects, deleteProject  }) {
                 >
 
                     {
-                        projects.map((project) => {
-                            return <TimelineItem key={project.projectID} >
+                        councils.map((council) => {
+                            return <TimelineItem key={council.councilID} >
 
                                 <TimelineSeparator>
                                     <TimelineDot color='success' />
@@ -43,22 +43,13 @@ export default function ProjectsTimeline({ projects, deleteProject  }) {
                                         variant="body2"
                                         color="text.secondary"
                                     >
-                                        {project.start_date} - {project.isContinue ? "continue" : project.end_date}
+                                        {council.start_date} - {council.isContinue ? "continue" : council.end_date}
                                     </Typography>
 
                                     <Typography variant="h6" gutterBottom>
-                                        {project.project_title} , {project.designation}
+                                        {council.name} , {council.city} , {council.country.label}
                                     </Typography>
-                                    <Typography variant="body2" gutterBottom>
-                                        {project.city} , {project.country.label}
-                                    </Typography>
-
-
-
-                                    <Typography variant="body2" gutterBottom>Project Description <br></br>
-                                        {project.description}
-                                    </Typography>
-                                    <Button variant='outlined' color='error' size='small' onClick={()=> deleteProject(project.projectID)}>Delete</Button>
+                                    <Button variant='outlined' color='error' size='small' onClick={() => deleteCouncil(council.councilID)}>Delete</Button>
                                 </TimelineContent>
                             </TimelineItem>
 
@@ -66,11 +57,9 @@ export default function ProjectsTimeline({ projects, deleteProject  }) {
                         })
                     }
                 </Timeline>
-
             }
-
             {
-                projects.length == 0 && <Typography align='center'>No Projects added yet. <br></br> Start adding new qualification by clicking link above.</Typography>
+                councils.length == 0 && <Typography align='center'>No Councils added yet. <br></br> Start adding new by clicking add button above.</Typography>
             }
         </Box>
 

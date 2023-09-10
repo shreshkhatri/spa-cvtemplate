@@ -10,24 +10,49 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { FormGroup, FormControlLabel } from '@mui/material';
 import Switch from '@mui/material/Switch';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CountrySelector from '../CountrySelector';
 import uniqid from 'uniqid';
+import Backdrop from '@mui/material/Backdrop';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
 
-export default function NewWorkExperienceForm({ addNewWorkExperience }) {
+const style = {
+    position: 'absolute',
+    top: '1%',
+    left: '1%',
+    bottom: '1%',
+    right: '1%',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 2,
+};
+
+export default function NewWorkExperienceForm({ open, setOpen, addNewWorkExperience }) {
+
     const positionDesignationRef = useRef('');
     const employerRef = useRef('');
-    const [employerCountry,setEmployerCountry] = useState(null);
+    const [employerCountry, setEmployerCountry] = useState(null);
     const employerCityRef = useRef('');
-    const [startDate,setStartDate] = useState(null);
+    const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [isContinue, setIsContinue] = useState(false);
-    const dutiesResponsibilitiesRef = useRef([]);
+    const dutiesResponsibilitiesRef = useRef('');
     const achievementsRef = useRef('');
-    const [closeAccordion,setCloseAccordion] = useState(false);
+
+
+    function resetFields(){
+        positionDesignationRef.current = ''
+        employerRef.current = ''
+        employerCityRef.current =''
+        setStartDate(null)
+        setEndDate(null)
+        setEmployerCountry(null)
+        setIsContinue(false)
+        dutiesResponsibilitiesRef.current=''
+        achievementsRef.current = ''
+    }
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -35,41 +60,49 @@ export default function NewWorkExperienceForm({ addNewWorkExperience }) {
             employmentID: uniqid(),
             position_designation: positionDesignationRef.current,
             employer: employerRef.current,
-            country : employerCountry,
-            city : employerCityRef.current,
-            start_date: JSON.stringify(startDate).substring(1,11),
-            end_date: JSON.stringify(endDate).substring(1,11),
+            country: employerCountry,
+            city: employerCityRef.current,
+            start_date: JSON.stringify(startDate).substring(1, 11),
+            end_date: JSON.stringify(endDate).substring(1, 11),
             isContinue: isContinue,
             duties_responsibilities: dutiesResponsibilitiesRef.current,
             achievements: achievementsRef.current
         })
+        resetFields()
+        setOpen(false)
     };
 
     return (
-
-        <Accordion expanded={closeAccordion} onChange={()=>setCloseAccordion(!closeAccordion)}>
-            <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-            >
-                <Typography variant="h6">
-                    Add Work Experience
-                </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
+        <Modal
+            aria-labelledby="transition-modal-add-new-experience-record"
+            aria-describedby="transition-modal-add-new-education-record"
+            open={open}
+            onClose={() => setOpen(false)}
+            closeAfterTransition
+            slots={{ backdrop: Backdrop }}
+            slotProps={{
+                backdrop: {
+                    timeout: 100,
+                },
+            }}
+        >
+            <Fade in={open}>
                 <Box
                     sx={{
-                        marginTop: 8,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        width: 'inherit'
+                        width: 'inherit',
+                        overflowY: 'scroll',
+                        ...style
                     }}
                 >
 
-                    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                    <Box component="form" onSubmit={handleSubmit} >
                         <Grid container spacing={2}>
+                            <Grid item xs={12} >
+                                <Typography variant='h5'> Experience Details</Typography>
+                            </Grid>
                             <Grid item xs={12} >
                                 <TextField
                                     autoComplete='off'
@@ -113,7 +146,7 @@ export default function NewWorkExperienceForm({ addNewWorkExperience }) {
                                     onChange={e => employerCityRef.current = e.target.value}
                                 />
                             </Grid>
-                            <Grid item xs={6} >
+                            <Grid item xs={12} >
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
                                         <DatePicker value={startDate} label="Start Date" size='small' format='LL' onChange={date => setStartDate(date)} />
@@ -122,15 +155,15 @@ export default function NewWorkExperienceForm({ addNewWorkExperience }) {
                             </Grid>
                             <Grid item xs={12} >
                                 <FormGroup>
-                                    <FormControlLabel control={<Switch 
-                                    value={isContinue} 
-                                    onChange={() => {
-                                        setIsContinue(!isContinue);
-                                        }} 
-                                        />} label='Currently work here' />
+                                    <FormControlLabel control={<Switch
+                                        value={isContinue}
+                                        onChange={() => {
+                                            setIsContinue(!isContinue);
+                                        }}
+                                    />} label='Currently work here' />
                                 </FormGroup>
                             </Grid>
-                            <Grid item xs={6} >
+                            <Grid item xs={12} >
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
                                         <DatePicker disabled={isContinue} value={endDate} label="End Date" size='small' format='LL' onChange={date => setEndDate(date)} />
@@ -147,7 +180,7 @@ export default function NewWorkExperienceForm({ addNewWorkExperience }) {
                                     name="duties-responsibilities"
                                     autoComplete='off'
                                     multiline
-                                    rows={6}
+                                    rows={3}
                                     ref={dutiesResponsibilitiesRef}
                                     onChange={e => dutiesResponsibilitiesRef.current = e.target.value}
                                 />
@@ -163,7 +196,7 @@ export default function NewWorkExperienceForm({ addNewWorkExperience }) {
                                     name="achievements"
                                     autoComplete='off'
                                     multiline
-                                    rows={6}
+                                    rows={3}
                                     ref={achievementsRef}
                                     onChange={e => achievementsRef.current = e.target.value}
                                 />
@@ -177,6 +210,7 @@ export default function NewWorkExperienceForm({ addNewWorkExperience }) {
                                 xs: 'column',
                                 sm: 'row'
                             },
+                            padding: 1,
                             gap: 1
                         }}>
                             <Button
@@ -184,7 +218,7 @@ export default function NewWorkExperienceForm({ addNewWorkExperience }) {
                                 size='small'
                                 variant="outlined"
                                 color='inherit'
-                                onClick={()=>setCloseAccordion(false)}
+                                onClick={() => setOpen(false)}
                             >
                                 Cancel
                             </Button>
@@ -202,8 +236,8 @@ export default function NewWorkExperienceForm({ addNewWorkExperience }) {
 
                     </Box>
                 </Box>
-            </AccordionDetails>
-        </Accordion>
+            </Fade>
+        </Modal>
 
 
     );
