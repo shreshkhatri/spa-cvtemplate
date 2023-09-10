@@ -95,8 +95,7 @@ export default function BasicInformationForm({ basic_information, updateBasicInf
                     }}
                 />
             </Box>
-            <Typography>Tagline</Typography>
-            <TextField
+                        <TextField
                     required
                     id="tagline"
                     label="Tagline / Current Designation / Highlights"
