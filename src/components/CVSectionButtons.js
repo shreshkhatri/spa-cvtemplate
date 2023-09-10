@@ -17,7 +17,8 @@ export default function CVSectionButtons({ cvdata, CVMenuButtonHandlers }) {
       rowGap: 1,
       justifyContent: 'center',
       padding:2,
-      fontWeight:'bold'
+      fontWeight:'bold',
+      width:100%
     }}>
 
       {!cvdata.hasOwnProperty('personal_statement') && <Button sx={{ backgroundColor:'secondary.main', flexGrow:1,padding:1}}   variant="contained" size="small" onClick={() => CVMenuButtonHandlers.addPersonalStatement()}>Add Personal Statement</Button>}
