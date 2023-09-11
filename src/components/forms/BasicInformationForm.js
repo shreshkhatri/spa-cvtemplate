@@ -54,26 +54,24 @@ export default function BasicInformationForm({ basic_information, updateBasicInf
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            paddingX: 5
+            gap:2
         }}
             component='form' noValidate
         >
-            <Typography variant='h5' >Basic Information</Typography>
             <Box sx={{
                 display: 'flex',
                 flexDirection: {
                     xs: 'column',
                     sm: 'row'
                 },
-                width: 'inherit',
-                columnGap: 2,
-                rowGap: 1,
-                paddingY: 2
+                width: '100%',
+                gap:2
             }}>
                 <TextField
                     autoComplete="off"
                     name="userFirstName"
                     required
+                    fullWidth
                     id="userFirstName"
                     label="First Name"
                     size='small'
@@ -83,6 +81,7 @@ export default function BasicInformationForm({ basic_information, updateBasicInf
                 />
                 <TextField
                     required
+                    fullWidth
                     id="userLastName"
                     label="Last Name"
                     size='small'
@@ -90,12 +89,9 @@ export default function BasicInformationForm({ basic_information, updateBasicInf
                     autoComplete="off"
                     value={lastName}
                     onChange={e => setLastName(e.target.value)}
-                    sx={{
-                        flexGrow: 1
-                    }}
                 />
             </Box>
-                        <TextField
+                <TextField
                     required
                     id="tagline"
                     label="Tagline / Current Designation / Highlights"
@@ -106,7 +102,7 @@ export default function BasicInformationForm({ basic_information, updateBasicInf
                     onChange={e => setTagline(e.target.value)}
                     fullWidth
                 />
-            <Typography>Contact Information</Typography>
+            <Typography color='text.secondary' sx={{fontWeight:'bold'}}>Contact Information</Typography>
             <Box sx={{
                 display: 'flex',
                 flexDirection: {
@@ -152,7 +148,7 @@ export default function BasicInformationForm({ basic_information, updateBasicInf
 
             </Box>
 
-            <Typography>Address Information</Typography>
+            <Typography color='text.secondary' sx={{fontWeight:'bold'}}>Address Information</Typography>
 
             <Box sx={{
                 display: 'flex',
@@ -227,7 +223,7 @@ export default function BasicInformationForm({ basic_information, updateBasicInf
             </Box>
 
 
-            <Typography>Media Information</Typography>
+            <Typography color='text.secondary' sx={{fontWeight:'bold'}}>Media Information</Typography>
 
 
             <Box sx={{
@@ -328,22 +324,32 @@ export default function BasicInformationForm({ basic_information, updateBasicInf
             <Box sx={{
                 display: 'flex',
                 gap: 1,
-                justifyContent: 'center'
+                justifyContent: 'center',
+                width:'100%'
             }}>
                 <Button
+
                     size='small'
-                    variant="outlined"
-                    color='inherit'
+                    variant="contained"
                     onClick={() => setEditBasicInfoMode(false)}
+                    sx={{
+                        backgroundColor:'error.main',
+                        padding:1,
+                        flexGrow:1
+                    }}
                 >
                     Cancel
                 </Button>
                 <Button
                     type='submit'
+                    variant="contained"
                     size='small'
-                    color='success'
-                    variant='outlined'
                     onClick={handleSubmit}
+                    sx={{
+                        backgroundColor:'success.main',
+                        padding:1,
+                        flexGrow:1
+                    }}
                 >
                     Save
                 </Button>

@@ -55,6 +55,19 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        if(!institutionCountry){
+            alert('Please select the country')
+            return
+        }
+        if (!startDate){
+            alert('Please select the course start date')
+            return
+        }
+
+        if (!isContinue && !endDate){
+            alert('Please select the course end date')
+            return
+        }
         addNewDegree({
             degreeID: uniqid(),
             institution: institutionRef.current,
@@ -151,7 +164,7 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                             <Grid item xs={12} >
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
-                                        <DatePicker value={startDate} label="Start Date" size='small' format='LL' onChange={date => setStartDate(date)} />
+                                        <DatePicker required value={startDate} label="Start Date" size='small' format='LL' onChange={date => setStartDate(date)} />
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </Grid>
@@ -168,13 +181,13 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                             <Grid item xs={12} >
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
-                                        <DatePicker disabled={isContinue} value={endDate} label="End Date" size='small' format='LL' onChange={date => setEndDate(date)} />
+                                        <DatePicker  disabled={isContinue} value={endDate} label="End Date" size='small' format='LL' onChange={date => setEndDate(date)} />
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    required
+                                    
                                     fullWidth
                                     id="degree-grade"
                                     label="Degree grade / remarks"

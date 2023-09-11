@@ -6,6 +6,7 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Button from '@mui/material/Button';
+import { isNull } from 'lodash';
 
 
 export default function CommitteeTimeLine({ committees, deleteCommittee }) {
@@ -44,7 +45,7 @@ export default function CommitteeTimeLine({ committees, deleteCommittee }) {
                                     </Typography>
 
                                     <Typography variant="h6" gutterBottom>
-                                    {committee.designation}, {committee.name} , {committee.city} , {committee.country.label}
+                                    {committee.designation}, {committee.name} , {committee.city} , {_.isNull(committee.country)?'': committee.country.label}
                                     </Typography>
                                     
                                     <Button variant='outlined' color='error' size='small' onClick={()=> deleteCommittee(committee.committeeID)}>Delete</Button>

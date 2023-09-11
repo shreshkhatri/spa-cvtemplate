@@ -17,7 +17,7 @@ import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 
 
 
-export default function BasicInformationSection({ basic_information, setEditBasicInfoMode }) {
+export default function BasicInformationSection({ basic_information }) {
 
 
   function capitalizeWords(str) {
@@ -59,13 +59,6 @@ export default function BasicInformationSection({ basic_information, setEditBasi
     }
 
     <Card sx={{ flexGrow: 1 }} variant="outlined">
-      <CardHeader action={
-        <Tooltip title='Update Basic Details'>
-        <IconButton onClick={() => setEditBasicInfoMode(true)}>
-        <EditNoteOutlinedIcon  />
-        </IconButton>
-    </Tooltip>
-      } />
       <CardContent >
 
         <Typography variant="h5" gutterBottom sx={{fontWeight:'bold'}}>

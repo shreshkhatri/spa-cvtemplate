@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
 import { BsReverseLayoutTextSidebarReverse } from 'react-icons/bs'
 import TextField from '@mui/material/TextField';
+import _ from 'lodash';
 
 export default function CareerSummaryForm({ career_summary, updateCareerSummary, setIsCareerSummaryEditMode }) {
 
@@ -13,7 +14,13 @@ export default function CareerSummaryForm({ career_summary, updateCareerSummary,
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        updateCareerSummary(careerSummary)
+        if (_.isEmpty(careerSummary)){
+            updateCareerSummary('Double tap to update')   
+        }
+        else{
+            updateCareerSummary(careerSummary)
+        }
+        
         setIsCareerSummaryEditMode(false);
     };
 
@@ -22,7 +29,7 @@ export default function CareerSummaryForm({ career_summary, updateCareerSummary,
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            padding: 5
+            gap:2
         }} component={'form'}>
 
             <Typography variant="h6">
@@ -39,7 +46,7 @@ export default function CareerSummaryForm({ career_summary, updateCareerSummary,
                 value={careerSummary}
                 autoFocus
                 multiline
-                maxRows={6}
+                rows={3}
                 onChange={e => setCareerSummary(e.target.value)}
                 
             />
@@ -48,12 +55,17 @@ export default function CareerSummaryForm({ career_summary, updateCareerSummary,
                 display: 'flex',
                 gap: 1,
                 justifyContent: 'center',
-                padding:1
+                width:'100%'
             }}>
                 <Button
                     size='small'
-                    variant="outlined"
-                    color='inherit'
+                    variant="contained"
+                    sx={{
+                        backgroundColor:'text.error',
+                        p:1,
+                        flexGrow:1,
+                        borderRadius:1
+                    }}
                     onClick={() => setIsCareerSummaryEditMode(false)}
                 >
                     Cancel
@@ -61,8 +73,13 @@ export default function CareerSummaryForm({ career_summary, updateCareerSummary,
                 <Button
                     type='submit'
                     size='small'
-                    color='success'
-                    variant='outlined'
+                    sx={{
+                        backgroundColor:'success.main',
+                        p:1,
+                        flexGrow:1,
+                        borderRadius:1
+                    }}
+                    variant="contained"
                     onClick={handleSubmit}
                 >
                     Save

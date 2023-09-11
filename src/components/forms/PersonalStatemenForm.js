@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import _ from 'lodash';
 
 export default function PersonalStatementForm({ personal_statement,updatePersonalStatement,setIsPersonalStatementEditModeOn }) {
 
@@ -10,7 +11,13 @@ export default function PersonalStatementForm({ personal_statement,updatePersona
     
     const handleSubmit = (event) => {
         event.preventDefault();
-        updatePersonalStatement(personalStatement)
+        if (_.isEmpty(personalStatement)){
+            updatePersonalStatement('Double tap to update')
+        }
+        else{
+            updatePersonalStatement(personalStatement)
+        }
+        
         setIsPersonalStatementEditModeOn(false);
     };
 
@@ -19,9 +26,9 @@ export default function PersonalStatementForm({ personal_statement,updatePersona
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            paddingX: 5
+            gap:2
         }}
-            component='form' noValidate='false'
+            component='form'
         >
             <Typography variant='h6' >Personal Statement</Typography>
             <Box sx={{
@@ -30,10 +37,8 @@ export default function PersonalStatementForm({ personal_statement,updatePersona
                     xs: 'column',
                     sm: 'row'
                 },
-                width: 'inherit',
-                columnGap: 2,
-                rowGap: 1,
-                paddingY: 2
+                width: '100%',
+                gap:2
             }}>
                 <TextField
                     autoComplete="off"
@@ -52,12 +57,18 @@ export default function PersonalStatementForm({ personal_statement,updatePersona
             <Box sx={{
                 display: 'flex',
                 gap: 1,
-                justifyContent: 'center'
+                justifyContent: 'center',
+                width:'100%'
             }}>
                 <Button
                     size='small'
-                    variant="outlined"
-                    color='inherit'
+                    variant="contained"
+                    sx={{
+                        backgroundColor:'text.error',
+                        p:1,
+                        flexGrow:1,
+                        borderRadius:1
+                    }}
                     onClick={() => setIsPersonalStatementEditModeOn(false)}
                 >
                     Cancel
@@ -65,8 +76,13 @@ export default function PersonalStatementForm({ personal_statement,updatePersona
                 <Button
                     type='submit'
                     size='small'
-                    color='success'
-                    variant='outlined'
+                    sx={{
+                        backgroundColor:'success.main',
+                        p:1,
+                        flexGrow:1,
+                        borderRadius:1
+                    }}
+                    variant="contained"
                     onClick={handleSubmit}
                 >
                     Save

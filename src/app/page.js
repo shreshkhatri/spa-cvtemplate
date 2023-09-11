@@ -2,7 +2,6 @@
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import ResponsiveAppBar from '@/components/TopMenuBar'
 import BasicInformationSection from '@/components/BasicInformationSection';
 import CVSectionButtons from '@/components/CVSectionButtons';
 import { CVDATA } from '../assets/cvdata'
@@ -41,6 +40,7 @@ import NewEditorialExperienceForm from '@/components/forms/NewEditorialExperienc
 import EditorialExperienceTimeLine from '@/components/EditorialExperienceTimeLine';
 import NewEducationDegreeForm from '@/components/forms/NewEducationDegreeForm';
 import NewTechnicalSkillForm from '@/components/forms/NewTechnicalSkillForm';
+import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 
 export default function Home() {
   const [cvdata, updateCVData] = useState(CVDATA)
@@ -554,7 +554,7 @@ export default function Home() {
       justifyContent: 'flex-start',
       alignItems: 'center',
       minHeight: '100vh',
-      width:'100%'
+      width: '100%'
     }}>
       <Box sx={{
         display: 'flex',
@@ -562,20 +562,33 @@ export default function Home() {
         justifyContent: 'flex-start',
         alignItems: 'center',
         gap: 2,
-      width:'100%',
+        width: '100%',
         paddingX: {
-          xs:1,
-          sm:5,
-          md:10
+          xs: 1,
+          sm: 5,
+          md: 10
         }
       }}>
-        <Typography variant="h6">  Profile Information </Typography>
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          paddingTop:2,
+          width: '100%'
+        }}>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            Personal Information
+          </Typography>
 
-        {!isBasicInfoEditModeOn &&
-          <BasicInformationSection basic_information={cvdata.basic_information} setEditBasicInfoMode={setEditBasicInfoMode} />}
+          <Tooltip title='Update Personal Information'>
+            <IconButton onClick={() => setEditBasicInfoMode(true)}>
+              <EditNoteOutlinedIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
 
-        {isBasicInfoEditModeOn &&
-          <BasicInformationForm basic_information={cvdata.basic_information} updateBasicInformation={updateBasicInformation} setEditBasicInfoMode={setEditBasicInfoMode} />}
+        {!isBasicInfoEditModeOn && <BasicInformationSection basic_information={cvdata.basic_information} />}
+
+        {isBasicInfoEditModeOn && <BasicInformationForm basic_information={cvdata.basic_information} updateBasicInformation={updateBasicInformation} setEditBasicInfoMode={setEditBasicInfoMode} />}
 
         {cvdata.hasOwnProperty('personal_statement') &&
           !isPersonalStatementEditModeOn &&
@@ -586,7 +599,6 @@ export default function Home() {
 
         {cvdata.hasOwnProperty('career_summary') && !isCareerSummaryEditMode && <CareerSummary career_summary={cvdata.career_summary} deleteCareerSummary={deleteCareerSummary} setIsCareerSummaryEditMode={setIsCareerSummaryEditMode} />}
         {cvdata.hasOwnProperty('career_summary') && isCareerSummaryEditMode && <CareerSummaryForm career_summary={cvdata.career_summary} updateCareerSummary={updateCareerSummary} setIsCareerSummaryEditMode={setIsCareerSummaryEditMode} />}
-
 
 
         {cvdata.hasOwnProperty('education_history') && <>
@@ -779,7 +791,7 @@ export default function Home() {
           <PublicationsTimeLine publications={cvdata.publications} deletePublication={deletePublication} /></>}
 
         {cvdata.hasOwnProperty('committees') && <>
-        <Box sx={{
+          <Box sx={{
             display: 'flex',
             justifyContent: 'space-between',
             width: '100%',
@@ -806,7 +818,7 @@ export default function Home() {
 
 
         {cvdata.hasOwnProperty('councils') && <>
-        <Box sx={{
+          <Box sx={{
             display: 'flex',
             justifyContent: 'space-between',
             width: '100%',
@@ -827,13 +839,13 @@ export default function Home() {
               </Tooltip>
             </Box>
           </Box>
-          
+
           <CouncilTimeLine councils={cvdata.councils} deleteCouncil={deleteCouncil} />
         </>
         }
 
         {cvdata.hasOwnProperty('memberships') && <>
-        <Box sx={{
+          <Box sx={{
             display: 'flex',
             justifyContent: 'space-between',
             width: '100%',
@@ -854,18 +866,18 @@ export default function Home() {
               </Tooltip>
             </Box>
           </Box>
-          <MembershipTimeLine memberships={cvdata.memberships} deleteMembership={deleteMembership}/>
+          <MembershipTimeLine memberships={cvdata.memberships} deleteMembership={deleteMembership} />
         </>
         }
 
         {cvdata.hasOwnProperty('awards_honors') && <>
-        <Box sx={{
+          <Box sx={{
             display: 'flex',
             justifyContent: 'space-between',
             width: '100%',
           }}>
             <Typography variant="h6">
-              Honors / Awards 
+              Honors / Awards
             </Typography>
             <Box>
               <Tooltip title='Add Award/Honor Details'>
@@ -885,13 +897,13 @@ export default function Home() {
         }
 
         {cvdata.hasOwnProperty('conferences') && <>
-        <Box sx={{
+          <Box sx={{
             display: 'flex',
             justifyContent: 'space-between',
             width: '100%',
           }}>
             <Typography variant="h6">
-              Conferences 
+              Conferences
             </Typography>
             <Box>
               <Tooltip title='Add Conference Details'>
@@ -906,12 +918,12 @@ export default function Home() {
               </Tooltip>
             </Box>
           </Box>
-          <ConferencesList conferences={cvdata.conferences} deleteConference={deleteConference}/>
+          <ConferencesList conferences={cvdata.conferences} deleteConference={deleteConference} />
         </>
         }
 
         {cvdata.hasOwnProperty('journals') && <>
-        <Box sx={{
+          <Box sx={{
             display: 'flex',
             justifyContent: 'space-between',
             width: '100%',

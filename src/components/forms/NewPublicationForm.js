@@ -36,6 +36,7 @@ export default function NewPublicationForm({ open, setOpen, addNewPublication })
     const publicationVenueRef = useRef('');
     const [DOI, setDOI] = useState(null);
     const editionVolumeRef = useRef('');
+    const pageRangeRef = useRef('');
     const abstractRef = useRef('');
     const publicationURLRef = useRef('');
     const [firstName, setFirstName] = useState('');
@@ -57,17 +58,18 @@ export default function NewPublicationForm({ open, setOpen, addNewPublication })
         }
     }
 
-    function resetFields(){
-        titleRef.current=''
+    function resetFields() {
+        titleRef.current = ''
         setDOI(null)
         setPublicationDate(null)
         setPublicationType(PUBLICATION_TYPES[0])
         updateAuthors([])
-        publicationEventRef.current=''
-        publicationVenueRef.current=''
-        editionVolumeRef.current=''
-        abstractRef.current=''
-        publicationURLRef.current=''
+        publicationEventRef.current = ''
+        pageRangeRef.current = ''
+        publicationVenueRef.current = ''
+        editionVolumeRef.current = ''
+        abstractRef.current = ''
+        publicationURLRef.current = ''
     }
 
 
@@ -81,6 +83,7 @@ export default function NewPublicationForm({ open, setOpen, addNewPublication })
             publicationID: uniqid(),
             title: titleRef.current,
             type: publicationType,
+            page_range: pageRangeRef.current,
             authors: authors,
             publication_date: JSON.stringify(publicationDate).substring(1, 11),
             publication_event: publicationEventRef.current,
@@ -227,7 +230,21 @@ export default function NewPublicationForm({ open, setOpen, addNewPublication })
 
                                 />
                             </Grid>
+                            {publicationType == PUBLICATION_TYPES[4] && <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    name="page-range"
+                                    label="Page range"
+                                    size='small'
+                                    id="page-range"
+                                    autoComplete='off'
+                                    ref={pageRangeRef}
+                                    onChange={e => pageRangeRef.current = e.target.value}
 
+                                />
+                            </Grid>
+                            }
                         </Grid>
                         <Box sx={{
                             display: 'flex',
