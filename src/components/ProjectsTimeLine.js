@@ -7,9 +7,10 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Button from '@mui/material/Button';
+import ItemProject from './listItems/ItemProject';
 
 
-export default function ProjectsTimeline({ projects, deleteProject  }) {
+export default function ProjectsTimeline({ projects, deleteProject,openFormForProjectEdit }) {
     return (
         <Box sx={{
             display: 'flex',
@@ -38,27 +39,7 @@ export default function ProjectsTimeline({ projects, deleteProject  }) {
                                     <TimelineDot color='success' />
                                 </TimelineSeparator>
                                 <TimelineContent sx={{ paddingBottom: 3 }}>
-                                    <Typography
-                                        sx={{ m: 'auto 0' }}
-                                        variant="body2"
-                                        color="text.secondary"
-                                    >
-                                        {project.start_date} - {project.isContinue ? "continue" : project.end_date}
-                                    </Typography>
-
-                                    <Typography variant="h6" gutterBottom>
-                                        {project.project_title} , {project.designation}
-                                    </Typography>
-                                    <Typography variant="body2" gutterBottom>
-                                        {project.city} , {project.country.label}
-                                    </Typography>
-
-
-
-                                    <Typography variant="body2" gutterBottom>Project Description <br></br>
-                                        {project.description}
-                                    </Typography>
-                                    <Button variant='outlined' color='error' size='small' onClick={()=> deleteProject(project.projectID)}>Delete</Button>
+                                    <ItemProject project={project} deleteProject={deleteProject} openFormForProjectEdit={openFormForProjectEdit}/>
                                 </TimelineContent>
                             </TimelineItem>
 

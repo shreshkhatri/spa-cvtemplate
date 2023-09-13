@@ -7,9 +7,10 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Button from '@mui/material/Button';
+import ItemExperience from './listItems/itemExperience';
 
 
-export default function WorkExperienceTimeLine({ work_history, deleteWorkExperience }) {
+export default function WorkExperienceTimeLine({ work_history, deleteWorkExperience, openFormForWorkExperienceEdit }) {
   return (
     <Box sx={{
       display: 'flex',
@@ -36,31 +37,8 @@ export default function WorkExperienceTimeLine({ work_history, deleteWorkExperie
                   <TimelineDot color='success' />
                   {(work_history.length-1)!==index && <TimelineConnector />}
                 </TimelineSeparator>
-                <TimelineContent sx={{ paddingBottom: 3 }}>
-                  <Typography
-                    sx={{ m: 'auto 0' }}
-                    variant="body2"
-                    color="text.secondary"
-                  >
-                    {work_experience.start_date} - {work_experience.isContinue ? "continue" : work_experience.end_date}
-                  </Typography>
-
-                  <Typography variant="h6" gutterBottom>
-                    {work_experience.position_designation} , {work_experience.employer}
-                  </Typography>
-                  <Typography variant="body2" gutterBottom>
-                    {work_experience.city} , {work_experience.country.label}
-                  </Typography>
-
-                  <Typography variant="body2" gutterBottom>Duties & Responsibilities <br></br>
-                    {work_experience.duties_responsibilities}
-                  </Typography>
-
-                  <Typography variant="body2" gutterBottom>Achievements <br></br>
-                    {work_experience.achievements}
-                  </Typography>
-
-                  <Button variant='outlined' color='error' size='small' onClick={() => deleteWorkExperience(work_experience.employmentID)}>Delete</Button>
+                <TimelineContent sx={{ paddingBottom: 1 }}>
+                  <ItemExperience work_experience={work_experience} deleteWorkExperience={deleteWorkExperience} openFormForWorkExperienceEdit={openFormForWorkExperienceEdit} />
                 </TimelineContent>
               </TimelineItem>
 

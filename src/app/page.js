@@ -1,6 +1,6 @@
 'use client';
 import Typography from '@mui/material/Typography';
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useMemo } from 'react';
 import Box from '@mui/material/Box';
 import BasicInformationSection from '@/components/BasicInformationSection';
 import CVSectionButtons from '@/components/CVSectionButtons';
@@ -13,34 +13,38 @@ import EducationTimeLine from '@/components/EducationTimeLine';
 import BasicInformationForm from '@/components/forms/BasicInformationForm';
 import PersonalStatementForm from '@/components/forms/PersonalStatemenForm';
 import CareerSummaryForm from '@/components/forms/CareerSummaryForm';
-import NewWorkExperienceForm from '@/components/forms/NewWorkExperienceForm';
-import NewPublicationForm from '@/components/forms/NewPublicationForm';
+import NewWorkExperienceForm from '@/components/forms/FormsForNewEntry/NewWorkExperienceForm';
+import NewPublicationForm from '@/components/forms/FormsForNewEntry/NewPublicationForm';
 import _ from 'lodash';
 import ProjectsTimeline from '@/components/ProjectsTimeLine';
-import NewProjectForm from '@/components/forms/NewProjectForm';
+import NewProjectForm from '@/components/forms/FormsForNewEntry/NewProjectForm';
 import { IconButton, Tooltip } from '@mui/material';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
-import NewCouncilForm from '@/components/forms/NewCouncilForm';
+import NewCouncilForm from '@/components/forms/FormsForNewEntry/NewCouncilForm';
 import CouncilTimeLine from '@/components/CouncilTimeLine';
-import NewCommitteeForm from '@/components/forms/NewCommitteeForm';
+import NewCommitteeForm from '@/components/forms/FormsForNewEntry/NewCommitteeForm';
 import CommitteeTimeLine from '@/components/CommitteeTimeLine';
-import NewMembershipForm from '@/components/forms/NewMembershipForm';
+import NewMembershipForm from '@/components/forms/FormsForNewEntry/NewMembershipForm';
 import MembershipTimeLine from '@/components/MembershipTimeLine';
-import NewAwardHonorForm from '@/components/forms/NewAwardHonorForm';
+import NewAwardHonorForm from '@/components/forms/FormsForNewEntry/NewAwardHonorForm';
 import AwardHonorsTimeLine from '@/components/AwardHonorsTimeLine';
 import ConferencesList from '@/components/ConferencesList';
-import NewConferenceForm from '@/components/forms/NewConferenceForm';
-import NewJournalForm from '@/components/forms/NewJournalForm';
+import NewConferenceForm from '@/components/forms/FormsForNewEntry/NewConferenceForm';
+import NewJournalForm from '@/components/forms/FormsForNewEntry/NewJournalForm';
 import JournalsList from '@/components/JournalsList';
 import TechnicalSkillsList from '@/components/TechnicalSkillsList';
-import NewAccreditionExperienceForm from '@/components/forms/NewAccreditionExperienceForm';
+import NewAccreditionExperienceForm from '@/components/forms/FormsForNewEntry/NewAccreditionExperienceForm';
 import AccreditationsTimeLine from '@/components/AccreditationsTimeLine';
-import NewEditorialExperienceForm from '@/components/forms/NewEditorialExperience';
+import NewEditorialExperienceForm from '@/components/forms/FormsForNewEntry/NewEditorialExperience';
 import EditorialExperienceTimeLine from '@/components/EditorialExperienceTimeLine';
-import NewEducationDegreeForm from '@/components/forms/NewEducationDegreeForm';
-import NewTechnicalSkillForm from '@/components/forms/NewTechnicalSkillForm';
+import NewEducationDegreeForm from '@/components/forms/FormsForNewEntry/NewEducationDegreeForm';
+import NewTechnicalSkillForm from '@/components/forms/FormsForNewEntry/NewTechnicalSkillForm';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
+import EditEducationDegreeForm from '@/components/forms/FormsForEdit/EditEducationDegreeForm';
+import EditWorkExperienceForm from '@/components/forms/FormsForEdit/EditWorkExperienceForm';
+import EditProjectForm from '@/components/forms/FormsForEdit/EditProjectForm';
+import EditPublicationForm from '@/components/forms/FormsForEdit/EditPublicationForm';
 
 export default function Home() {
   const [cvdata, updateCVData] = useState(CVDATA)
@@ -48,7 +52,7 @@ export default function Home() {
   const [isPersonalStatementEditModeOn, setIsPersonalStatementEditModeOn] = useState(false);
   const [isCareerSummaryEditMode, setIsCareerSummaryEditMode] = useState(false);
 
-  //states for forms
+  //states for forms for entering new entry
   const [openNewEducationForm, setOpenNewEducationForm] = useState(false);
   const [openNewExperienceForm, setOpenNewExperienceForm] = useState(false);
   const [openNewAccreditionExperienceForm, setOpenNewAccreditionExperienceForm] = useState(false);
@@ -63,6 +67,55 @@ export default function Home() {
   const [openNewConferenceForm, setOpenNewConferenceForm] = useState(false);
   const [openNewJournalForm, setOpenNewJournalForm] = useState(false);
 
+
+  //stes for forms for modifying the existing entry
+  // States for forms
+const [openEditEducationForm, setOpenEditEducationForm] = useState(false);
+const [openEditExperienceForm, setOpenEditExperienceForm] = useState(false);
+const [openEditAccreditionExperienceForm, setOpenEditAccreditionExperienceForm] = useState(false);
+const [openEditProjectForm, setOpenEditProjectForm] = useState(false);
+const [openEditTechnicalSkillForm, setOpenEditTechnicalSkillForm] = useState(false);
+const [openEditEditorialExperienceForm, setOpenEditEditorialExperienceForm] = useState(false);
+const [openEditPublicationForm, setOpenEditPublicationForm] = useState(false);
+const [openEditCommitteeForm, setOpenEditCommitteeForm] = useState(false);
+const [openEditCouncilForm, setOpenEditCouncilForm] = useState(false);
+const [openEditMembershipForm, setOpenEditMembershipForm] = useState(false);
+const [openEditAwardHonorForm, setOpenEditAwardHonorForm] = useState(false);
+const [openEditConferenceForm, setOpenEditConferenceForm] = useState(false);
+const [openEditJournalForm, setOpenEditJournalForm] = useState(false);
+
+const [tempStore,setTempStore] =  useState(null);
+
+console.log(tempStore)
+
+/*************************************  FUNCTION FOR OPENING FORM FOR EDITING DATA  **************************************************/
+
+// function for setting the form up for editing publication information 
+function openFormForPublicationEdit(publicationID){
+  setTempStore(cvdata.publications.find(publication => publication.publicationID == publicationID));
+  setOpenEditPublicationForm(true);
+}
+
+
+// function for setting the form up for editing project information 
+function openFormForProjectEdit(projectID){
+  setTempStore(cvdata.projects.find(project => project.projectID == projectID));
+  setOpenEditProjectForm(true);
+}
+
+
+// function for setting the form for editing degree information and loading the data into tempstorage
+function openFormForDegreeEdit(degreeID){
+  setTempStore(cvdata.education_history.find(degree => degree.degreeID == degreeID));
+  setOpenEditEducationForm(true);
+}
+
+
+// function for opening th form for dediting employment details 
+function openFormForWorkExperienceEdit(employmentID){
+setTempStore(cvdata.work_history.find(work_experience => work_experience.employmentID == employmentID));
+setOpenEditExperienceForm(true);
+}
 
 
 
@@ -436,7 +489,46 @@ export default function Home() {
     }
   }
 
+  /*************************************** FUNCTION TO EDIT INDIVIDUAL ITEMS FROM THE LIST *****************************************/
+  
+//function to edit publication detail from the existing list
+function editPublication(updatedData) {
+  updateCVData(prevCVData => ({
+    ...prevCVData,
+    publications: prevCVData.publications.map(publication => publication.publicationID == updatedData.publicationID ? updatedData:publication)
+  }));
+  setTempStore(null);
+}
 
+
+  //function to edit project detail from the existing list
+  function editProject(updatedData) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      projects: prevCVData.projects.map(project => project.projectID == updatedData.projectID ? updatedData:project)
+    }));
+    setTempStore(null);
+  }
+
+  //function to edit education degree item from the exisiting list
+  function editEducationDegree(updatedData) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      education_history: prevCVData.education_history.map(degree => degree.degreeID == updatedData.degreeID ? updatedData:degree)
+    }));
+    setTempStore(null);
+  }
+
+
+    //function to edit work experience item from the exisiting list
+    function editWorkExperience(updatedData) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        work_history: prevCVData.work_history.map(work_experience => work_experience.experienceID == updatedData.experienceID ? updatedData:work_experience)
+      }));
+      setTempStore(null);
+    }
+  
   /*************************************** FUNCTION TO DELETE INDIVIDUAL ITEMS FROM THE LIST ***************************************/
 
   //function to delete editorialExperience item from the exisiting list
@@ -623,7 +715,7 @@ export default function Home() {
               </Tooltip>
             </Box>
           </Box>
-          <EducationTimeLine education_history={cvdata.education_history} deleteEducationDegree={deleteEducationDegree} /></>}
+          <EducationTimeLine education_history={cvdata.education_history} deleteEducationDegree={deleteEducationDegree} openFormForDegreeEdit={openFormForDegreeEdit}/></>}
 
 
 
@@ -650,7 +742,7 @@ export default function Home() {
               </Tooltip>
             </Box>
           </Box>
-          <WorkExperienceTimeLine work_history={cvdata.work_history} deleteWorkExperience={deleteWorkExperience} /></>}
+          <WorkExperienceTimeLine work_history={cvdata.work_history} deleteWorkExperience={deleteWorkExperience} openFormForWorkExperienceEdit={openFormForWorkExperienceEdit} /></>}
 
 
 
@@ -705,7 +797,7 @@ export default function Home() {
             </Box>
 
           </Box>
-          <ProjectsTimeline projects={cvdata.projects} deleteProject={deleteProject} />
+          <ProjectsTimeline projects={cvdata.projects} deleteProject={deleteProject} openFormForProjectEdit={openFormForProjectEdit}/>
         </>}
 
 
@@ -788,7 +880,7 @@ export default function Home() {
               </Tooltip>
             </Box>
           </Box>
-          <PublicationsTimeLine publications={cvdata.publications} deletePublication={deletePublication} /></>}
+          <PublicationsTimeLine publications={cvdata.publications} deletePublication={deletePublication} openFormForPublicationEdit={openFormForPublicationEdit} /></>}
 
         {cvdata.hasOwnProperty('committees') && <>
           <Box sx={{
@@ -964,6 +1056,10 @@ export default function Home() {
         <NewConferenceForm open={openNewConferenceForm} setOpen={setOpenNewConferenceForm} addNewConference={addNewConference} />
         <NewJournalForm open={openNewJournalForm} setOpen={setOpenNewJournalForm} addNewJournal={addNewJournal} />
 
+        {openEditEducationForm && <EditEducationDegreeForm open={openEditEducationForm} setOpen={setOpenEditEducationForm} qualification={tempStore} editEducationDegree={editEducationDegree} />}
+        {openEditExperienceForm && <EditWorkExperienceForm open={openEditExperienceForm} setOpen={setOpenEditExperienceForm} work_experience={tempStore} editWorkExperience={editWorkExperience} />}
+        {openEditProjectForm && <EditProjectForm open={openEditProjectForm} setOpen={setOpenEditProjectForm} project={tempStore} editProject={editProject} />}
+        {openEditPublicationForm && <EditPublicationForm open={openEditPublicationForm} setOpen={setOpenEditPublicationForm} publication={tempStore} editPublication={editPublication} />}
       </Box>
     </Box>
   )

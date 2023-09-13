@@ -56,7 +56,7 @@ export default function BasicInformationForm({ basic_information, updateBasicInf
             width: '100%',
             gap:2
         }}
-            component='form' noValidate
+            component='form' onSubmit={handleSubmit}
         >
             <Box sx={{
                 display: 'flex',
@@ -344,7 +344,6 @@ export default function BasicInformationForm({ basic_information, updateBasicInf
                     type='submit'
                     variant="contained"
                     size='small'
-                    onClick={handleSubmit}
                     sx={{
                         backgroundColor:'success.main',
                         padding:1,

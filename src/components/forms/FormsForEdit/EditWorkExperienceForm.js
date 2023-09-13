@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -10,11 +10,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { FormGroup, FormControlLabel } from '@mui/material';
 import Switch from '@mui/material/Switch';
-import CountrySelector from '../CountrySelector';
-import uniqid from 'uniqid';
+import CountrySelector from '../../CountrySelector';
+import dayjs from 'dayjs';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
+import _ from 'lodash';
 
 const style = {
     position: 'absolute',
@@ -28,45 +29,72 @@ const style = {
     p: 2,
 };
 
-export default function NewWorkExperienceForm({ open, setOpen, addNewWorkExperience }) {
+export default function EditWorkExperienceForm({ open, setOpen, work_experience, editWorkExperience }) {
 
-    const positionDesignationRef = useRef('');
-    const employerRef = useRef('');
-    const [employerCountry, setEmployerCountry] = useState(null);
-    const employerCityRef = useRef('');
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    const [isContinue, setIsContinue] = useState(false);
-    const dutiesResponsibilitiesRef = useRef('');
-    const achievementsRef = useRef('');
+    const [positionDesignation, setPositionDesignation] = useState(work_experience.position_designation);
+    const [employer, setEmployer] = useState(work_experience.employer);
+    const [employerCountry, setEmployerCountry] = useState(work_experience.country);
+    const [employerCity, setEmployerCity] = useState(work_experience.city);
+    const [startDate, setStartDate] = useState(dayjs(work_experience.start_date));
+    const [endDate, setEndDate] = useState(dayjs(work_experience.end_date));
+    const [isContinue, setIsContinue] = useState(work_experience.isContinue);
+    const [dutiesResponsibilities, setDutiesResponsibilities] = useState(work_experience.duties_responsibilities);
+    const [achievements, setAchievements] = useState(work_experience.achievements);
 
+    
+    //useeffect should be used so that the change is reflected to the UI when the data is changed or updated
+    useEffect(()=>{
+        setPositionDesignation(work_experience.position_designation);
+        setEmployer(work_experience.employer);
+        setEmployerCity(work_experience.city);
+        setStartDate(dayjs(work_experience.start_date));
+        setEndDate(dayjs(work_experience.end_date));
+        setEmployerCountry(work_experience.country);
+        setIsContinue(work_experience.isContinue);
+        setDutiesResponsibilities(work_experience.duties_responsibilities);
+        setAchievements(work_experience.achievements);
+    },[work_experience])
+    
+    function resetFields() {
+        setPositionDesignation();
+        setEmployer('');
+        setEmployerCity('');
+        setStartDate(null);
+        setEndDate(null);
+        setEmployerCountry(null);
+        setIsContinue(false);
+        setDutiesResponsibilities('');
+        setAchievements('');
 
-    function resetFields(){
-        positionDesignationRef.current = ''
-        employerRef.current = ''
-        employerCityRef.current =''
-        setStartDate(null)
-        setEndDate(null)
-        setEmployerCountry(null)
-        setIsContinue(false)
-        dutiesResponsibilitiesRef.current=''
-        achievementsRef.current = ''
     }
 
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        addNewWorkExperience({
-            employmentID: uniqid(),
-            position_designation: positionDesignationRef.current,
-            employer: employerRef.current,
+        if (!employerCountry) {
+            alert('Please select the country')
+            return
+        }
+        if (!startDate) {
+            alert('Please select the start date')
+            return
+        }
+
+        if (!isContinue && !endDate) {
+            alert('Please select the end date')
+            return
+        }
+        editWorkExperience({
+            employmentID: work_experience.employmentID,
+            position_designation: positionDesignation,
+            employer: employer,
             country: employerCountry,
-            city: employerCityRef.current,
-            start_date: JSON.stringify(startDate).substring(1, 11),
-            end_date: JSON.stringify(endDate).substring(1, 11),
+            city: employerCity,
+            start_date: startDate ? startDate.toISOString().substring(0, 10) : null,
+            end_date: endDate ? endDate.toISOString().substring(0, 10) : null,
             isContinue: isContinue,
-            duties_responsibilities: dutiesResponsibilitiesRef.current,
-            achievements: achievementsRef.current
+            duties_responsibilities: dutiesResponsibilities,
+            achievements: achievements,
         })
         resetFields()
         setOpen(false)
@@ -112,9 +140,9 @@ export default function NewWorkExperienceForm({ open, setOpen, addNewWorkExperie
                                     id="position-designation"
                                     label="Designation"
                                     size='small'
-                                    ref={positionDesignationRef}
+                                    value={positionDesignation}
                                     autoFocus
-                                    onChange={e => positionDesignationRef.current = e.target.value}
+                                    onChange={e => setPositionDesignation(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12} >
@@ -126,8 +154,8 @@ export default function NewWorkExperienceForm({ open, setOpen, addNewWorkExperie
                                     size='small'
                                     name="employer"
                                     autoComplete='off'
-                                    ref={employerRef}
-                                    onChange={e => employerRef.current = e.target.value}
+                                    value={employer}
+                                    onChange={e => setEmployer(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6} >
@@ -142,8 +170,8 @@ export default function NewWorkExperienceForm({ open, setOpen, addNewWorkExperie
                                     size='small'
                                     name="employer-city"
                                     autoComplete='off'
-                                    ref={employerCityRef}
-                                    onChange={e => employerCityRef.current = e.target.value}
+                                    value={employerCity}
+                                    onChange={e => setEmployerCity(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12} >
@@ -172,7 +200,7 @@ export default function NewWorkExperienceForm({ open, setOpen, addNewWorkExperie
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    required
+                                    
                                     fullWidth
                                     id="duties-responsibilities"
                                     label="Duties & Responsibilities"
@@ -181,14 +209,14 @@ export default function NewWorkExperienceForm({ open, setOpen, addNewWorkExperie
                                     autoComplete='off'
                                     multiline
                                     rows={3}
-                                    ref={dutiesResponsibilitiesRef}
-                                    onChange={e => dutiesResponsibilitiesRef.current = e.target.value}
+                                    value={dutiesResponsibilities}
+                                    onChange={e => setDutiesResponsibilities(e.target.value)}
                                 />
                             </Grid>
 
                             <Grid item xs={12}>
                                 <TextField
-                                    required
+                                    
                                     fullWidth
                                     id="achievements"
                                     label="Achievements"
@@ -197,8 +225,8 @@ export default function NewWorkExperienceForm({ open, setOpen, addNewWorkExperie
                                     autoComplete='off'
                                     multiline
                                     rows={3}
-                                    ref={achievementsRef}
-                                    onChange={e => achievementsRef.current = e.target.value}
+                                    value={achievements}
+                                    onChange={e => setAchievements(e.target.value)}
                                 />
                             </Grid>
 
@@ -216,8 +244,12 @@ export default function NewWorkExperienceForm({ open, setOpen, addNewWorkExperie
                             <Button
                                 fullWidth
                                 size='small'
-                                variant="outlined"
-                                color='inherit'
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: 'error.main',
+                                    padding: 1,
+                                    flexGrow: 1
+                                }}
                                 onClick={() => setOpen(false)}
                             >
                                 Cancel
@@ -225,15 +257,17 @@ export default function NewWorkExperienceForm({ open, setOpen, addNewWorkExperie
                             <Button
                                 type="submit"
                                 fullWidth
+                                variant="contained"
                                 size='small'
-                                color='success'
-                                variant='outlined'
+                                sx={{
+                                    backgroundColor: 'success.main',
+                                    padding: 1,
+                                    flexGrow: 1
+                                }}
                             >
                                 Add
                             </Button>
                         </Box>
-
-
                     </Box>
                 </Box>
             </Fade>

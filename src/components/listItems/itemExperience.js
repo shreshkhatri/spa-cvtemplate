@@ -1,0 +1,56 @@
+import { useState } from 'react';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import { formatDate, capitalizeWords } from '@/assets/utilityFunctions';
+import _ from 'lodash';
+import { Box } from '@mui/material';
+
+
+export default function ItemExperience({ work_experience, deleteWorkExperience, openFormForWorkExperienceEdit }) {
+
+    const [isMouseOver, setIsMouseOver] = useState(false);
+
+    return (
+        <Box sx={{
+            display: 'flex',
+            flexDirection: {
+                xs: 'column',
+                sm: 'row'
+            },
+            alignItems: 'center',
+            width: '100%',
+            boxShadow: isMouseOver ? 1 : 0,
+            borderRadius: isMouseOver ? 1 : 0,
+            p: 1
+        }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
+            <Box sx={{ flexGrow: 1 }}>
+
+                <Typography
+                    sx={{ m: 'auto 0' }}
+                    variant="body2"
+                    color="text.secondary"
+                >
+                    {work_experience.start_date ? formatDate(work_experience.start_date) : ' N/A '} - {work_experience.isContinue ? "continue" : work_experience.end_date ? formatDate(work_experience.end_date) : ' N/A '}
+                </Typography>
+
+                <Typography display='inline' sx={{ fontWeight: 'bold' }}>
+                    {capitalizeWords(work_experience.position_designation)} , {capitalizeWords(work_experience.employer)} ,{capitalizeWords(work_experience.city)} , {work_experience.country.label}
+                </Typography>
+
+                {!_.isEmpty(work_experience.duties_responsibilities) && <Typography variant="body2" gutterBottom><i><b>Duties & Responsibilities</b></i><br></br>
+                    {work_experience.duties_responsibilities}
+                </Typography>}
+
+                {!_.isEmpty(work_experience.achievements) && <Typography variant="body2" gutterBottom><i><b>Achievements </b></i><br></br>
+                    <pre style={{ fontFamily: 'inherit' }}>{work_experience.achievements}</pre>
+                </Typography>}
+
+
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'row', visibility: isMouseOver ? 'visible' : 'hidden' }}>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'success.main', textDecoration: 'underline' }} size='small' onClick={() => openFormForWorkExperienceEdit(work_experience.employmentID)}>Edit</Button>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'error.main', textDecoration: 'underline' }} size='small' onClick={() => deleteWorkExperience(work_experience.employmentID)}>Delete</Button>
+            </Box>
+
+        </Box>)
+}

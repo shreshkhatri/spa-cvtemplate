@@ -1,10 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CardHeader  from '@mui/material/CardHeader';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { HiOutlineMail } from 'react-icons/hi';
 import { BsTelephone, BsLinkedin } from 'react-icons/bs';
@@ -12,27 +9,11 @@ import { AiOutlineHome, AiOutlineYoutube, AiFillGithub } from 'react-icons/ai';
 import { BiLogoGitlab } from 'react-icons/bi';
 import { DiBitbucket } from 'react-icons/di';
 import _ from 'lodash';
-import { IconButton, Tooltip } from '@mui/material';
-import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
-
+import { capitalizeWords } from '@/assets/utilityFunctions';
 
 
 export default function BasicInformationSection({ basic_information }) {
 
-
-  function capitalizeWords(str) {
-    // Split the string into an array of words
-    let words = str.split(" ");
-
-    // Loop through each word and capitalize the first letter
-    for (let i = 0; i < words.length; i++) {
-      let word = words[i];
-      words[i] = word.charAt(0).toUpperCase() + word.slice(1);
-    }
-
-    // Join the capitalized words back into a string and return it
-    return words.join(" ");
-  }
 
   return <Box sx={{
     display: 'flex',
@@ -99,7 +80,11 @@ export default function BasicInformationSection({ basic_information }) {
               !_.isEmpty(basic_information.basic_information))
             &&
             <Typography variant="subtitle2" gutterBottom>
-              <AiOutlineHome size={17} /> {basic_information.street + ', ' + basic_information.postal_zip_code + ', ' + basic_information.state_province_region} {basic_information.city + ', ' + (basic_information.country === null ? '' : basic_information.country.label)}
+              <AiOutlineHome size={17} />  {capitalizeWords(basic_information.street)}
+              {_.isEmpty(basic_information.postal_zip_code)?' ':' , ' + basic_information.postal_zip_code.toUpperCase()}
+              {_.isEmpty(basic_information.state_province_region)?' ':' , ' + capitalizeWords(basic_information.state_province_region)}
+              {_.isEmpty(basic_information.city)?' ':' , ' + capitalizeWords(basic_information.city)}
+              {basic_information.country == null ? ' ' : ' , '+basic_information.country.label}
             </Typography>
           }
 

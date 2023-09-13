@@ -1,5 +1,4 @@
-import { useRef, useState } from 'react';
-import uniqid from 'uniqid';
+import { useEffect, useRef, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -11,17 +10,19 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { FormGroup, FormControlLabel } from '@mui/material';
 import Switch from '@mui/material/Switch';
-import CountrySelector from '../CountrySelector';
+import CountrySelector from '../../CountrySelector';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
+import _ from 'lodash';
+import dayjs from 'dayjs';
 
 const style = {
     position: 'absolute',
     top: '1%',
     left: '1%',
     bottom: '1%',
-    right:'1%',
+    right: '1%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -29,56 +30,71 @@ const style = {
 };
 
 
-export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) {
-    const institutionRef = useRef('');
-    const degreeRef = useRef('');
-    const [institutionCountry, setInstitutionCountry] = useState(null);
-    const institutionCityRef = useRef('');
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    const [isContinue, setIsContinue] = useState(false);
-    const degreeGradeRef = useRef('');
-    const courseSummaryRef = useRef('');
+export default function EditEducationDegreeForm({ open, setOpen, qualification, editEducationDegree }) {
 
-    function resetFields(){
-        institutionRef.current=''
-        degreeRef.current=''
+    const [institution, setInstitution] = useState(qualification.institution);
+    const [degree, setDegree] = useState(qualification.degree);
+    const [institutionCountry, setInstitutionCountry] = useState(qualification.country);
+    const [institutionCity, setInstitutionCity] = useState(qualification.city);
+    const [startDate, setStartDate] = useState(dayjs(qualification.startDate));
+    const [endDate, setEndDate] = useState(dayjs(qualification.endDate));
+    const [isContinue, setIsContinue] = useState(qualification.isContinue);
+    const [degreeGrade, setDegreeGrade] = useState(qualification.grade);
+    const [courseSummary, setCourseSummary] = useState(qualification.course_summary);
+    
+
+    //useeffect should be used so that the change is reflected to the UI when the data is changed or updated
+    useEffect(()=>{
+        setInstitution(qualification.institution)
+        setDegree(qualification.degree)
+        setInstitutionCountry(qualification.country)
+        setInstitutionCity(qualification.city)
+        setStartDate( dayjs(qualification.startDate))
+        setEndDate( dayjs(qualification.endDate))
+        setIsContinue(qualification.isContinue)
+        setDegreeGrade(qualification.grade)
+        setCourseSummary(qualification.course_summary)
+    },[qualification])
+
+    function resetFields() {
+        setInstitution('')
+        setDegree('')
         setInstitutionCountry(null)
-        institutionCityRef.current=''
+        setInstitutionCity('')
         setStartDate(null)
         setEndDate(null)
         setIsContinue(false)
-        degreeGradeRef.current=''
-        courseSummaryRef.current = ''
+        setDegreeGrade('')
+        setCourseSummary('')
     };
-    
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if(!institutionCountry){
+        if (!institutionCountry) {
             alert('Please select the country')
             return
         }
-        if (!startDate){
+        if (!startDate) {
             alert('Please select the course start date')
             return
         }
 
-        if (!isContinue && !endDate){
+        if (!isContinue && !endDate) {
             alert('Please select the course end date')
             return
         }
-        addNewDegree({
-            degreeID: uniqid(),
-            institution: institutionRef.current,
-            degree: degreeRef.current,
+        editEducationDegree({
+            degreeID: qualification.degreeID,
+            institution: institution,
+            degree: degree,
             country: institutionCountry,
-            city: institutionCityRef.current,
-            start_date: JSON.stringify(startDate).substring(1, 11),
-            end_date: JSON.stringify(endDate).substring(1, 11),
+            city: institutionCity,
+            start_date: startDate? startDate.toString().substring(0, 10):null,
+            end_date: endDate? endDate.toString().substring(0, 10):null,
             isContinue: isContinue,
-            grade: degreeGradeRef.current,
-            course_summary: courseSummaryRef.current
+            grade: degreeGrade,
+            course_summary: courseSummary
         })
         resetFields()
         setOpen(false)
@@ -90,7 +106,7 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
             aria-labelledby="transition-modal-add-new-education-record"
             aria-describedby="transition-modal-add-new-education-record"
             open={open}
-            onClose={()=>setOpen(false)}
+            onClose={() => setOpen(false)}
             closeAfterTransition
             slots={{ backdrop: Backdrop }}
             slotProps={{
@@ -106,16 +122,16 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                         flexDirection: 'column',
                         alignItems: 'center',
                         width: 'inherit',
-                        overflowY:'scroll',
+                        overflowY: 'scroll',
                         ...style
                     }}
                 >
                     <Box component="form" onSubmit={handleSubmit}>
 
                         <Grid container spacing={2}>
-                        <Grid item xs={12} >
-                            <Typography variant='h5'> Education Qualification Details</Typography>
-                        </Grid>
+                            <Grid item xs={12} >
+                                <Typography variant='h5'> Education Qualification Details</Typography>
+                            </Grid>
                             <Grid item xs={12} >
                                 <TextField
                                     autoComplete='off'
@@ -125,9 +141,9 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                                     id="institution-name"
                                     label="Institution Name"
                                     size='small'
-                                    ref={institutionRef}
+                                    value={institution}
                                     autoFocus
-                                    onChange={e => institutionRef.current = e.target.value}
+                                    onChange={e => setInstitution(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12} >
@@ -139,9 +155,9 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                                     id="degree-name"
                                     label="Degree"
                                     size='small'
-                                    ref={degreeRef}
+                                    value={degree}
                                     autoFocus
-                                    onChange={e => degreeRef.current = e.target.value}
+                                    onChange={e => setDegree(e.target.value)}
                                 />
                             </Grid>
 
@@ -157,8 +173,8 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                                     size='small'
                                     name="institution-city"
                                     autoComplete='off'
-                                    ref={institutionCityRef}
-                                    onChange={e => institutionCityRef.current = e.target.value}
+                                    value={institutionCity}
+                                    onChange={e => setInstitutionCity(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12} >
@@ -168,7 +184,7 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </Grid>
-                            <Grid item xs={12} >
+                            <Grid item xs={6} >
                                 <FormGroup>
                                     <FormControlLabel control={<Switch
                                         value={isContinue}
@@ -181,26 +197,26 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                             <Grid item xs={12} >
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
-                                        <DatePicker  disabled={isContinue} value={endDate} label="End Date" size='small' format='LL' onChange={date => setEndDate(date)} />
+                                        <DatePicker disabled={isContinue} value={endDate} label="End Date" size='small' format='LL' onChange={date => setEndDate(date)} />
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    
+
                                     fullWidth
                                     id="degree-grade"
                                     label="Degree grade / remarks"
                                     size='small'
                                     name="degree_grade"
                                     autoComplete='off'
-                                    ref={degreeGradeRef}
-                                    onChange={e => degreeGradeRef.current = e.target.value}
+                                    value={degreeGrade}
+                                    onChange={e => setDegreeGrade(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    required
+                                    
                                     fullWidth
                                     id="course-summary"
                                     label="Course Summary"
@@ -209,8 +225,8 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                                     autoComplete='off'
                                     multiline
                                     rows={3}
-                                    ref={courseSummaryRef}
-                                    onChange={e => courseSummaryRef.current = e.target.value}
+                                    value={courseSummary}
+                                    onChange={e => setCourseSummary(e.target.value)}
                                 />
                             </Grid>
 
@@ -222,24 +238,32 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                                 xs: 'column',
                                 sm: 'row'
                             },
-                            padding:1,
+                            paddingTop: 1,
                             gap: 1
                         }}>
                             <Button
                                 fullWidth
                                 size='small'
-                                variant="outlined"
-                                color='inherit'
-                                onClick={()=> setOpen(false)}
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: 'error.main',
+                                    padding: 1,
+                                    flexGrow: 1
+                                }}
+                                onClick={() => setOpen(false)}
                             >
                                 Cancel
                             </Button>
                             <Button
                                 type="submit"
                                 fullWidth
+                                variant="contained"
                                 size='small'
-                                color='success'
-                                variant='outlined'
+                                sx={{
+                                    backgroundColor: 'success.main',
+                                    padding: 1,
+                                    flexGrow: 1
+                                }}
                             >
                                 Add
                             </Button>

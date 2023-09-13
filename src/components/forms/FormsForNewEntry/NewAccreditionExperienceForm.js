@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import uniqid from 'uniqid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -9,9 +8,8 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { FormGroup, FormControlLabel } from '@mui/material';
-import Switch from '@mui/material/Switch';
-import CountrySelector from '../CountrySelector';
+import CountrySelector from '../../CountrySelector';
+import uniqid from 'uniqid';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
@@ -21,60 +19,58 @@ const style = {
     top: '1%',
     left: '1%',
     bottom: '1%',
-    right: '1%',
+    right:'1%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: 2,
 };
 
+export default function NewAccreditionExperienceForm({  open, setOpen, addNewAccreditionExperience }) {
+    const roleRef = useRef('');
+    const organizationRef = useRef('');
+    const [organizationCountry, setOrganizationCountry] = useState(null);
+    const organizationCityRef = useRef('');
 
-export default function NewProjectForm({ open, setOpen, addNewProject }) {
-    const projectTitleRef = useRef('');
-    const designationRef = useRef('');
-    const [projectCountry, setProjectCountry] = useState(null);
-    const projectCityRef = useRef('');
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [isContinue, setIsContinue] = useState(false);
-    const descriptionRef = useRef('');
 
+    const descriptionRef = useRef([]);
 
-    function resetFields() {
-        projectTitleRef.current = '',
-            designationRef.current = '',
-            setProjectCountry(null),
-            projectCityRef.current = '',
-            setStartDate(null),
-            setEndDate(null),
-            setIsContinue(false),
-            descriptionRef.current = ''
+    function resetFields(){
+        roleRef.current='',
+        organizationRef.current='',
+        setOrganizationCountry(null),
+        organizationCityRef.current='',
+        setStartDate(null),
+        descriptionRef.current=''
     }
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        addNewProject({
-            projectID: uniqid(),
-            project_title: projectTitleRef.current,
-            designation: designationRef.current,
-            country: projectCountry,
-            city: projectCityRef.current,
-            start_date: JSON.stringify(startDate).substring(1, 11),
-            end_date: JSON.stringify(endDate).substring(1, 11),
-            isContinue: isContinue,
+        addNewAccreditionExperience({
+            experienceID: uniqid(),
+            role: roleRef.current,
+            organization: organizationRef.current,
+            country: organizationCountry,
+            city: organizationCityRef.current,
+            date: JSON.stringify(startDate).substring(1, 11),
             description: descriptionRef.current
         })
-        resetFields();
-        setOpen(false);
+        resetFields()
+        setOpen(false)
     };
 
     return (
 
+        
         <Modal
-            aria-labelledby="transition-modal-add-new-experience-record"
-            aria-describedby="transition-modal-add-new-education-record"
+            aria-labelledby="transition-modal-add-new-accredition-record"
+            aria-describedby="transition-modal-add-new-accredition-record"
             open={open}
-            onClose={() => setOpen(false)}
+            onClose={()=>setOpen(false)}
             closeAfterTransition
             slots={{ backdrop: Backdrop }}
             slotProps={{
@@ -90,93 +86,76 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                         flexDirection: 'column',
                         alignItems: 'center',
                         width: 'inherit',
-                        overflowY: 'scroll',
+                        overflowY:'scroll',
                         ...style
                     }}
                 >
 
-                    <Box component="form" onSubmit={handleSubmit} >
+                    <Box component="form" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} >
-                                <Typography variant='h5'> Project Details</Typography>
-                            </Grid>
+                        <Grid item xs={12} >
+                            <Typography variant='h5'> Accreditation Details</Typography>
+                        </Grid>
                             <Grid item xs={12} >
                                 <TextField
                                     autoComplete='off'
-                                    name="position-title"
+                                    name="accreditation-role"
                                     required
                                     fullWidth
-                                    id="project-title"
-                                    label="Project Title"
+                                    id="accreditation-role"
+                                    label="Role / Designation"
                                     size='small'
-                                    ref={projectTitleRef}
+                                    ref={roleRef}
                                     autoFocus
-                                    onChange={e => projectTitleRef.current = e.target.value}
+                                    onChange={e => roleRef.current = e.target.value}
                                 />
                             </Grid>
                             <Grid item xs={12} >
                                 <TextField
-                                    autoComplete='off'
-                                    name="position-designation"
                                     required
                                     fullWidth
-                                    id="project-designation"
-                                    label="Designation"
+                                    id="acc-organization"
+                                    label="Organization "
                                     size='small'
-                                    ref={designationRef}
-                                    autoFocus
-                                    onChange={e => designationRef.current = e.target.value}
+                                    name="acc--organization"
+                                    autoComplete='off'
+                                    ref={organizationRef}
+                                    onChange={e => organizationRef.current = e.target.value}
                                 />
                             </Grid>
-
                             <Grid item xs={12} sm={6} >
-                                <CountrySelector country={projectCountry} setCountry={setProjectCountry} />
+                                <CountrySelector country={organizationCountry} setCountry={setOrganizationCountry} />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     required
                                     fullWidth
-                                    id="project-city"
+                                    id="org-city"
                                     label="City "
                                     size='small'
-                                    name="project-city"
+                                    name="org-city"
                                     autoComplete='off'
-                                    ref={projectCityRef}
-                                    onChange={e => projectCityRef.current = e.target.value}
+                                    ref={organizationCityRef}
+                                    onChange={e => organizationCityRef.current = e.target.value}
                                 />
                             </Grid>
                             <Grid item xs={12} >
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
-                                        <DatePicker value={startDate} label="Start Date" size='small' format='LL' onChange={date => setStartDate(date)} />
+                                        <DatePicker value={startDate} label="Date" size='small' format='LL' onChange={date => setStartDate(date)} />
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </Grid>
-                            <Grid item xs={6} >
-                                <FormGroup>
-                                    <FormControlLabel control={<Switch
-                                        value={isContinue}
-                                        onChange={() => {
-                                            setIsContinue(!isContinue);
-                                        }}
-                                    />} label='On going Project' />
-                                </FormGroup>
-                            </Grid>
-                            <Grid item xs={12} >
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['DatePicker']}>
-                                        <DatePicker disabled={isContinue} value={endDate} label="End Date" size='small' format='LL' onChange={date => setEndDate(date)} />
-                                    </DemoContainer>
-                                </LocalizationProvider>
-                            </Grid>
+
+
                             <Grid item xs={12}>
                                 <TextField
                                     required
                                     fullWidth
-                                    id="project-description"
-                                    label="Project Description"
+                                    id="acc-description"
+                                    label="Description / Responsibilities / Achievements"
                                     size='small'
-                                    name="project-description"
+                                    name="acc-description"
                                     autoComplete='off'
                                     multiline
                                     rows={3}
@@ -194,7 +173,7 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                                 sm: 'row'
                             },
                             gap: 1,
-                            padding: 1
+                            padding:1
                         }}>
                             <Button
                                 fullWidth
@@ -220,7 +199,7 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                     </Box>
                 </Box>
             </Fade>
-        </Modal>
+            </Modal>
 
 
     );

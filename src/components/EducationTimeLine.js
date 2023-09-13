@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Timeline from '@mui/lab/Timeline';
@@ -6,10 +7,14 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
-import Button from '@mui/material/Button';
+
+import _ from 'lodash';
+
+import ItemDegree from './listItems/ItemDegree';
 
 
-export default function EducationTimeLine({ education_history, deleteEducationDegree }) {
+export default function EducationTimeLine({ education_history, deleteEducationDegree, openFormForDegreeEdit }) {
+
     return (
         <Box sx={{
             display: 'flex',
@@ -31,31 +36,14 @@ export default function EducationTimeLine({ education_history, deleteEducationDe
 
                     {
                         education_history.map((degree,index) => {
-                            return <TimelineItem key={degree.degreeID} >
+                            return <TimelineItem key={degree.degreeID}>
 
                                 <TimelineSeparator>
                                     <TimelineDot color='success' />
                                     {(education_history.length-1)!==index && <TimelineConnector />}
                                 </TimelineSeparator>
-                                <TimelineContent sx={{ paddingBottom: 3 }}>
-                                    <Typography
-                                        sx={{ m: 'auto 0' }}
-                                        variant="body2"
-                                        color="text.secondary"
-                                    >
-                                        {degree.start_date} - {degree.isContinue ? "continue" : degree.end_date}
-                                    </Typography>
-
-                                    <Typography variant="h6" gutterBottom>
-                                        {degree.degree} , {degree.institution} ,{degree.city} , {degree.country.label}
-                                    </Typography>
-
-                                    <Typography variant="body2" gutterBottom>{degree.grade}</Typography>
-
-                                    <Typography variant="body2" gutterBottom>Course Summary <br></br>
-                                        {degree.course_summary}
-                                    </Typography>
-                                    <Button variant='outlined' color='error' size='small' onClick={() => deleteEducationDegree(degree.degreeID)}>Delete</Button>
+                                <TimelineContent sx={{ paddingBottom: 1 }}>
+                                    <ItemDegree degree={degree} deleteEducationDegree={deleteEducationDegree} openFormForDegreeEdit={openFormForDegreeEdit} />
                                 </TimelineContent>
                             </TimelineItem>
 

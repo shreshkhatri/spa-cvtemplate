@@ -1,0 +1,51 @@
+import { useState } from 'react';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import { formatDate, capitalizeWords } from '@/assets/utilityFunctions';
+import _ from 'lodash';
+import { Box, } from '@mui/material';
+
+
+export default function ItemDegree({ degree, deleteEducationDegree, openFormForDegreeEdit}) {
+
+    const [isMouseOver, setIsMouseOver] = useState(false);
+
+    return (
+        <Box sx={{
+            display: 'flex',
+            flexDirection: {
+                xs: 'column',
+                sm: 'row'
+            },
+            alignItems: 'center',
+            width: '100%',
+            boxShadow:isMouseOver?1:0,
+            borderRadius:isMouseOver?1:0,
+            p:1
+        }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
+            <Box sx={{ flexGrow: 1 }}>
+                <Typography
+                    sx={{ m: 'auto 0' }}
+                    variant="body2"
+                    color="text.secondary"
+                >
+                    {degree.start_date ? formatDate(degree.start_date) : ' N/A '} - {degree.isContinue ? "continue" : degree.end_date ? formatDate(degree.end_date) : ' N/A '}
+                </Typography>
+
+                <Typography display='inline' sx={{ fontWeight: 'bold' }}>
+                    {capitalizeWords(degree.degree)} , {capitalizeWords(degree.institution)} ,{capitalizeWords(degree.city)} , {degree.country.label}
+                </Typography>
+
+                {!_.isEmpty(degree.grade) && <Typography variant="body2" display='inline' sx={{ fontWeight: 'bold', fontStyle: 'italic' }}> {capitalizeWords(degree.grade)}</Typography>}
+
+                {!_.isEmpty(degree.course_summary) && <Typography variant="body2" sx={{ paddingTop: 1 }} gutterBottom> <i> <b> Summary</b> </i><br></br><pre style={{fontFamily:'inherit'}}> {degree.course_summary}</pre></Typography>}
+
+            </Box>
+            <Box sx={{ display:'flex', flexDirection:'row', visibility: isMouseOver ? 'visible' : 'hidden' }}>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'success.main',textDecoration:'underline' }} size='small' onClick={() => openFormForDegreeEdit(degree.degreeID)}>Edit</Button>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'error.main',textDecoration:'underline' }} size='small' onClick={() => deleteEducationDegree(degree.degreeID)}>Delete</Button>
+            </Box>
+        </Box>
+
+    );
+}

@@ -8,7 +8,9 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import CountrySelector from '../CountrySelector';
+import { FormGroup, FormControlLabel } from '@mui/material';
+import Switch from '@mui/material/Switch';
+import CountrySelector from '../../CountrySelector';
 import uniqid from 'uniqid';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
@@ -19,19 +21,18 @@ const style = {
     top: '1%',
     left: '1%',
     bottom: '1%',
-    right:'1%',
+    right: '1%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: 2,
 };
 
-export default function NewAccreditionExperienceForm({  open, setOpen, addNewAccreditionExperience }) {
+export default function NewEditorialExperienceForm({ open, setOpen, addNewEditorialExperience }) {
     const roleRef = useRef('');
-    const organizationRef = useRef('');
-    const [organizationCountry, setOrganizationCountry] = useState(null);
-    const organizationCityRef = useRef('');
-
+    const associationRef = useRef('');
+    const [associationCountry, setAssociationCountry] = useState(null);
+    const associationCityRef = useRef('');
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [isContinue, setIsContinue] = useState(false);
@@ -40,37 +41,39 @@ export default function NewAccreditionExperienceForm({  open, setOpen, addNewAcc
 
     function resetFields(){
         roleRef.current='',
-        organizationRef.current='',
-        setOrganizationCountry(null),
-        organizationCityRef.current='',
+        associationRef.current='',
+        setAssociationCountry(null),
+        associationCityRef.current='',
         setStartDate(null),
+        setEndDate(null),
+        setIsContinue(false),
         descriptionRef.current=''
     }
 
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        addNewAccreditionExperience({
+        addNewEditorialExperience({
             experienceID: uniqid(),
             role: roleRef.current,
-            organization: organizationRef.current,
-            country: organizationCountry,
-            city: organizationCityRef.current,
-            date: JSON.stringify(startDate).substring(1, 11),
+            association: associationRef.current,
+            country: associationCountry,
+            city: associationCityRef.current,
+            start_date: startDate ? JSON.stringify(startDate).substring(1, 11) : '',
+            end_date: endDate ? JSON.stringify(endDate).substring(1, 11) : '',
+            isContinue: isContinue,
             description: descriptionRef.current
         })
-        resetFields()
-        setOpen(false)
+        resetFields();
+        setOpen(false);
     };
 
     return (
-
-        
         <Modal
-            aria-labelledby="transition-modal-add-new-accredition-record"
-            aria-describedby="transition-modal-add-new-accredition-record"
+            aria-labelledby="transition-modal-add-new-editorial-experience-record"
+            aria-describedby="transition-modal-add-new-editorial-record"
             open={open}
-            onClose={()=>setOpen(false)}
+            onClose={() => setOpen(false)}
             closeAfterTransition
             slots={{ backdrop: Backdrop }}
             slotProps={{
@@ -80,29 +83,30 @@ export default function NewAccreditionExperienceForm({  open, setOpen, addNewAcc
             }}
         >
             <Fade in={open}>
+
                 <Box
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                         width: 'inherit',
-                        overflowY:'scroll',
+                        overflowY: 'scroll',
                         ...style
                     }}
                 >
 
                     <Box component="form" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
-                        <Grid item xs={12} >
-                            <Typography variant='h5'> Accreditation Details</Typography>
-                        </Grid>
+                            <Grid item xs={12} >
+                                <Typography variant='h5'> New Editorial Experience</Typography>
+                            </Grid>
                             <Grid item xs={12} >
                                 <TextField
                                     autoComplete='off'
-                                    name="accreditation-role"
+                                    name="editorial-role"
                                     required
                                     fullWidth
-                                    id="accreditation-role"
+                                    id="editorial-role"
                                     label="Role / Designation"
                                     size='small'
                                     ref={roleRef}
@@ -114,48 +118,64 @@ export default function NewAccreditionExperienceForm({  open, setOpen, addNewAcc
                                 <TextField
                                     required
                                     fullWidth
-                                    id="acc-organization"
-                                    label="Organization "
+                                    id="editorial-organization"
+                                    label="Organization / Association / Journal / Conference"
                                     size='small'
-                                    name="acc--organization"
+                                    name="editorial-organization"
                                     autoComplete='off'
-                                    ref={organizationRef}
-                                    onChange={e => organizationRef.current = e.target.value}
+                                    ref={associationRef}
+                                    onChange={e => associationRef.current = e.target.value}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6} >
-                                <CountrySelector country={organizationCountry} setCountry={setOrganizationCountry} />
+                                <CountrySelector country={associationCountry} setCountry={setAssociationCountry} />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     required
                                     fullWidth
-                                    id="org-city"
+                                    id="association-city"
                                     label="City "
                                     size='small'
-                                    name="org-city"
+                                    name="association-city"
                                     autoComplete='off'
-                                    ref={organizationCityRef}
-                                    onChange={e => organizationCityRef.current = e.target.value}
+                                    ref={associationCityRef}
+                                    onChange={e => associationCityRef.current = e.target.value}
                                 />
                             </Grid>
                             <Grid item xs={12} >
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
-                                        <DatePicker value={startDate} label="Date" size='small' format='LL' onChange={date => setStartDate(date)} />
+                                        <DatePicker value={startDate} label="Start Date" size='small' format='LL' onChange={date => setStartDate(date)} />
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </Grid>
-
+                            <Grid item xs={6} >
+                                <FormGroup>
+                                    <FormControlLabel control={<Switch
+                                        value={isContinue}
+                                        onChange={() => {
+                                            setIsContinue(!isContinue);
+                                        }}
+                                    />} label='Currently Associated' />
+                                </FormGroup>
+                            </Grid>
+                            <Grid item xs={12} >
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DemoContainer components={['DatePicker']}>
+                                        <DatePicker disabled={isContinue} value={endDate} label="End Date" size='small' format='LL' onChange={date => setEndDate(date)} />
+                                    </DemoContainer>
+                                </LocalizationProvider>
+                            </Grid>
 
                             <Grid item xs={12}>
                                 <TextField
                                     required
                                     fullWidth
-                                    id="acc-description"
+                                    id="editorial-description"
                                     label="Description / Responsibilities / Achievements"
                                     size='small'
-                                    name="acc-description"
+                                    name="editorial-description"
                                     autoComplete='off'
                                     multiline
                                     rows={3}
@@ -173,7 +193,7 @@ export default function NewAccreditionExperienceForm({  open, setOpen, addNewAcc
                                 sm: 'row'
                             },
                             gap: 1,
-                            padding:1
+                            padding: 1
                         }}>
                             <Button
                                 fullWidth
@@ -199,7 +219,7 @@ export default function NewAccreditionExperienceForm({  open, setOpen, addNewAcc
                     </Box>
                 </Box>
             </Fade>
-            </Modal>
+        </Modal>
 
 
     );

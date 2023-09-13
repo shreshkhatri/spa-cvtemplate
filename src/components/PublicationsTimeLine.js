@@ -2,19 +2,15 @@ import * as React from 'react';
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import { IconButton, Tooltip } from '@mui/material';
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import { SiResearchgate } from 'react-icons/si';
-import { PUBLICATION_TYPES } from '@/data/data';
+import ItemPublication from './listItems/ItemPublication';
 const _ = require("lodash");
 
 
-export default function PublicationsTimeLine({ publications, deletePublication }) {
+export default function PublicationsTimeLine({ publications, deletePublication,openFormForPublicationEdit }) {
 
   const pubTypesAsObject = _.groupBy(publications, 'type');
   const pubTypesAsArray = Object.getOwnPropertyNames(pubTypesAsObject);
@@ -55,31 +51,7 @@ export default function PublicationsTimeLine({ publications, deletePublication }
                             <TimelineDot color='success' />
                           </TimelineSeparator>
                           <TimelineContent sx={{ paddingBottom: 3 }}>
-
-                            <Typography sx={{ lineHeight: 1.2 }} variant="body2" gutterBottom>
-                              {publication.authors.length !== 0 &&
-                                publication.authors.reduce(
-                                  (acc, author, current_index) => {
-                                    if (!_.isEmpty(author.last_name)) {
-                                      return (
-                                        acc +
-                                        author.last_name[0].toUpperCase() +
-                                        ". " +
-                                        author.first_name +
-                                        " , "
-                                      );
-                                    } else return acc + author.first_name + " , ";
-                                  },
-                                  ""
-                                )} ({publication.publication_date.substring(0, 4)}) {publication.title}
-                              <br></br>
-                              <span style={{ fontStyle: 'italic' }}>{publication.publication_event}, {publication.publication_venue}</span>
-                            </Typography>
-                            <Typography variant="body2" gutterBottom>
-                              <span style={{ fontWeight: 'bold' }}>Abstract</span> <br></br>
-                              {publication.abstract}
-                            </Typography>
-                            <Button variant='outlined' color='error' size='small' onClick={() => deletePublication(publication.publicationID)}>Delete</Button>
+                            <ItemPublication publication={publication} deletePublication={deletePublication} openFormForPublicationEdit={openFormForPublicationEdit}/>
                           </TimelineContent>
                         </TimelineItem>
                       )

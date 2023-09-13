@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
-import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
-import { BsReverseLayoutTextSidebarReverse } from 'react-icons/bs'
 import TextField from '@mui/material/TextField';
 import _ from 'lodash';
 
@@ -30,7 +27,7 @@ export default function CareerSummaryForm({ career_summary, updateCareerSummary,
             flexDirection: 'column',
             width: '100%',
             gap:2
-        }} component={'form'}>
+        }} component={'form'} >
 
             <Typography variant="h6">
                 Career Summary
