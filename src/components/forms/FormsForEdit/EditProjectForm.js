@@ -25,7 +25,8 @@ const style = {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 2,
+    paddingX:10,
+    paddingY:5
 };
 
 
@@ -86,8 +87,8 @@ export default function EditProjectForm({ open, setOpen, project, editProject })
             designation: designation,
             country: projectCountry,
             city: projectCity,
-            start_date: startDate ? startDate.toString().substring(0, 10) : null,
-            end_date: endDate ? endDate.toString().substring(0, 10) : null,
+            start_date: startDate ? startDate.format('YYYY-MM-DD') : null,
+            end_date: endDate ? endDate.format('YYYY-MM-DD') : null,
             isContinue: isContinue,
             description: description
         })
@@ -108,7 +109,7 @@ export default function EditProjectForm({ open, setOpen, project, editProject })
             slotProps={{
                 backdrop: {
                     timeout: 100,
-                },
+                }
             }}
         >
             <Fade in={open}>
@@ -184,8 +185,8 @@ export default function EditProjectForm({ open, setOpen, project, editProject })
                                 <FormGroup>
                                     <FormControlLabel control={<Switch
                                         value={isContinue}
-                                        onChange={() => {
-                                            setIsContinue(!isContinue);
+                                        onChange={(e) => {
+                                            setIsContinue(e.target.checked);
                                         }}
                                     />} label='On-going Project' />
                                 </FormGroup>

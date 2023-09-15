@@ -6,15 +6,16 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Button from '@mui/material/Button';
+import ItemAwardHonor from './listItems/ItemAwardHonor';
 
 
-export default function AwardHonorsTimeLine({ awards_honors, deleteAward }) {
+export default function AwardHonorsTimeLine({ awards_honors, deleteAward, openFormForAwardHonorEdit }) {
     return (
         <Box sx={{
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            minHeight:'20vh'
+            minHeight: '20vh'
         }}>
             {
                 awards_honors.length !== 0 &&
@@ -35,11 +36,7 @@ export default function AwardHonorsTimeLine({ awards_honors, deleteAward }) {
                                     <TimelineDot color='success' />
                                 </TimelineSeparator>
                                 <TimelineContent sx={{ paddingBottom: 3 }}>
-                                    <Typography variant="h6" gutterBottom>
-                                        {award.name} - {award.awarding_body} , {award.award_date}
-                                    </Typography>
-                                    <Typography variant='body2'>{award.description}</Typography>
-                                    <Button variant='outlined' color='error' size='small' onClick={()=> deleteAward(award.award_honor_ID)}>Delete</Button>
+                                    <ItemAwardHonor award={award} deleteAward={deleteAward} openFormForAwardHonorEdit={openFormForAwardHonorEdit} />
                                 </TimelineContent>
                             </TimelineItem>
 

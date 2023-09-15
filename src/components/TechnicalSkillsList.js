@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -9,9 +9,13 @@ import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import ClearIcon from '@mui/icons-material/Clear';
+import ItemTechnicalSkill from './listItems/ItemTechnicalSkill';
 
 
 export default function TechnicalSkillsList({ technical_skills, deleteTechnicalSkill }) {
+
+    const [isMouseOver, setIsMouseOver] = useState(false);
+    
     return (
         <Box sx={{
             display: 'flex',
@@ -24,29 +28,9 @@ export default function TechnicalSkillsList({ technical_skills, deleteTechnicalS
 
             {technical_skills.length !== 0 &&
 
-                <List >
+                <List dense='true' >
                     {
-                        technical_skills.map(skill => {
-
-                            return <ListItem key={skill.skillID}
-                                secondaryAction={
-                                    <IconButton edge="end" aria-label="delete" onClick={() => deleteTechnicalSkill(skill.skillID)}>
-                                        <ClearIcon />
-                                    </IconButton>
-                                }
-                            >
-                                <ListItemAvatar>
-                                    
-                                        <KeyboardArrowRightIcon />
-                                    
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary={skill.skill}
-                                    secondary=''
-                                >
-                                </ListItemText>
-                            </ListItem>
-                        })
+                        technical_skills.map(skill => <ItemTechnicalSkill key={skill.skillID} skill={skill} deleteTechnicalSkill={deleteTechnicalSkill}/>)
                     }
 
                 </List>

@@ -1,5 +1,4 @@
-import {  useState } from 'react';
-import uniqid from 'uniqid';
+import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -15,6 +14,7 @@ import CountrySelector from '../../CountrySelector';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
+import dayjs from 'dayjs';
 
 const style = {
     position: 'absolute',
@@ -29,22 +29,37 @@ const style = {
     paddingX: 10,
 };
 
-export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
+
+export default function EditCommitteeForm({ open, setOpen, committee, editCommittee }) {
+
+    const [committeeName, setCommitteeName] = useState(committee.name);
+    const [designation, setDesignation] = useState(committee.designation);
+    const [committeeCountry, setCommitteeCountry] = useState(committee.country);
+    const [committeeCity, setCommitteeCity] = useState(committee.city);
+    const [startDate, setStartDate] = useState(dayjs(committee.start_date));
+    const [endDate, setEndDate] = useState(dayjs(committee.end_date));
+    const [isContinue, setIsContinue] = useState(committee.isContinue);
+
+
+    // useeffect to work with all committee data under edit mode
+    useEffect(() => {
+        if (committee) {
+          setCommitteeName(committee.name);
+          setDesignation(committee.designation);
+          setCommitteeCountry(committee.country);
+          setCommitteeCity(committee.city);
+          setStartDate(dayjs(committee.start_date));
+          setEndDate(dayjs(committee.end_date));
+          setIsContinue(committee.isContinue);
+        }
+      }, [committee]);
+      
     
-    const [name, setCouncilName] = useState('');
-    const [designation, setDesignation] = useState('');
-    const [councilCountry, setCouncilCountry] = useState(null);
-    const [councilCity, setCouncilCity] = useState('');
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    const [isContinue, setIsContinue] = useState(false);
-
-
-    function resetFields() {
-        setDesignation('')
-        setCouncilName('');
-        setCouncilCountry(null);
-        setCouncilCity('');
+      function resetFields() {
+        setCommitteeName('');
+        setDesignation('');
+        setCommitteeCountry(null);
+        setCommitteeCity('');
         setStartDate(null);
         setEndDate(null);
         setIsContinue(false);
@@ -53,12 +68,12 @@ export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        addNewCouncil({
-            councilID: uniqid(),
-            name: name,
-            designation:designation,
-            country: councilCountry,
-            city: councilCity,
+        editCommittee({
+            committeeID: committee.committeeID,
+            name: committeeName,
+            designation: designation,
+            country: committeeCountry,
+            city: committeeCity,
             start_date: startDate ? startDate.format('YYYY-MM-DD') : null,
             end_date: endDate ? endDate.format('YYYY-MM-DD') : null,
             isContinue: isContinue
@@ -71,8 +86,8 @@ export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
     return (
 
         <Modal
-            aria-labelledby="transition-modal-add-new-council-record"
-            aria-describedby="transition-modal-add-new-council-record"
+            aria-labelledby="transition-modal-add-new-committee-record"
+            aria-describedby="transition-modal-add-new-committee-record"
             open={open}
             onClose={() => setOpen(false)}
             closeAfterTransition
@@ -97,55 +112,52 @@ export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
                     <Box component="form" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} >
-                                <Typography variant='h5'> Council Association Information</Typography>
+                                <Typography variant='h5'> Committees Association Details</Typography>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={12} >
                                 <TextField
                                     autoComplete='off'
-                                    name="council-name"
+                                    name="committee-name"
                                     required
                                     fullWidth
-                                    id="council-name"
-                                    label="Council Name"
+                                    id="committee-name"
+                                    label="Committee Name"
                                     size='small'
-                                    value={name}
-                                    onChange={e => setCouncilName(e.target.value)}
+                                    value={committeeName}
+                                    onChange={e => setCommitteeName(e.target.value)}
                                     autoFocus
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={12} >
                                 <TextField
                                     autoComplete='off'
-                                    name="council-designation"
-                                    
+                                    name="committee-designation"
+                                    required
                                     fullWidth
-                                    id="council-designation"
-                                    label="Designation"
+                                    id="committee-designation"
+                                    label="Committee Designation"
                                     size='small'
                                     value={designation}
                                     onChange={e => setDesignation(e.target.value)}
                                     autoFocus
                                 />
                             </Grid>
-
-                            <Grid item xs={12} sm={6}>
-                                <CountrySelector country={councilCountry} setCountry={setCouncilCountry} />
+                            <Grid item xs={12} sm={6} >
+                                <CountrySelector country={committeeCountry} setCountry={setCommitteeCountry} />
                             </Grid>
-
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     fullWidth
-                                    id="council-city"
+                                    id="committee-city"
                                     label="City"
                                     size='small'
-                                    name="council-city"
+                                    name="committee-city"
                                     autoComplete='off'
-                                    value={councilCity}
-                                    onChange={e => setCouncilCity(e.target.value)}
+                                    value={committeeCity}
+                                    onChange={e => setCommitteeCity(e.target.value)}
                                 />
                             </Grid>
-
-                            <Grid item xs={6}>
+                            <Grid item xs={12} >
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
                                         <DatePicker
@@ -158,20 +170,17 @@ export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </Grid>
-
-                            <Grid item xs={12}>
+                            <Grid item xs={6} >
                                 <FormGroup>
-                                    <FormControlLabel
-                                        control={<Switch
-                                            value={isContinue}
-                                            onChange={(e) => setIsContinue(e.target.checked)}
-                                        />}
-                                        label='Currently associated'
-                                    />
+                                    <FormControlLabel control={<Switch
+                                        value={isContinue}
+                                        onChange={() => {
+                                            setIsContinue(!isContinue);
+                                        }}
+                                    />} label='Currently associated' />
                                 </FormGroup>
                             </Grid>
-
-                            <Grid item xs={6}>
+                            <Grid item xs={12} >
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
                                         <DatePicker
@@ -228,7 +237,6 @@ export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
                 </Box>
             </Fade>
         </Modal>
-
 
     );
 }

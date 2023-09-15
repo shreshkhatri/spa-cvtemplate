@@ -38,7 +38,7 @@ export default function ItemDegree({ degree, deleteEducationDegree, openFormForD
 
                 {!_.isEmpty(degree.grade) && <Typography variant="body2" display='inline' sx={{ fontWeight: 'bold', fontStyle: 'italic' }}> {capitalizeWords(degree.grade)}</Typography>}
 
-                {!_.isEmpty(degree.course_summary) && <Typography variant="body2" sx={{ paddingTop: 1 }} gutterBottom> <i> <b> Summary</b> </i><br></br><pre style={{fontFamily:'inherit'}}> {degree.course_summary}</pre></Typography>}
+                {!_.isEmpty(degree.course_summary) && <Typography variant="body2" sx={{ paddingTop: 1 }} gutterBottom> <em> <strong> Summary</strong> </em><br></br>{degree.course_summary}</Typography>}
 
             </Box>
             <Box sx={{ display:'flex', flexDirection:'row', visibility: isMouseOver ? 'visible' : 'hidden' }}>

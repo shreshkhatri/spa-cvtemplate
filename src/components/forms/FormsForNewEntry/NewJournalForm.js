@@ -22,31 +22,37 @@ const style = {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 2,
+    paddingY: 5,
+    paddingX: 10,
 };
 
 
 
 export default function NewJournalForm({ open, setOpen, addNewJournal }) {
-    const titleRef = useRef('');
+
     const [authors, updateAuthors] = useState([]);
-    const journalRef = useRef('');
-    const volRef = useRef('');
-    const issueRef = useRef('');
-    const pageRangeRef = useRef('');
+
+    const [title, setTitle] = useState('');
+    const [journal, setJournal] = useState('');
+    const [vol, setVol] = useState('');
+    const [issue, setIssue] = useState('');
+    const [pageRange, setPageRange] = useState('');
     const [startDate, setStartDate] = useState(null);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [summary, setSummary] = useState('');
+
 
     function resetFields() {
-        titleRef.current = ''
-        updateAuthors([])
-        journalRef.current = ''
-        volRef.current = ''
-        issueRef.current = ''
-        pageRangeRef.current = ''
-        setStartDate(null)
+        setTitle('');
+        updateAuthors([]);
+        setJournal('');
+        setVol('');
+        setIssue('');
+        setPageRange('');
+        setStartDate(null);
     }
+
 
     // a function to remove the author from the list
     function removeAuthor(authorID) {
@@ -71,16 +77,19 @@ export default function NewJournalForm({ open, setOpen, addNewJournal }) {
             alert('Please add at least one author for the Journal.');
             return;
         }
+
         addNewJournal({
             journalID: uniqid(),
-            title: titleRef.current,
-            journal: journalRef.current,
-            vol: volRef.current,
-            issue: issueRef.current,
-            published_on: JSON.stringify(startDate).substring(1, 11),
-            page_range: pageRangeRef.current,
-            authors: authors
+            title: title,
+            journal: journal,
+            vol: vol,
+            issue: issue,
+            published_on: startDate ? startDate.format('YYYY-MM-DD') : null,
+            page_range: pageRange,
+            authors: authors,
+            summary: summary
         })
+
         resetFields()
         setOpen(false)
     };
@@ -126,9 +135,9 @@ export default function NewJournalForm({ open, setOpen, addNewJournal }) {
                                     id="journal-title"
                                     label="Title"
                                     size='small'
-                                    ref={titleRef}
+                                    value={title}
                                     autoFocus
-                                    onChange={e => titleRef.current = e.target.value}
+                                    onChange={e => setTitle(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12} >
@@ -137,44 +146,56 @@ export default function NewJournalForm({ open, setOpen, addNewJournal }) {
                                     name="journal"
                                     required
                                     fullWidth
-                                    id="conference"
+                                    id="journal"
                                     label="Journal "
                                     size='small'
-                                    ref={journalRef}
+                                    value={journal}
                                     autoFocus
-                                    onChange={e => journalRef.current = e.target.value}
+                                    onChange={e => setJournal(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    id="journal-summary"
+                                    label="Journal Summary ( if available )"
+                                    size='small'
+                                    name="journal-summary"
+                                    autoComplete='off'
+                                    multiline
+                                    rows={3}
+                                    value={summary}
+                                    onChange={e => setSummary(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={6} >
                                 <TextField
                                     autoComplete='off'
                                     name="vol"
-                                    required
+
                                     fullWidth
                                     id="vol"
                                     label="Vol. "
                                     size='small'
-                                    ref={volRef}
+                                    value={vol}
                                     autoFocus
-                                    onChange={e => volRef.current = e.target.value}
+                                    onChange={e => setVol(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={6} >
                                 <TextField
                                     autoComplete='off'
                                     name="issue"
-                                    required
+
                                     fullWidth
                                     id="issue"
                                     label="Issue. "
                                     size='small'
-                                    ref={issueRef}
+                                    value={issue}
                                     autoFocus
-                                    onChange={e => issueRef.current = e.target.value}
+                                    onChange={e => setIssue(e.target.value)}
                                 />
                             </Grid>
-
-
                             <Grid item xs={6}>
                                 <TextField
                                     fullWidth
@@ -183,8 +204,8 @@ export default function NewJournalForm({ open, setOpen, addNewJournal }) {
                                     size='small'
                                     name="page-range"
                                     autoComplete='off'
-                                    ref={pageRangeRef}
-                                    onChange={e => pageRangeRef.current = e.target.value}
+                                    value={pageRange}
+                                    onChange={e => setPageRange(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12} >
@@ -195,6 +216,7 @@ export default function NewJournalForm({ open, setOpen, addNewJournal }) {
                                 </LocalizationProvider>
                             </Grid>
 
+
                         </Grid>
                         <Box sx={{
                             display: 'flex',
@@ -202,7 +224,7 @@ export default function NewJournalForm({ open, setOpen, addNewJournal }) {
                             gap: 1,
                             padding: 1
                         }}>
-                            <Typography variant='h6'>Authors</Typography>
+                            <Typography variant='body1'>Authors</Typography>
 
                             <Box sx={{
                                 display: 'flex',
@@ -235,7 +257,6 @@ export default function NewJournalForm({ open, setOpen, addNewJournal }) {
                                     gap: 1
                                 }}>
                                     <TextField
-                                    fullWidth
                                         autoComplete='off'
                                         name="first-name"
                                         value={firstName}
@@ -252,7 +273,6 @@ export default function NewJournalForm({ open, setOpen, addNewJournal }) {
                                         id="last-name"
                                         label="Last Name"
                                         size='small'
-                                        fullWidth
                                         autoFocus
                                         onChange={e => setLastName(e.target.value)}
 
@@ -268,21 +288,24 @@ export default function NewJournalForm({ open, setOpen, addNewJournal }) {
                                 </Box>
                             </Box>
                         </Box>
-
                         <Box sx={{
                             display: 'flex',
                             flexDirection: {
                                 xs: 'column',
                                 sm: 'row'
                             },
-                            padding: 1,
+                            paddingTop: 1,
                             gap: 1
                         }}>
                             <Button
                                 fullWidth
                                 size='small'
-                                variant="outlined"
-                                color='inherit'
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: 'error.main',
+                                    padding: 1,
+                                    flexGrow: 1
+                                }}
                                 onClick={() => setOpen(false)}
                             >
                                 Cancel
@@ -290,9 +313,13 @@ export default function NewJournalForm({ open, setOpen, addNewJournal }) {
                             <Button
                                 type="submit"
                                 fullWidth
+                                variant="contained"
                                 size='small'
-                                color='success'
-                                variant='outlined'
+                                sx={{
+                                    backgroundColor: 'success.main',
+                                    padding: 1,
+                                    flexGrow: 1
+                                }}
                             >
                                 Add
                             </Button>

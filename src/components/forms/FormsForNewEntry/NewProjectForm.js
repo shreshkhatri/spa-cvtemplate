@@ -25,7 +25,8 @@ const style = {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 2,
+    paddingX:10,
+    paddingY:5
 };
 
 
@@ -72,8 +73,8 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
             designation: designation,
             country: projectCountry,
             city: projectCity,
-            start_date: startDate ? startDate.toISOString().substring(0, 10) : null,
-            end_date: endDate ? endDate.toISOString().substring(0, 10) : null,
+            start_date: startDate ? startDate.format('YYYY-MM-DD') : null,
+            end_date: endDate ? endDate.format('YYYY-MM-DD') : null,
             isContinue: isContinue,
             description: description
         })
@@ -110,7 +111,7 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                 >
 
                     <Box component="form" onSubmit={handleSubmit} >
-                        <Grid container spacing={2}>
+                        <Grid container spacing={1}>
                             <Grid item xs={12} >
                                 <Typography variant='h5'> Project Details</Typography>
                             </Grid>
@@ -170,8 +171,8 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                                 <FormGroup>
                                     <FormControlLabel control={<Switch
                                         value={isContinue}
-                                        onChange={() => {
-                                            setIsContinue(!isContinue);
+                                        onChange={(e) => {
+                                            setIsContinue(e.target.checked);
                                         }}
                                     />} label='On-going Project' />
                                 </FormGroup>

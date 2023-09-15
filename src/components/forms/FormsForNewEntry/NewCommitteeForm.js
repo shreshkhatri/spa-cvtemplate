@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import {  useState } from 'react';
 import uniqid from 'uniqid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -25,41 +25,45 @@ const style = {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 2,
+    paddingY: 5,
+    paddingX: 10,
 };
 
 
 export default function NewCommitteeForm({ open, setOpen, addNewCommittee }) {
-    const committeeNameRef = useRef('');
-    const designationRef = useRef('');
+
+    const [committeeName, setCommitteeName] = useState('');
+    const [designation, setDesignation] = useState('');
     const [committeeCountry, setCommitteeCountry] = useState(null);
-    const committeeCityRef = useRef('');
+    const [committeeCity, setCommitteeCity] = useState('');
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [isContinue, setIsContinue] = useState(false);
 
-    function resetFields(){
-        committeeNameRef.current=''
-        designationRef.current = ''
-        setCommitteeCountry(null)
-        committeeCityRef.current = ''
-        setStartDate(null)
-        setEndDate(null)
-        setIsContinue(false)
+    function resetFields() {
+        setCommitteeName('');
+        setDesignation('');
+        setCommitteeCountry(null);
+        setCommitteeCity('');
+        setStartDate(null);
+        setEndDate(null);
+        setIsContinue(false);
     }
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
         addNewCommittee({
             committeeID: uniqid(),
-            name: committeeNameRef.current,
-            designation: designationRef.current,
+            name: committeeName,
+            designation: designation,
             country: committeeCountry,
-            city: committeeCityRef.current,
-            start_date: JSON.stringify(startDate).substring(1, 11),
-            end_date: JSON.stringify(endDate).substring(1, 11),
+            city: committeeCity,
+            start_date: startDate ? startDate.format('YYYY-MM-DD') : null,
+            end_date: endDate ? endDate.format('YYYY-MM-DD') : null,
             isContinue: isContinue
-        })
+        });
+
         resetFields()
         setOpen(false)
     };
@@ -67,32 +71,32 @@ export default function NewCommitteeForm({ open, setOpen, addNewCommittee }) {
     return (
 
         <Modal
-        aria-labelledby="transition-modal-add-new-experience-record"
-        aria-describedby="transition-modal-add-new-education-record"
-        open={open}
-        onClose={() => setOpen(false)}
-        closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{
-            backdrop: {
-                timeout: 100,
-            },
-        }}
-    >
-        <Fade in={open}>
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    width: 'inherit',
-                    overflowY: 'scroll',
-                    ...style
-                }}
-            >
+            aria-labelledby="transition-modal-add-new-committee-record"
+            aria-describedby="transition-modal-add-new-committee-record"
+            open={open}
+            onClose={() => setOpen(false)}
+            closeAfterTransition
+            slots={{ backdrop: Backdrop }}
+            slotProps={{
+                backdrop: {
+                    timeout: 100,
+                },
+            }}
+        >
+            <Fade in={open}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        width: 'inherit',
+                        overflowY: 'scroll',
+                        ...style
+                    }}
+                >
                     <Box component="form" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
-                        <Grid item xs={12} >
+                            <Grid item xs={12} >
                                 <Typography variant='h5'> Committees Association Details</Typography>
                             </Grid>
                             <Grid item xs={12} >
@@ -104,9 +108,9 @@ export default function NewCommitteeForm({ open, setOpen, addNewCommittee }) {
                                     id="committee-name"
                                     label="Committee Name"
                                     size='small'
-                                    ref={committeeNameRef}
+                                    value={committeeName}
+                                    onChange={e => setCommitteeName(e.target.value)}
                                     autoFocus
-                                    onChange={e => committeeNameRef.current = e.target.value}
                                 />
                             </Grid>
                             <Grid item xs={12} >
@@ -118,12 +122,11 @@ export default function NewCommitteeForm({ open, setOpen, addNewCommittee }) {
                                     id="committee-designation"
                                     label="Committee Designation"
                                     size='small'
-                                    ref={designationRef}
+                                    value={designation}
+                                    onChange={e => setDesignation(e.target.value)}
                                     autoFocus
-                                    onChange={e => designationRef.current = e.target.value}
                                 />
                             </Grid>
-
                             <Grid item xs={12} sm={6} >
                                 <CountrySelector country={committeeCountry} setCountry={setCommitteeCountry} />
                             </Grid>
@@ -131,18 +134,24 @@ export default function NewCommitteeForm({ open, setOpen, addNewCommittee }) {
                                 <TextField
                                     fullWidth
                                     id="committee-city"
-                                    label="City "
+                                    label="City"
                                     size='small'
                                     name="committee-city"
                                     autoComplete='off'
-                                    ref={committeeCityRef}
-                                    onChange={e => committeeCityRef.current = e.target.value}
+                                    value={committeeCity}
+                                    onChange={e => setCommitteeCity(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12} >
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
-                                        <DatePicker value={startDate} label="Start Date" size='small' format='LL' onChange={date => setStartDate(date)} />
+                                        <DatePicker
+                                            value={startDate}
+                                            label="Start Date"
+                                            size='small'
+                                            format='LL'
+                                            onChange={date => setStartDate(date)}
+                                        />
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </Grid>
@@ -159,10 +168,18 @@ export default function NewCommitteeForm({ open, setOpen, addNewCommittee }) {
                             <Grid item xs={12} >
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
-                                        <DatePicker disabled={isContinue} value={endDate} label="End Date" size='small' format='LL' onChange={date => setEndDate(date)} />
+                                        <DatePicker
+                                            disabled={isContinue}
+                                            value={endDate}
+                                            label="End Date"
+                                            size='small'
+                                            format='LL'
+                                            onChange={date => setEndDate(date)}
+                                        />
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </Grid>
+
                         </Grid>
 
                         <Box sx={{
@@ -171,14 +188,18 @@ export default function NewCommitteeForm({ open, setOpen, addNewCommittee }) {
                                 xs: 'column',
                                 sm: 'row'
                             },
-                            paddingTop: 2,
+                            paddingTop: 1,
                             gap: 1
                         }}>
                             <Button
                                 fullWidth
                                 size='small'
-                                variant="outlined"
-                                color='inherit'
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: 'error.main',
+                                    padding: 1,
+                                    flexGrow: 1
+                                }}
                                 onClick={() => setOpen(false)}
                             >
                                 Cancel
@@ -186,16 +207,20 @@ export default function NewCommitteeForm({ open, setOpen, addNewCommittee }) {
                             <Button
                                 type="submit"
                                 fullWidth
+                                variant="contained"
                                 size='small'
-                                color='success'
-                                variant='outlined'
+                                sx={{
+                                    backgroundColor: 'success.main',
+                                    padding: 1,
+                                    flexGrow: 1
+                                }}
                             >
                                 Add
                             </Button>
                         </Box>
                     </Box>
                 </Box>
-                </Fade>
+            </Fade>
         </Modal>
 
     );

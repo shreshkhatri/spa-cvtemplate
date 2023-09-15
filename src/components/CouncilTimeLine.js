@@ -6,12 +6,10 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Button from '@mui/material/Button';
-import { AiOutlineDelete } from 'react-icons/ai';
-import { GiGraduateCap } from 'react-icons/gi';
-import { IconButton, Tooltip } from '@mui/material';
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import ItemCouncil from './listItems/ItemCouncil';
 
-export default function CouncilTimeLine({ councils, deleteCouncil }) {
+
+export default function CouncilTimeLine({ councils, deleteCouncil ,openFormForCouncilEdit}) {
     return (
         <Box sx={{
             display: 'flex',
@@ -38,18 +36,7 @@ export default function CouncilTimeLine({ councils, deleteCouncil }) {
                                     <TimelineDot color='success' />
                                 </TimelineSeparator>
                                 <TimelineContent sx={{ paddingBottom: 3 }}>
-                                    <Typography
-                                        sx={{ m: 'auto 0' }}
-                                        variant="body2"
-                                        color="text.secondary"
-                                    >
-                                        {council.start_date} - {council.isContinue ? "continue" : council.end_date}
-                                    </Typography>
-
-                                    <Typography variant="h6" gutterBottom>
-                                        {council.name} , {council.city} , {council.country.label}
-                                    </Typography>
-                                    <Button variant='outlined' color='error' size='small' onClick={() => deleteCouncil(council.councilID)}>Delete</Button>
+                                    <ItemCouncil council={council} deleteCouncil={deleteCouncil} openFormForCouncilEdit={openFormForCouncilEdit}/>
                                 </TimelineContent>
                             </TimelineItem>
 

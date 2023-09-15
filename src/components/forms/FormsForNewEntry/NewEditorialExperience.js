@@ -25,45 +25,47 @@ const style = {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 2,
+    paddingY: 5,
+    paddingX: 10,
 };
 
 export default function NewEditorialExperienceForm({ open, setOpen, addNewEditorialExperience }) {
-    const roleRef = useRef('');
-    const associationRef = useRef('');
+    const [role, setRole] = useState('');
+    const [association, setAssociation] = useState('');
     const [associationCountry, setAssociationCountry] = useState(null);
-    const associationCityRef = useRef('');
+    const [associationCity, setAssociationCity] = useState('');
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [isContinue, setIsContinue] = useState(false);
+    const [description, setDescription] = useState('');
 
-    const descriptionRef = useRef([]);
-
-    function resetFields(){
-        roleRef.current='',
-        associationRef.current='',
-        setAssociationCountry(null),
-        associationCityRef.current='',
-        setStartDate(null),
-        setEndDate(null),
-        setIsContinue(false),
-        descriptionRef.current=''
+    function resetFields() {
+        setRole('');
+        setAssociation('');
+        setAssociationCountry(null);
+        setAssociationCity('');
+        setStartDate(null);
+        setEndDate(null);
+        setIsContinue(false);
+        setDescription('');
     }
+
 
 
     const handleSubmit = (event) => {
         event.preventDefault();
         addNewEditorialExperience({
             experienceID: uniqid(),
-            role: roleRef.current,
-            association: associationRef.current,
+            role: role,
+            association: association,
             country: associationCountry,
-            city: associationCityRef.current,
-            start_date: startDate ? JSON.stringify(startDate).substring(1, 11) : '',
-            end_date: endDate ? JSON.stringify(endDate).substring(1, 11) : '',
+            city: associationCity,
+            start_date: startDate ? startDate.format('YYYY-MM-DD') : null,
+            end_date: endDate ? endDate.format('YYYY-MM-DD') : null,
             isContinue: isContinue,
-            description: descriptionRef.current
-        })
+            description: description
+        });
+
         resetFields();
         setOpen(false);
     };
@@ -100,7 +102,7 @@ export default function NewEditorialExperienceForm({ open, setOpen, addNewEditor
                             <Grid item xs={12} >
                                 <Typography variant='h5'> New Editorial Experience</Typography>
                             </Grid>
-                            <Grid item xs={12} >
+                            <Grid item xs={12}>
                                 <TextField
                                     autoComplete='off'
                                     name="editorial-role"
@@ -109,12 +111,12 @@ export default function NewEditorialExperienceForm({ open, setOpen, addNewEditor
                                     id="editorial-role"
                                     label="Role / Designation"
                                     size='small'
-                                    ref={roleRef}
+                                    value={role}
                                     autoFocus
-                                    onChange={e => roleRef.current = e.target.value}
+                                    onChange={e => setRole(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={12} >
+                            <Grid item xs={12}>
                                 <TextField
                                     required
                                     fullWidth
@@ -123,54 +125,51 @@ export default function NewEditorialExperienceForm({ open, setOpen, addNewEditor
                                     size='small'
                                     name="editorial-organization"
                                     autoComplete='off'
-                                    ref={associationRef}
-                                    onChange={e => associationRef.current = e.target.value}
+                                    value={association}
+                                    onChange={e => setAssociation(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6} >
+                            <Grid item xs={12} sm={6}>
                                 <CountrySelector country={associationCountry} setCountry={setAssociationCountry} />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    required
                                     fullWidth
                                     id="association-city"
-                                    label="City "
+                                    label="City"
                                     size='small'
                                     name="association-city"
                                     autoComplete='off'
-                                    ref={associationCityRef}
-                                    onChange={e => associationCityRef.current = e.target.value}
+                                    value={associationCity}
+                                    onChange={e => setAssociationCity(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={12} >
+                            <Grid item xs={12}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
                                         <DatePicker value={startDate} label="Start Date" size='small' format='LL' onChange={date => setStartDate(date)} />
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </Grid>
-                            <Grid item xs={6} >
+                            <Grid item xs={6}>
                                 <FormGroup>
                                     <FormControlLabel control={<Switch
                                         value={isContinue}
-                                        onChange={() => {
-                                            setIsContinue(!isContinue);
+                                        onChange={(e) => {
+                                            setIsContinue(e.target.checked);
                                         }}
                                     />} label='Currently Associated' />
                                 </FormGroup>
                             </Grid>
-                            <Grid item xs={12} >
+                            <Grid item xs={12}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
                                         <DatePicker disabled={isContinue} value={endDate} label="End Date" size='small' format='LL' onChange={date => setEndDate(date)} />
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </Grid>
-
                             <Grid item xs={12}>
                                 <TextField
-                                    required
                                     fullWidth
                                     id="editorial-description"
                                     label="Description / Responsibilities / Achievements"
@@ -179,10 +178,11 @@ export default function NewEditorialExperienceForm({ open, setOpen, addNewEditor
                                     autoComplete='off'
                                     multiline
                                     rows={3}
-                                    ref={descriptionRef}
-                                    onChange={e => descriptionRef.current = e.target.value}
+                                    value={description}
+                                    onChange={e => setDescription(e.target.value)}
                                 />
                             </Grid>
+
 
                         </Grid>
 
@@ -198,8 +198,12 @@ export default function NewEditorialExperienceForm({ open, setOpen, addNewEditor
                             <Button
                                 fullWidth
                                 size='small'
-                                variant="outlined"
-                                color='inherit'
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: 'error.main',
+                                    padding: 1,
+                                    flexGrow: 1
+                                }}
                                 onClick={() => setOpen(false)}
                             >
                                 Cancel
@@ -207,9 +211,13 @@ export default function NewEditorialExperienceForm({ open, setOpen, addNewEditor
                             <Button
                                 type="submit"
                                 fullWidth
+                                variant="contained"
                                 size='small'
-                                color='success'
-                                variant='outlined'
+                                sx={{
+                                    backgroundColor: 'success.main',
+                                    padding: 1,
+                                    flexGrow: 1
+                                }}
                             >
                                 Add
                             </Button>

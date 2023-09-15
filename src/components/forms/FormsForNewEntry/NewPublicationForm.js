@@ -24,7 +24,8 @@ const style = {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 2,
+    paddingX:10,
+    paddingY:5
 };
 
 export default function NewPublicationForm({ open, setOpen, addNewPublication }) {

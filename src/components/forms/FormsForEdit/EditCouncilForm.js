@@ -1,5 +1,4 @@
-import {  useState } from 'react';
-import uniqid from 'uniqid';
+import {  useState , useEffect} from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -15,6 +14,7 @@ import CountrySelector from '../../CountrySelector';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
+import dayjs from 'dayjs';
 
 const style = {
     position: 'absolute',
@@ -29,20 +29,30 @@ const style = {
     paddingX: 10,
 };
 
-export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
-    
-    const [name, setCouncilName] = useState('');
+export default function EditCouncilForm({ open, setOpen, council, editCouncil }) {
+    const [name, setCouncilName] = useState(council.name);
     const [designation, setDesignation] = useState('');
-    const [councilCountry, setCouncilCountry] = useState(null);
-    const [councilCity, setCouncilCity] = useState('');
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    const [isContinue, setIsContinue] = useState(false);
+    const [councilCountry, setCouncilCountry] = useState(council.country);
+    const [councilCity, setCouncilCity] = useState(council.city);
+    const [startDate, setStartDate] = useState(dayjs(council.start_date));
+    const [endDate, setEndDate] = useState(dayjs(council.end_date));
+    const [isContinue, setIsContinue] = useState(council.isContinue);
 
 
+    //so that the form updates its state and UI with the change in data
+    useEffect(() => {
+        setCouncilName(council.name);
+        setDesignation(council.designation)
+        setCouncilCountry(council.country);
+        setCouncilCity(council.city);
+        setStartDate(dayjs(council.start_date));
+        setEndDate(dayjs(council.end_date));
+        setIsContinue(council.isContinue);
+      }, [council]);
+      
     function resetFields() {
-        setDesignation('')
         setCouncilName('');
+        setDesignation('')
         setCouncilCountry(null);
         setCouncilCity('');
         setStartDate(null);
@@ -53,8 +63,8 @@ export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        addNewCouncil({
-            councilID: uniqid(),
+        editCouncil({
+            councilID: council.councilID,
             name: name,
             designation:designation,
             country: councilCountry,

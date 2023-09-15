@@ -1,74 +1,53 @@
-import * as React from 'react';
+
 import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
-import ClearIcon from '@mui/icons-material/Clear';
-import { IconButton, Tooltip } from '@mui/material';
-import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import Timeline from '@mui/lab/Timeline';
+import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import TimelineContent from '@mui/lab/TimelineContent';
+import TimelineDot from '@mui/lab/TimelineDot';
 import Typography from '@mui/material/Typography';
-import DeleteIcon from '@mui/icons-material/Delete';
+import ItemJournal from './listItems/ItemJournal';
 
 
-export default function JournalsList({ journals, deleteJournal }) {
+export default function JournalsList({ journals, deleteJournal ,openFormForJournalEdit}) {
     return (
         <Box sx={{
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            minHeight:'20vh'
+            minHeight: '20vh'
         }}>
-            {journals.length == 0 && <Typography align='center'>No journals added yet. <br></br> Start adding new journal by clicking Add button above.</Typography>}
 
-            {journals.length !== 0 &&
+            {
+                journals.length !== 0 &&
+                <Timeline
+                    sx={{
+                        [`& .${timelineItemClasses.root}:before`]: {
+                            flex: 0,
+                            padding: 2,
+                        },
+                    }}
+                >
 
-                <List >
                     {
-                        journals.map(journal => {
+                        journals.map((journal) => {
+                            return <TimelineItem key={journal.journalID}>
 
-                            return <ListItem key={journal.journalID}
-                                secondaryAction={
-                                    <IconButton edge="end" aria-label="delete" onClick={() => deleteJournal(journal.journalID)}>
-                                        <ClearIcon />
-                                    </IconButton>
-                                }
-                            >
-                                <ListItemAvatar>
+                                <TimelineSeparator>
+                                    <TimelineDot color='success' />
+                                </TimelineSeparator>
+                                <TimelineContent sx={{ paddingBottom: 1 }}>
+                                    <ItemJournal journal={journal} deleteJournal={deleteJournal} openFormForJournalEdit={openFormForJournalEdit}/>
+                                </TimelineContent>
+                            </TimelineItem>
 
-                                    <WorkspacePremiumIcon />
-
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary={
-                                        journal.authors.reduce(
-                                            (acc, author, current_index) => {
-                                                if (!_.isEmpty(author.last_name)) {
-                                                    return (
-                                                        acc +
-                                                        author.last_name[0].toUpperCase() +
-                                                        ". " +
-                                                        author.first_name +
-                                                        " , "
-                                                    );
-                                                } else return acc + author.first_name + " , ";
-                                            },
-                                            ""
-                                        ) + " , " + journal.title + " , " + journal.journal + ", pages " + journal.page_range + " , " + journal.published_on.substring(0, 4)}
-
-                                    secondary=''
-                                >
-                                </ListItemText>
-                            </ListItem>
 
                         })
                     }
-
-                </List>
+                </Timeline>
             }
+
+            {journals.length == 0 && <Typography align='center'>No journals added yet. <br></br> Start adding new journal by clicking Add button above.</Typography>}
         </Box>
-
-
-    );
+    )
 }
-

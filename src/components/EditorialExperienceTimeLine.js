@@ -3,17 +3,13 @@ import Typography from '@mui/material/Typography';
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
-import Button from '@mui/material/Button';
-import { HiOutlineBriefcase } from 'react-icons/hi';
-import { IconButton, Tooltip } from '@mui/material';
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import ItemEditorial from './listItems/ItemEditorial';
 
 
 
-export default function EditorialExperienceTimeLine({ editorial_experience, deleteEditorialExperience }) {
+export default function EditorialExperienceTimeLine({ editorial_experience, deleteEditorialExperience, openFormForEditorialExperienceEdit }) {
     return (
         <Box sx={{
             display: 'flex',
@@ -41,26 +37,7 @@ export default function EditorialExperienceTimeLine({ editorial_experience, dele
                                     
                                 </TimelineSeparator>
                                 <TimelineContent sx={{ paddingBottom: 3 }}>
-                                    <Typography
-                                        sx={{ m: 'auto 0' }}
-                                        variant="body2"
-                                        color="text.secondary"
-                                    >
-                                        {experience.start_date.length !== 0 ? experience.start_date : 'N/A'} - {experience.isContinue ? "continue" : (experience.end_date.length !== 0 ? experience.end_date : 'N/A')}
-                                    </Typography>
-
-                                    <Typography variant="h6" gutterBottom>
-                                        {experience.role} | {experience.association}
-                                    </Typography>
-                                    <Typography variant="body2" gutterBottom>
-                                        {experience.city} {experience.country ? ' ,' + experience.country.label : ''}
-                                    </Typography>
-
-                                    <Typography variant="body2" gutterBottom>
-                                        {experience.description}
-                                    </Typography>
-
-                                    <Button variant='outlined' color='error' size='small' onClick={() => deleteEditorialExperience(experience.experienceID)}>Delete</Button>
+                                    <ItemEditorial experience={experience} deleteEditorialExperience={deleteEditorialExperience} openFormForEditorialExperienceEdit={openFormForEditorialExperienceEdit} />
                                 </TimelineContent>
                             </TimelineItem>
 

@@ -25,7 +25,8 @@ const style = {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 2,
+    paddingY:5,
+    paddingX: 10,
 };
 
 export default function NewWorkExperienceForm({ open, setOpen, addNewWorkExperience }) {
@@ -75,8 +76,8 @@ export default function NewWorkExperienceForm({ open, setOpen, addNewWorkExperie
             employer: employer,
             country: employerCountry,
             city: employerCity,
-            start_date: startDate ? startDate.toISOString().substring(0, 10) : null,
-            end_date: endDate ? endDate.toISOString().substring(0, 10) : null,
+            start_date: startDate ? startDate.format('YYYY-MM-DD') : null,
+            end_date: endDate ? endDate.format('YYYY-MM-DD') : null,
             isContinue: isContinue,
             duties_responsibilities: dutiesResponsibilities,
             achievements: achievements,
@@ -170,8 +171,8 @@ export default function NewWorkExperienceForm({ open, setOpen, addNewWorkExperie
                                 <FormGroup>
                                     <FormControlLabel control={<Switch
                                         value={isContinue}
-                                        onChange={() => {
-                                            setIsContinue(!isContinue);
+                                        onChange={(e) => {
+                                            setIsContinue(e.target.checked);
                                         }}
                                     />} label='Currently work here' />
                                 </FormGroup>

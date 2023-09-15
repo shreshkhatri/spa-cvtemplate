@@ -25,7 +25,8 @@ const style = {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 2,
+    paddingY:5,
+    paddingX: 10,
 };
 
 
@@ -77,8 +78,8 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
             degree: degree,
             country: institutionCountry,
             city: institutionCity,
-            start_date: startDate ? startDate.toISOString().substring(0, 10) : null,
-            end_date: endDate ? endDate.toISOString().substring(0, 10) : null,
+            start_date: startDate ? startDate.format('YYYY-MM-DD') : null,
+            end_date: endDate ? endDate.format('YYYY-MM-DD') : null,
             isContinue: isContinue,
             grade: degreeGrade,
             course_summary: courseSummary
@@ -175,8 +176,8 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                                 <FormGroup>
                                     <FormControlLabel control={<Switch
                                         value={isContinue}
-                                        onChange={() => {
-                                            setIsContinue(!isContinue);
+                                        onChange={(e) => {
+                                            setIsContinue(e.target.checked);
                                         }}
                                     />} label='Ongoing course' />
                                 </FormGroup>

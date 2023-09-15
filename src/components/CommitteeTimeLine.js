@@ -5,11 +5,10 @@ import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
-import Button from '@mui/material/Button';
-import { isNull } from 'lodash';
+import ItemCommittee from './listItems/ItemCommittee';
 
 
-export default function CommitteeTimeLine({ committees, deleteCommittee }) {
+export default function CommitteeTimeLine({ committees, deleteCommittee, openFormForCommitteeEdit }) {
     return (
         <Box sx={{
             display: 'flex',
@@ -36,19 +35,7 @@ export default function CommitteeTimeLine({ committees, deleteCommittee }) {
                                     <TimelineDot color='success' />
                                 </TimelineSeparator>
                                 <TimelineContent sx={{ paddingBottom: 3 }}>
-                                    <Typography
-                                        sx={{ m: 'auto 0' }}
-                                        variant="body2"
-                                        color="text.secondary"
-                                    >
-                                        {committee.start_date} - {committee.isContinue ? "continue" : committee.end_date}
-                                    </Typography>
-
-                                    <Typography variant="h6" gutterBottom>
-                                    {committee.designation}, {committee.name} , {committee.city} , {_.isNull(committee.country)?'': committee.country.label}
-                                    </Typography>
-                                    
-                                    <Button variant='outlined' color='error' size='small' onClick={()=> deleteCommittee(committee.committeeID)}>Delete</Button>
+                                    <ItemCommittee committee={committee} deleteCommittee={deleteCommittee} openFormForCommitteeEdit={openFormForCommitteeEdit}/>
                                 </TimelineContent>
                             </TimelineItem>
 

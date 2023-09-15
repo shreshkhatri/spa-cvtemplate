@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import uniqid from 'uniqid';
+import { useState,useEffect } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -9,12 +8,10 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { FormGroup, FormControlLabel } from '@mui/material';
-import Switch from '@mui/material/Switch';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-import CountrySelector from '../../CountrySelector';
+import dayjs from 'dayjs';
 
 const style = {
     position: 'absolute',
@@ -29,39 +26,37 @@ const style = {
     paddingX: 10,
 };
 
-export default function NewMembershipForm({ open, setOpen, addNewMembership }) {
 
-    const [organizationName, setOrganizationName] = useState('');
-    const [membershipType, setMembershipType] = useState('');
-    const [organizationCountry, setOrganizationCountry] = useState(null);
-    const [organizationCity, setOrganizationCity] = useState('');
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    const [isContinue, setIsContinue] = useState(false);
+export default function EditAwardHonorForm({ open, setOpen, award ,editAwardHonor }) {
+    const [awardName, setAwardName] = useState(award.name);
+    const [organization, setOrganization] = useState(award.awarding_body);
+    const [awardDescription, setAwardDescription] = useState(award.description);
+    const [awardDate, setAwardDate] = useState(dayjs(award.award_date));
+
+    
+    useEffect(() => {
+        setAwardName(award.name);
+        setOrganization(award.awarding_body);
+        setAwardDescription(award.description);
+        setAwardDate(dayjs(award.award_date));
+    }, [award]);
+    
 
     function resetFields() {
-        setOrganizationName('');
-        setMembershipType('');
-        setStartDate(null);
-        setEndDate(null);
-        setIsContinue(false);
-        setOrganizationCountry(null);
-        setOrganizationCity('');
+        setAwardName('')
+        setOrganization('')
+        setAwardDate(null)
+        setAwardDescription('')
     }
-
-
     const handleSubmit = (event) => {
-        event.preventDefault();
-        addNewMembership({
-            membershipID: uniqid(),
-            organization: organizationName,
-            membership_type: membershipType,
-            country: organizationCountry,
-            city: organizationCity,
-            start_date: startDate ? startDate.format('YYYY-MM-DD') : null,
-            end_date: endDate ? endDate.format('YYYY-MM-DD') : null,
-            isContinue: isContinue
-        });
+        event.preventDefault()
+        editAwardHonor({
+            award_honor_ID: award.award_honor_ID,
+            name: awardName,
+            awarding_body: organization,
+            award_date: awardDate ? awardDate.format('YYYY-MM-DD') : null,
+            description: awardDescription,
+        })
 
         resetFields()
         setOpen(false)
@@ -69,8 +64,8 @@ export default function NewMembershipForm({ open, setOpen, addNewMembership }) {
 
     return (
         <Modal
-            aria-labelledby="transition-modal-add-new-membership-record"
-            aria-describedby="transition-modal-add-new-membership-record"
+            aria-labelledby="transition-modal-add-award-record"
+            aria-describedby="transition-modal-add-award-record"
             open={open}
             onClose={() => setOpen(false)}
             closeAfterTransition
@@ -95,76 +90,60 @@ export default function NewMembershipForm({ open, setOpen, addNewMembership }) {
                     <Box component="form" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} >
-                                <Typography variant='h6'>Membership Information</Typography>
+                                <Typography variant='h6'>Award Details</Typography>
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
                                     autoComplete='off'
-                                    name="organization-name"
+                                    name="award-name"
                                     required
                                     fullWidth
-                                    id="organization-name"
-                                    label="Organization Name"
+                                    id="award-name"
+                                    label="Award / Honor"
                                     size='small'
-                                    value={organizationName}
-                                    autoFocus
-                                    onChange={e => setOrganizationName(e.target.value)}
+                                    value={awardName}
+                                    onChange={e => setAwardName(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
                                     autoComplete='off'
-                                    name="membership-type"
+                                    name="awarding-body"
                                     required
                                     fullWidth
-                                    id="membership-type"
-                                    label="Membership Type / Role"
+                                    id="awarding-body"
+                                    label="Awarding Body"
                                     size='small'
-                                    value={membershipType}
-                                    autoFocus
-                                    onChange={e => setMembershipType(e.target.value)}
+                                    value={organization}
+                                    onChange={e => setOrganization(e.target.value)}
                                 />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <CountrySelector country={organizationCountry} setCountry={setOrganizationCountry} />
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
+
+                            <Grid item xs={12}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DemoContainer components={['DatePicker']}>
+                                        <DatePicker value={awardDate} label="Award Date" size='small' format='LL' onChange={date => setAwardDate(date)} />
+                                    </DemoContainer>
+                                </LocalizationProvider>
+                            </Grid>
+
+                            <Grid item xs={12}>
                                 <TextField
-                                    fullWidth
-                                    id="council-city"
-                                    label="City"
-                                    size='small'
-                                    name="council-city"
                                     autoComplete='off'
-                                    value={organizationCity}
-                                    onChange={e => setOrganizationCity(e.target.value)}
+                                    name="awarding-description"
+                                    fullWidth
+                                    id="awarding-description"
+                                    label="Awarding Description"
+                                    size='small'
+                                    value={awardDescription}
+                                    multiline
+                                    minRows={6}
+                                    onChange={e => setAwardDescription(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['DatePicker']}>
-                                        <DatePicker value={startDate} label="Start Date" size='small' format='LL' onChange={date => setStartDate(date)} />
-                                    </DemoContainer>
-                                </LocalizationProvider>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <FormGroup>
-                                    <FormControlLabel control={<Switch
-                                        value={isContinue}
-                                        onChange={(e) => {
-                                            setIsContinue(e.target.checked);
-                                        }}
-                                    />} label='Currently associated' />
-                                </FormGroup>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['DatePicker']}>
-                                        <DatePicker disabled={isContinue} value={endDate} label="End Date" size='small' format='LL' onChange={date => setEndDate(date)} />
-                                    </DemoContainer>
-                                </LocalizationProvider>
-                            </Grid>
+
+
 
                         </Grid>
 
@@ -208,5 +187,6 @@ export default function NewMembershipForm({ open, setOpen, addNewMembership }) {
                 </Box>
             </Fade>
         </Modal>
+
     );
 }

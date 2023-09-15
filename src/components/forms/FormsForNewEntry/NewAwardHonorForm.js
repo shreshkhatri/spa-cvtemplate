@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import uniqid from 'uniqid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -22,32 +22,36 @@ const style = {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 2,
+    paddingY: 5,
+    paddingX: 10,
 };
 
 
 export default function NewAwardHonorForm({ open, setOpen, addNewAwardHonor }) {
-    const awardNameRef = useRef('');
-    const organizationRef = useRef('');
-    const awardDescriptionRef = useRef('');
+    const [awardName, setAwardName] = useState('');
+    const [organization, setOrganization] = useState('');
+    const [awardDescription, setAwardDescription] = useState('');
+
     const [awardDate, setAwardDate] = useState(null);
 
     function resetFields() {
-        awardNameRef.current = ''
-        organizationRef.current = ''
+        setAwardName('')
+        setOrganization('')
         setAwardDate(null)
-        awardDescriptionRef.current = ''
+        setAwardDescription('')
     }
 
+
     const handleSubmit = (event) => {
-        event.preventDefault();
+        event.preventDefault()
         addNewAwardHonor({
             award_honor_ID: uniqid(),
-            name: awardNameRef.current,
-            awarding_body: organizationRef.current,
-            award_date: JSON.stringify(awardDate).substring(1, 11),
-            description: awardDescriptionRef.current,
+            name: awardName,
+            awarding_body: organization,
+            award_date: awardDate ? awardDate.format('YYYY-MM-DD') : null,
+            description: awardDescription,
         })
+
         resetFields()
         setOpen(false)
     };
@@ -82,7 +86,7 @@ export default function NewAwardHonorForm({ open, setOpen, addNewAwardHonor }) {
                             <Grid item xs={12} >
                                 <Typography variant='h6'>Award Details</Typography>
                             </Grid>
-                            <Grid item xs={12} >
+                            <Grid item xs={12}>
                                 <TextField
                                     autoComplete='off'
                                     name="award-name"
@@ -91,12 +95,11 @@ export default function NewAwardHonorForm({ open, setOpen, addNewAwardHonor }) {
                                     id="award-name"
                                     label="Award / Honor"
                                     size='small'
-                                    ref={awardNameRef}
-                                    autoFocus
-                                    onChange={e => awardNameRef.current = e.target.value}
+                                    value={awardName}
+                                    onChange={e => setAwardName(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={12} >
+                            <Grid item xs={12}>
                                 <TextField
                                     autoComplete='off'
                                     name="awarding-body"
@@ -105,36 +108,36 @@ export default function NewAwardHonorForm({ open, setOpen, addNewAwardHonor }) {
                                     id="awarding-body"
                                     label="Awarding Body"
                                     size='small'
-                                    ref={organizationRef}
-                                    autoFocus
-                                    onChange={e => organizationRef.current = e.target.value}
+                                    value={organization}
+                                    onChange={e => setOrganization(e.target.value)}
                                 />
                             </Grid>
 
-                            <Grid item xs={12} >
-                                <TextField
-                                    autoComplete='off'
-                                    name="awarding-description"
-                                    required
-                                    fullWidth
-                                    id="awarding-description"
-                                    label="Awarding Description"
-                                    size='small'
-                                    ref={awardDescriptionRef}
-                                    autoFocus
-                                    multiline
-                                    minRows={6}
-                                    onChange={e => awardDescriptionRef.current = e.target.value}
-                                />
-                            </Grid>
 
-                            <Grid item xs={12} >
+                            <Grid item xs={12}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
                                         <DatePicker value={awardDate} label="Award Date" size='small' format='LL' onChange={date => setAwardDate(date)} />
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </Grid>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    autoComplete='off'
+                                    name="awarding-description"
+                                    fullWidth
+                                    id="awarding-description"
+                                    label="Awarding Description"
+                                    size='small'
+                                    value={awardDescription}
+                                    multiline
+                                    minRows={6}
+                                    onChange={e => setAwardDescription(e.target.value)}
+                                />
+                            </Grid>
+
+
 
                         </Grid>
 
@@ -144,14 +147,18 @@ export default function NewAwardHonorForm({ open, setOpen, addNewAwardHonor }) {
                                 xs: 'column',
                                 sm: 'row'
                             },
-                            padding: 1,
+                            paddingTop: 1,
                             gap: 1
                         }}>
                             <Button
                                 fullWidth
                                 size='small'
-                                variant="outlined"
-                                color='inherit'
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: 'error.main',
+                                    padding: 1,
+                                    flexGrow: 1
+                                }}
                                 onClick={() => setOpen(false)}
                             >
                                 Cancel
@@ -159,9 +166,13 @@ export default function NewAwardHonorForm({ open, setOpen, addNewAwardHonor }) {
                             <Button
                                 type="submit"
                                 fullWidth
+                                variant="contained"
                                 size='small'
-                                color='success'
-                                variant='outlined'
+                                sx={{
+                                    backgroundColor: 'success.main',
+                                    padding: 1,
+                                    flexGrow: 1
+                                }}
                             >
                                 Add
                             </Button>

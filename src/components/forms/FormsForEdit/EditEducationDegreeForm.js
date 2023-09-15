@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -26,7 +26,8 @@ const style = {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 2,
+    paddingY:5,
+    paddingX: 10,
 };
 
 
@@ -36,8 +37,8 @@ export default function EditEducationDegreeForm({ open, setOpen, qualification, 
     const [degree, setDegree] = useState(qualification.degree);
     const [institutionCountry, setInstitutionCountry] = useState(qualification.country);
     const [institutionCity, setInstitutionCity] = useState(qualification.city);
-    const [startDate, setStartDate] = useState(dayjs(qualification.startDate));
-    const [endDate, setEndDate] = useState(dayjs(qualification.endDate));
+    const [startDate, setStartDate] = useState(dayjs(qualification.start_date));
+    const [endDate, setEndDate] = useState(dayjs(qualification.end_date));
     const [isContinue, setIsContinue] = useState(qualification.isContinue);
     const [degreeGrade, setDegreeGrade] = useState(qualification.grade);
     const [courseSummary, setCourseSummary] = useState(qualification.course_summary);
@@ -49,8 +50,8 @@ export default function EditEducationDegreeForm({ open, setOpen, qualification, 
         setDegree(qualification.degree)
         setInstitutionCountry(qualification.country)
         setInstitutionCity(qualification.city)
-        setStartDate( dayjs(qualification.startDate))
-        setEndDate( dayjs(qualification.endDate))
+        setStartDate( dayjs(qualification.start_date))
+        setEndDate( dayjs(qualification.end_date))
         setIsContinue(qualification.isContinue)
         setDegreeGrade(qualification.grade)
         setCourseSummary(qualification.course_summary)
@@ -84,14 +85,15 @@ export default function EditEducationDegreeForm({ open, setOpen, qualification, 
             alert('Please select the course end date')
             return
         }
+
         editEducationDegree({
             degreeID: qualification.degreeID,
             institution: institution,
             degree: degree,
             country: institutionCountry,
             city: institutionCity,
-            start_date: startDate? startDate.toString().substring(0, 10):null,
-            end_date: endDate? endDate.toString().substring(0, 10):null,
+            start_date: startDate ? startDate.format('YYYY-MM-DD') : null,
+            end_date: endDate ? endDate.format('YYYY-MM-DD') : null,
             isContinue: isContinue,
             grade: degreeGrade,
             course_summary: courseSummary
@@ -188,8 +190,8 @@ export default function EditEducationDegreeForm({ open, setOpen, qualification, 
                                 <FormGroup>
                                     <FormControlLabel control={<Switch
                                         value={isContinue}
-                                        onChange={() => {
-                                            setIsContinue(!isContinue);
+                                        onChange={(e) => {
+                                            setIsContinue(e.target.checked);
                                         }}
                                     />} label='Ongoing course' />
                                 </FormGroup>

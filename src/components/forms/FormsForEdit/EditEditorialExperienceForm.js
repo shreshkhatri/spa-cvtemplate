@@ -1,5 +1,4 @@
-import {  useState } from 'react';
-import uniqid from 'uniqid';
+import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -12,6 +11,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { FormGroup, FormControlLabel } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import CountrySelector from '../../CountrySelector';
+import dayjs from 'dayjs';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
@@ -29,50 +29,65 @@ const style = {
     paddingX: 10,
 };
 
-export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
-    
-    const [name, setCouncilName] = useState('');
-    const [designation, setDesignation] = useState('');
-    const [councilCountry, setCouncilCountry] = useState(null);
-    const [councilCity, setCouncilCity] = useState('');
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    const [isContinue, setIsContinue] = useState(false);
+export default function EditEditorialExperienceForm({ open, setOpen, experience, editEditorialExperience }) {
+    const [role, setRole] = useState(experience.role);
+    const [association, setAssociation] = useState(experience.association);
+    const [associationCountry, setAssociationCountry] = useState(experience.country);
+    const [associationCity, setAssociationCity] = useState(experience.city);
+    const [startDate, setStartDate] = useState(dayjs(experience.start_date));
+    const [endDate, setEndDate] = useState(dayjs(experience.end_date));
+    const [isContinue, setIsContinue] = useState(experience.isContinue);
+    const [description, setDescription] = useState(experience.description);
 
+    //this use effect is necessary to work with all of the editorial experience data under edit mode
+    useEffect(() => {
+        // Update state variables with the properties from the experience object
+        setRole(experience.role);
+        setAssociation(experience.association);
+        setAssociationCountry(experience.country);
+        setAssociationCity(experience.city);
+        setStartDate(dayjs(experience.start_date));
+        setEndDate(dayjs(experience.end_date));
+        setIsContinue(experience.isContinue);
+        setDescription(experience.description);
+      }, [experience]);
+      
 
     function resetFields() {
-        setDesignation('')
-        setCouncilName('');
-        setCouncilCountry(null);
-        setCouncilCity('');
+        setRole('');
+        setAssociation('');
+        setAssociationCountry(null);
+        setAssociationCity('');
         setStartDate(null);
         setEndDate(null);
         setIsContinue(false);
+        setDescription('');
     }
+
 
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        addNewCouncil({
-            councilID: uniqid(),
-            name: name,
-            designation:designation,
-            country: councilCountry,
-            city: councilCity,
+        editEditorialExperience({
+            experienceID: experience.experienceID,
+            role: role,
+            association: association,
+            country: associationCountry,
+            city: associationCity,
             start_date: startDate ? startDate.format('YYYY-MM-DD') : null,
             end_date: endDate ? endDate.format('YYYY-MM-DD') : null,
-            isContinue: isContinue
+            isContinue: isContinue,
+            description: description
         });
 
-        resetFields()
-        setOpen(false)
+        resetFields();
+        setOpen(false);
     };
 
     return (
-
         <Modal
-            aria-labelledby="transition-modal-add-new-council-record"
-            aria-describedby="transition-modal-add-new-council-record"
+            aria-labelledby="transition-modal-add-new-editorial-experience-record"
+            aria-describedby="transition-modal-add-new-editorial-record"
             open={open}
             onClose={() => setOpen(false)}
             closeAfterTransition
@@ -84,6 +99,7 @@ export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
             }}
         >
             <Fade in={open}>
+
                 <Box
                     sx={{
                         display: 'flex',
@@ -94,97 +110,93 @@ export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
                         ...style
                     }}
                 >
+
                     <Box component="form" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} >
-                                <Typography variant='h5'> Council Association Information</Typography>
+                                <Typography variant='h5'> New Editorial Experience</Typography>
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
                                     autoComplete='off'
-                                    name="council-name"
+                                    name="editorial-role"
                                     required
                                     fullWidth
-                                    id="council-name"
-                                    label="Council Name"
+                                    id="editorial-role"
+                                    label="Role / Designation"
                                     size='small'
-                                    value={name}
-                                    onChange={e => setCouncilName(e.target.value)}
+                                    value={role}
                                     autoFocus
+                                    onChange={e => setRole(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    autoComplete='off'
-                                    name="council-designation"
-                                    
+                                    required
                                     fullWidth
-                                    id="council-designation"
-                                    label="Designation"
+                                    id="editorial-organization"
+                                    label="Organization / Association / Journal / Conference"
                                     size='small'
-                                    value={designation}
-                                    onChange={e => setDesignation(e.target.value)}
-                                    autoFocus
+                                    name="editorial-organization"
+                                    autoComplete='off'
+                                    value={association}
+                                    onChange={e => setAssociation(e.target.value)}
                                 />
                             </Grid>
-
                             <Grid item xs={12} sm={6}>
-                                <CountrySelector country={councilCountry} setCountry={setCouncilCountry} />
+                                <CountrySelector country={associationCountry} setCountry={setAssociationCountry} />
                             </Grid>
-
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     fullWidth
-                                    id="council-city"
+                                    id="association-city"
                                     label="City"
                                     size='small'
-                                    name="council-city"
+                                    name="association-city"
                                     autoComplete='off'
-                                    value={councilCity}
-                                    onChange={e => setCouncilCity(e.target.value)}
+                                    value={associationCity}
+                                    onChange={e => setAssociationCity(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DemoContainer components={['DatePicker']}>
+                                        <DatePicker value={startDate} label="Start Date" size='small' format='LL' onChange={date => setStartDate(date)} />
+                                    </DemoContainer>
+                                </LocalizationProvider>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <FormGroup>
+                                    <FormControlLabel control={<Switch
+                                        value={isContinue}
+                                        onChange={(e) => {
+                                            setIsContinue(e.target.checked);
+                                        }}
+                                    />} label='Currently Associated' />
+                                </FormGroup>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DemoContainer components={['DatePicker']}>
+                                        <DatePicker disabled={isContinue} value={endDate} label="End Date" size='small' format='LL' onChange={date => setEndDate(date)} />
+                                    </DemoContainer>
+                                </LocalizationProvider>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    id="editorial-description"
+                                    label="Description / Responsibilities / Achievements"
+                                    size='small'
+                                    name="editorial-description"
+                                    autoComplete='off'
+                                    multiline
+                                    rows={3}
+                                    value={description}
+                                    onChange={e => setDescription(e.target.value)}
                                 />
                             </Grid>
 
-                            <Grid item xs={6}>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['DatePicker']}>
-                                        <DatePicker
-                                            value={startDate}
-                                            label="Start Date"
-                                            size='small'
-                                            format='LL'
-                                            onChange={date => setStartDate(date)}
-                                        />
-                                    </DemoContainer>
-                                </LocalizationProvider>
-                            </Grid>
-
-                            <Grid item xs={12}>
-                                <FormGroup>
-                                    <FormControlLabel
-                                        control={<Switch
-                                            value={isContinue}
-                                            onChange={(e) => setIsContinue(e.target.checked)}
-                                        />}
-                                        label='Currently associated'
-                                    />
-                                </FormGroup>
-                            </Grid>
-
-                            <Grid item xs={6}>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['DatePicker']}>
-                                        <DatePicker
-                                            disabled={isContinue}
-                                            value={endDate}
-                                            label="End Date"
-                                            size='small'
-                                            format='LL'
-                                            onChange={date => setEndDate(date)}
-                                        />
-                                    </DemoContainer>
-                                </LocalizationProvider>
-                            </Grid>
 
                         </Grid>
 
@@ -194,8 +206,8 @@ export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
                                 xs: 'column',
                                 sm: 'row'
                             },
-                            paddingTop: 1,
-                            gap: 1
+                            gap: 1,
+                            padding: 1
                         }}>
                             <Button
                                 fullWidth
@@ -224,6 +236,8 @@ export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
                                 Add
                             </Button>
                         </Box>
+
+
                     </Box>
                 </Box>
             </Fade>

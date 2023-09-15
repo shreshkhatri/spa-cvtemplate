@@ -1,6 +1,6 @@
 'use client';
 import Typography from '@mui/material/Typography';
-import { useEffect, useState,useMemo } from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import BasicInformationSection from '@/components/BasicInformationSection';
 import CVSectionButtons from '@/components/CVSectionButtons';
@@ -45,6 +45,13 @@ import EditEducationDegreeForm from '@/components/forms/FormsForEdit/EditEducati
 import EditWorkExperienceForm from '@/components/forms/FormsForEdit/EditWorkExperienceForm';
 import EditProjectForm from '@/components/forms/FormsForEdit/EditProjectForm';
 import EditPublicationForm from '@/components/forms/FormsForEdit/EditPublicationForm';
+import EditEditorialExperienceForm from '@/components/forms/FormsForEdit/EditEditorialExperienceForm';
+import EditCommitteeForm from '@/components/forms/FormsForEdit/EditCommitteeForm';
+import EditCouncilForm from '@/components/forms/FormsForEdit/EditCouncilForm';
+import EditMembershipForm from '@/components/forms/FormsForEdit/EditMembershipForm';
+import EditAwardHonorForm from '@/components/forms/FormsForEdit/EditAwardHonorForm';
+import EditConferenceForm from '@/components/forms/FormsForEdit/EditConferenceForm';
+import EditJournalForm from '@/components/forms/FormsForEdit/EditJournalForm';
 
 export default function Home() {
   const [cvdata, updateCVData] = useState(CVDATA)
@@ -89,6 +96,55 @@ const [tempStore,setTempStore] =  useState(null);
 console.log(tempStore)
 
 /*************************************  FUNCTION FOR OPENING FORM FOR EDITING DATA  **************************************************/
+
+
+// function for setting the form up for editing journal details
+function openFormForJournalEdit(journalID){
+  setTempStore(cvdata.journals.find(journal => journal.journalID == journalID));
+  setOpenEditJournalForm(true);
+}
+
+
+
+// function for setting the form up for editing conference details
+function openFormForConferenceEdit(conferenceID){
+  setTempStore(cvdata.conferences.find(conference => conference.conferenceID == conferenceID));
+  setOpenEditConferenceForm(true);
+}
+
+
+// function for setting the form up for editing award and honor details
+function openFormForAwardHonorEdit(award_honor_ID){
+  setTempStore(cvdata.awards_honors.find(award => award.award_honor_ID == award_honor_ID));
+  setOpenEditAwardHonorForm(true);
+}
+
+// function for setting the form up for editing membership details
+function openFormForMembershipEdit(membershipID){
+  setTempStore(cvdata.memberships.find(membership => membership.membershipID == membershipID));
+  setOpenEditMembershipForm(true);
+}
+
+
+// function for setting the form up for editing council details
+function openFormForCouncilEdit(councilID){
+  setTempStore(cvdata.councils.find(council => council.councilID == councilID));
+  setOpenEditCouncilForm(true);
+}
+
+// function for setting the form up for editing editorial experience
+function openFormForCommitteeEdit(committeeID){
+  setTempStore(cvdata.committees.find(committee => committee.committeeID == committeeID));
+  setOpenEditCommitteeForm(true);
+}
+
+// function for setting the form up for editing editorial experience
+function openFormForEditorialExperienceEdit(experienceID){
+  setTempStore(cvdata.editorial_experience.find(experience => experience.experienceID == experienceID));
+  setOpenEditEditorialExperienceForm(true);
+}
+
+
 
 // function for setting the form up for editing publication information 
 function openFormForPublicationEdit(publicationID){
@@ -491,7 +547,77 @@ setOpenEditExperienceForm(true);
 
   /*************************************** FUNCTION TO EDIT INDIVIDUAL ITEMS FROM THE LIST *****************************************/
   
-//function to edit publication detail from the existing list
+//function to edit journal from  the existing list
+function editJournal(updatedData) {
+  updateCVData(prevCVData => ({
+    ...prevCVData,
+    journals: prevCVData.journals.map(journal => journal.journalID == updatedData.journalID ? updatedData:journal)
+  }));
+  setTempStore(null);
+}
+
+
+  //function to edit conference from  the existing list
+function editConference(updatedData) {
+  updateCVData(prevCVData => ({
+    ...prevCVData,
+    conferences: prevCVData.conferences.map(conference => conference.conferenceID == updatedData.conferenceID ? updatedData:conference)
+  }));
+  setTempStore(null);
+}
+
+
+  //function to edit awardHonor details from the existing list
+function editAwardHonor(updatedData) {
+  updateCVData(prevCVData => ({
+    ...prevCVData,
+    awards_honors: prevCVData.awards_honors.map(award => award.award_honor_ID == updatedData.award_honor_ID ? updatedData:award)
+  }));
+  setTempStore(null);
+}
+
+
+  //function to edit membership details from the existing list
+function editMembership(updatedData) {
+  updateCVData(prevCVData => ({
+    ...prevCVData,
+    memberships: prevCVData.memberships.map(membership => membership.membershipID == updatedData.membershipID ? updatedData:membership)
+  }));
+  setTempStore(null);
+}
+
+
+  //function to edit council details from the existing list
+function editCouncil(updatedData) {
+  updateCVData(prevCVData => ({
+    ...prevCVData,
+    councils: prevCVData.councils.map(council => council.councilID == updatedData.councilID ? updatedData:council)
+  }));
+  setTempStore(null);
+}
+
+  //function to edit committee details from the existing list
+function editCommittee(updatedData) {
+  updateCVData(prevCVData => ({
+    ...prevCVData,
+    committees: prevCVData.committees.map(committee => committee.committeeID == updatedData.committeeID ? updatedData:committee)
+  }));
+  setTempStore(null);
+}
+
+
+  //function to edit editorial experience from the existing list
+function editEditorialExperience(updatedData) {
+  updateCVData(prevCVData => ({
+    ...prevCVData,
+    editorial_experience: prevCVData.editorial_experience.map(experience => experience.experienceID == updatedData.experienceID ? updatedData:experience)
+  }));
+  setTempStore(null);
+}
+
+
+
+  //function to edit publication detail from the existing list
 function editPublication(updatedData) {
   updateCVData(prevCVData => ({
     ...prevCVData,
@@ -855,7 +981,7 @@ function editPublication(updatedData) {
 
           </Box>
 
-          <EditorialExperienceTimeLine editorial_experience={cvdata.editorial_experience} deleteEditorialExperience={deleteEditorialExperience} /></>}
+          <EditorialExperienceTimeLine editorial_experience={cvdata.editorial_experience} deleteEditorialExperience={deleteEditorialExperience} openFormForEditorialExperienceEdit={openFormForEditorialExperienceEdit} /></>}
 
 
         {cvdata.hasOwnProperty('publications') && <>
@@ -904,7 +1030,7 @@ function editPublication(updatedData) {
               </Tooltip>
             </Box>
           </Box>
-          <CommitteeTimeLine committees={cvdata.committees} deleteCommittee={deleteCommittee} />
+          <CommitteeTimeLine committees={cvdata.committees} deleteCommittee={deleteCommittee} openFormForCommitteeEdit={openFormForCommitteeEdit}/>
         </>}
 
 
@@ -932,7 +1058,7 @@ function editPublication(updatedData) {
             </Box>
           </Box>
 
-          <CouncilTimeLine councils={cvdata.councils} deleteCouncil={deleteCouncil} />
+          <CouncilTimeLine councils={cvdata.councils} deleteCouncil={deleteCouncil} openFormForCouncilEdit={openFormForCouncilEdit}/>
         </>
         }
 
@@ -958,7 +1084,7 @@ function editPublication(updatedData) {
               </Tooltip>
             </Box>
           </Box>
-          <MembershipTimeLine memberships={cvdata.memberships} deleteMembership={deleteMembership} />
+          <MembershipTimeLine memberships={cvdata.memberships} deleteMembership={deleteMembership} openFormForMembershipEdit={openFormForMembershipEdit}/>
         </>
         }
 
@@ -984,7 +1110,7 @@ function editPublication(updatedData) {
               </Tooltip>
             </Box>
           </Box>
-          <AwardHonorsTimeLine awards_honors={cvdata.awards_honors} deleteAward={deleteAward} />
+          <AwardHonorsTimeLine awards_honors={cvdata.awards_honors} deleteAward={deleteAward} openFormForAwardHonorEdit={openFormForAwardHonorEdit}/>
         </>
         }
 
@@ -1010,7 +1136,7 @@ function editPublication(updatedData) {
               </Tooltip>
             </Box>
           </Box>
-          <ConferencesList conferences={cvdata.conferences} deleteConference={deleteConference} />
+          <ConferencesList conferences={cvdata.conferences} deleteConference={deleteConference}  openFormForConferenceEdit={openFormForConferenceEdit} />
         </>
         }
 
@@ -1036,7 +1162,7 @@ function editPublication(updatedData) {
               </Tooltip>
             </Box>
           </Box>
-          <JournalsList journals={cvdata.journals} deleteJournal={deleteJournal} />
+          <JournalsList journals={cvdata.journals} deleteJournal={deleteJournal} openFormForJournalEdit={openFormForJournalEdit}/>
         </>
         }
 
@@ -1060,6 +1186,13 @@ function editPublication(updatedData) {
         {openEditExperienceForm && <EditWorkExperienceForm open={openEditExperienceForm} setOpen={setOpenEditExperienceForm} work_experience={tempStore} editWorkExperience={editWorkExperience} />}
         {openEditProjectForm && <EditProjectForm open={openEditProjectForm} setOpen={setOpenEditProjectForm} project={tempStore} editProject={editProject} />}
         {openEditPublicationForm && <EditPublicationForm open={openEditPublicationForm} setOpen={setOpenEditPublicationForm} publication={tempStore} editPublication={editPublication} />}
+        {openEditEditorialExperienceForm && <EditEditorialExperienceForm open={openEditEditorialExperienceForm} setOpen={setOpenEditEditorialExperienceForm} experience={tempStore} editEditorialExperience={editEditorialExperience}/>}
+        {openEditCommitteeForm && <EditCommitteeForm open={openEditCommitteeForm} setOpen={setOpenEditCommitteeForm} committee={tempStore} editCommittee={editCommittee} />}
+        {openEditCouncilForm && <EditCouncilForm open={openEditCouncilForm} setOpen={setOpenEditCouncilForm} council={tempStore} editCouncil={editCouncil}/>}
+        {openEditMembershipForm && <EditMembershipForm open={openEditMembershipForm} setOpen={setOpenEditMembershipForm} membership={tempStore} editMembership={editMembership}/>}
+        {openEditAwardHonorForm && <EditAwardHonorForm open={openEditAwardHonorForm} setOpen={setOpenEditAwardHonorForm} award={tempStore} editAwardHonor={editAwardHonor} />}
+        {openEditConferenceForm && <EditConferenceForm open={openEditConferenceForm} setOpen={setOpenEditConferenceForm} conference={tempStore} editConference={editConference}/>}
+        {openEditJournalForm && <EditJournalForm open={openEditJournalForm} setOpen={setOpenEditJournalForm} jrnl={tempStore} editJournal={editJournal}/>}
       </Box>
     </Box>
   )

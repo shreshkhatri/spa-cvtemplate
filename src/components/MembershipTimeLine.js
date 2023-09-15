@@ -6,8 +6,9 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Button from '@mui/material/Button';
+import ItemMembership from './listItems/ItemMembership';
 
-export default function MembershipTimeLine({ memberships, deleteMembership }) {
+export default function MembershipTimeLine({ memberships, deleteMembership ,openFormForMembershipEdit}) {
     return (
         <Box sx={{
             display: 'flex',
@@ -33,19 +34,7 @@ export default function MembershipTimeLine({ memberships, deleteMembership }) {
                                     <TimelineDot color='success' />
                                 </TimelineSeparator>
                                 <TimelineContent sx={{ paddingBottom: 3 }}>
-                                    <Typography
-                                        sx={{ m: 'auto 0' }}
-                                        variant="body2"
-                                        color="text.secondary"
-                                    >
-                                        {membership.start_date} - {membership.isContinue ? "continue" : membership.end_date}
-                                    </Typography>
-
-                                    <Typography variant="h6" gutterBottom>
-                                    {membership.membership_type}, {membership.organization}
-                                    </Typography>
-                                    
-                                    <Button variant='outlined' color='error' size='small' onClick={()=> deleteMembership(membership.membershipID)}>Delete</Button>
+                                    <ItemMembership membership={membership} deleteMembership={deleteMembership} openFormForMembershipEdit={openFormForMembershipEdit}/>
                                 </TimelineContent>
                             </TimelineItem>
 

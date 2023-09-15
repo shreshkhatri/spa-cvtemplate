@@ -26,8 +26,12 @@ export default function ItemPublication({ publication, deletePublication,openFor
                 {publication.authors.length !== 0 && <Typography display='inline' sx={{ fontWeight: 'bold' }} >{formatHarvardAuthors(publication.authors)}</Typography>}
                 {publication.publication_date ? <Typography display='inline' sx={{ fontWeight: 'bold' }}> ( {publication.publication_date.substring(0, 4)} ) </Typography> : null}
                 <Typography display='inline' sx={{ fontWeight: 'bold' }}> {publication.title} </Typography>
+                {!_.isEmpty(publication.page_range) ? <Typography display='inline' sx={{ fontWeight: 'bold', fontStyle:'italic' }}> , pages {publication.page_range}</Typography> : null}
                 {!_.isEmpty(publication.publication_event) ? <Typography display='inline' sx={{ fontWeight: 'bold' }}> , {publication.publication_event}</Typography> : null}
                 {!_.isEmpty(publication.publication_venue) ? <Typography display='inline' sx={{ fontWeight: 'bold', fontStyle: 'italic' }} gutterBottom> , {publication.publication_venue}</Typography> : null}
+                {!_.isEmpty(publication.edition_volume) ? <Typography display='inline' sx={{ fontWeight: 'bold', fontStyle: 'italic' }} gutterBottom> , Edition - {publication.edition_volume}</Typography> : null}
+                {!_.isEmpty(publication.publication_url) ? <Typography  sx={{ fontStyle: 'italic' }} gutterBottom>Available On - {publication.publication_url}</Typography> : null}
+
 
                 {!_.isEmpty(publication.abstract) ? <Typography variant="body2"> <span style={{paddingTop:2, fontStyle:'italic'}}>Abstract</span> <br></br>{publication.abstract}</Typography> : ''}
             </Box>

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Timeline from '@mui/lab/Timeline';
@@ -14,6 +13,7 @@ import ItemDegree from './listItems/ItemDegree';
 
 
 export default function EducationTimeLine({ education_history, deleteEducationDegree, openFormForDegreeEdit }) {
+
 
     return (
         <Box sx={{

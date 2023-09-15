@@ -8,64 +8,55 @@ import Typography from '@mui/material/Typography';
 import ClearIcon from '@mui/icons-material/Clear';
 import { IconButton } from '@mui/material';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import Timeline from '@mui/lab/Timeline';
+import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import TimelineConnector from '@mui/lab/TimelineConnector';
+import TimelineContent from '@mui/lab/TimelineContent';
+import TimelineDot from '@mui/lab/TimelineDot'
+import ItemConference from './listItems/ItemConference';
 
-export default function ConferencesList({ conferences, deleteConference }) {
+export default function ConferencesList({ conferences, deleteConference,openFormForConferenceEdit }) {
     return (
         <Box sx={{
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            minHeight:'20vh'
+            minHeight: '20vh'
         }}>
 
 
             {conferences.length == 0 && <Typography align='center'>No conferences added yet. <br></br> Start adding new conferences by clicking Add button above.</Typography>}
 
-            {conferences.length !== 0 &&
+            {conferences.length != 0 &&
 
-                <List >
+
+                <Timeline
+                    sx={{
+                        [`& .${timelineItemClasses.root}:before`]: {
+                            flex: 0,
+                            padding: 2,
+                        },
+                    }}
+                >
+
                     {
-                        conferences.map(conference => {
+                        conferences.map((conference, index) => {
+                            return <TimelineItem key={conference.conferenceID} >
 
-                            return <ListItem key={conference.conferenceID}
-                                secondaryAction={
-                                    <IconButton edge="end" aria-label="delete" onClick={() => deleteConference(conference.conferenceID)}>
-                                        <ClearIcon />
-                                    </IconButton>
-                                }
-                            >
-                                <ListItemAvatar>
+                                <TimelineSeparator>
+                                    <TimelineDot color='success' />
+                                    {(conferences.length - 1) !== index && <TimelineConnector />}
+                                </TimelineSeparator>
+                                <TimelineContent sx={{ paddingBottom: 3 }}>
+                                    <ItemConference conference={conference} deleteConference={deleteConference} openFormForConferenceEdit={openFormForConferenceEdit}/>
+                                </TimelineContent>
+                            </TimelineItem>
 
-                                    <RadioButtonUncheckedIcon />
-
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary={
-                                        conference.authors.reduce(
-                                            (acc, author, current_index) => {
-                                                if (!_.isEmpty(author.last_name)) {
-                                                    return (
-                                                        acc +
-                                                        author.last_name[0].toUpperCase() +
-                                                        ". " +
-                                                        author.first_name +
-                                                        " , "
-                                                    );
-                                                } else return acc + author.first_name + " , ";
-                                            },
-                                            ""
-                                        ) + " , " + conference.title + " , " + conference.conference + ", pages " + conference.page_range + " , " + conference.heldOn.substring(0, 4)}
-
-                                    secondary=''
-                                >
-                                </ListItemText>
-                            </ListItem>
 
                         })
                     }
-
-
-                </List>
+                </Timeline>
             }
         </Box>
 
