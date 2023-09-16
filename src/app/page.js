@@ -94,9 +94,10 @@ const [openEditJournalForm, setOpenEditJournalForm] = useState(false);
 
 const [tempStore,setTempStore] =  useState(null);
 
+
 /************************************** FUNCTION FOR REARRANGING THE ARRAY ELEMENTS AFTER DRAG & DROP OPERATION ********************** */
 
-  //function to add new degree Information
+  //function to update education history after drag and drop
   function sortEducationHistory(updatedArray) {
     updateCVData(prevCVData => ({
       ...prevCVData,
@@ -104,6 +105,76 @@ const [tempStore,setTempStore] =  useState(null);
     }));
   }
 
+    //function to update work history after drag and drop
+    function sortExperienceHistory(updatedArray) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        work_history: updatedArray
+      }));
+    }
+  
+
+    //function to update project history after drag and drop
+    function sortProjectHistory(updatedArray) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        projects: updatedArray
+      }));
+    }
+
+
+    //function to update editorial experiencec history after drag and drop
+    function sortEditorialHistory(updatedArray) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        editorial_experience: updatedArray
+      }));
+    }
+
+
+    //function to update committee history after drag and drop
+    function sortCommitteeHistory(updatedArray) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        committees: updatedArray
+      }));
+    }
+
+
+    //function to update council membership history after drag and drop
+    function sortCouncilHistory(updatedArray) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        councils: updatedArray
+      }));
+    }
+
+
+    //function to update memberships history after drag and drop
+    function sortMembershipHistory(updatedArray) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        memberships: updatedArray
+      }));
+    }
+
+
+    //function to update award history after drag and drop
+    function sortAwardHistory(updatedArray) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        awards_honors: updatedArray
+      }));
+    }
+
+
+//function to update conferences history after drag and drop
+    function sortConferenceHistory(updatedArray) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        conferences: updatedArray
+      }));
+    }
 
 
 
@@ -662,7 +733,7 @@ function editPublication(updatedData) {
     function editWorkExperience(updatedData) {
       updateCVData(prevCVData => ({
         ...prevCVData,
-        work_history: prevCVData.work_history.map(work_experience => work_experience.experienceID == updatedData.experienceID ? updatedData:work_experience)
+        work_history: prevCVData.work_history.map(work_experience => work_experience.employmentID == updatedData.employmentID ? updatedData:work_experience)
       }));
       setTempStore(null);
     }
@@ -881,7 +952,7 @@ function editPublication(updatedData) {
               </Tooltip>
             </Box>
           </Box>
-          <WorkExperienceTimeLine work_history={cvdata.work_history} deleteWorkExperience={deleteWorkExperience} openFormForWorkExperienceEdit={openFormForWorkExperienceEdit} /></>}
+          <WorkExperienceTimeLine sortExperienceHistory={sortExperienceHistory} work_history={cvdata.work_history} deleteWorkExperience={deleteWorkExperience} openFormForWorkExperienceEdit={openFormForWorkExperienceEdit} /></>}
 
 
 
@@ -936,7 +1007,7 @@ function editPublication(updatedData) {
             </Box>
 
           </Box>
-          <ProjectsTimeline projects={cvdata.projects} deleteProject={deleteProject} openFormForProjectEdit={openFormForProjectEdit}/>
+          <ProjectsTimeline sortProjectHistory={sortProjectHistory} projects={cvdata.projects} deleteProject={deleteProject} openFormForProjectEdit={openFormForProjectEdit}/>
         </>}
 
 
@@ -994,7 +1065,7 @@ function editPublication(updatedData) {
 
           </Box>
 
-          <EditorialExperienceTimeLine editorial_experience={cvdata.editorial_experience} deleteEditorialExperience={deleteEditorialExperience} openFormForEditorialExperienceEdit={openFormForEditorialExperienceEdit} /></>}
+          <EditorialExperienceTimeLine sortEditorialHistory={sortEditorialHistory} editorial_experience={cvdata.editorial_experience} deleteEditorialExperience={deleteEditorialExperience} openFormForEditorialExperienceEdit={openFormForEditorialExperienceEdit} /></>}
 
 
         {cvdata.hasOwnProperty('publications') && <>
@@ -1043,7 +1114,7 @@ function editPublication(updatedData) {
               </Tooltip>
             </Box>
           </Box>
-          <CommitteeTimeLine committees={cvdata.committees} deleteCommittee={deleteCommittee} openFormForCommitteeEdit={openFormForCommitteeEdit}/>
+          <CommitteeTimeLine sortCommitteeHistory={sortCommitteeHistory} committees={cvdata.committees} deleteCommittee={deleteCommittee} openFormForCommitteeEdit={openFormForCommitteeEdit}/>
         </>}
 
 
@@ -1071,7 +1142,7 @@ function editPublication(updatedData) {
             </Box>
           </Box>
 
-          <CouncilTimeLine councils={cvdata.councils} deleteCouncil={deleteCouncil} openFormForCouncilEdit={openFormForCouncilEdit}/>
+          <CouncilTimeLine sortCouncilHistory={sortCouncilHistory} councils={cvdata.councils} deleteCouncil={deleteCouncil} openFormForCouncilEdit={openFormForCouncilEdit}/>
         </>
         }
 
@@ -1097,7 +1168,7 @@ function editPublication(updatedData) {
               </Tooltip>
             </Box>
           </Box>
-          <MembershipTimeLine memberships={cvdata.memberships} deleteMembership={deleteMembership} openFormForMembershipEdit={openFormForMembershipEdit}/>
+          <MembershipTimeLine sortMembershipHistory={sortMembershipHistory} memberships={cvdata.memberships} deleteMembership={deleteMembership} openFormForMembershipEdit={openFormForMembershipEdit}/>
         </>
         }
 
@@ -1123,7 +1194,7 @@ function editPublication(updatedData) {
               </Tooltip>
             </Box>
           </Box>
-          <AwardHonorsTimeLine awards_honors={cvdata.awards_honors} deleteAward={deleteAward} openFormForAwardHonorEdit={openFormForAwardHonorEdit}/>
+          <AwardHonorsTimeLine sortAwardHistory={sortAwardHistory} awards_honors={cvdata.awards_honors} deleteAward={deleteAward} openFormForAwardHonorEdit={openFormForAwardHonorEdit}/>
         </>
         }
 
@@ -1149,7 +1220,7 @@ function editPublication(updatedData) {
               </Tooltip>
             </Box>
           </Box>
-          <ConferencesList conferences={cvdata.conferences} deleteConference={deleteConference}  openFormForConferenceEdit={openFormForConferenceEdit} />
+          <ConferencesList sortConferenceHistory={sortConferenceHistory} conferences={cvdata.conferences} deleteConference={deleteConference}  openFormForConferenceEdit={openFormForConferenceEdit} />
         </>
         }
 
@@ -1175,7 +1246,7 @@ function editPublication(updatedData) {
               </Tooltip>
             </Box>
           </Box>
-          <JournalsList journals={cvdata.journals} deleteJournal={deleteJournal} openFormForJournalEdit={openFormForJournalEdit}/>
+          <JournalsList  journals={cvdata.journals} deleteJournal={deleteJournal} openFormForJournalEdit={openFormForJournalEdit}/>
         </>
         }
 

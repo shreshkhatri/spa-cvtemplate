@@ -7,5 +7,14 @@ export const PUBLICATION_TYPES =[
 ];
 
 export const DROPPABLE_TYPE_IDS = {
-    educationTimeline:'timeline for education history',
+    educationTimeline:'education timeline',
+    experienceTimeline : 'work / experience timeline',
+    projectTimeline : 'projects timeline',
+    editorialExperienceTimeline : 'editorial experience timeline',
+    committeeTimeline : 'committee timeline',
+    counciltimeline: 'council timeline',
+    membershipsTimeline :'memberships timeline',
+    awawardTimeline : 'award timeline',
+    conferenceTimeline : 'conference timeline',
+    journamTimeline : 'journal timeline'
 }

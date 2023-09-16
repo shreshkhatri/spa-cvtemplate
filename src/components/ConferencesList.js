@@ -1,13 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
-import ClearIcon from '@mui/icons-material/Clear';
-import { IconButton } from '@mui/material';
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
@@ -46,7 +39,7 @@ export default function ConferencesList({ conferences, deleteConference,openForm
 
                                 <TimelineSeparator>
                                     <TimelineDot color='success' />
-                                    {(conferences.length - 1) !== index && <TimelineConnector />}
+                                    
                                 </TimelineSeparator>
                                 <TimelineContent sx={{ paddingBottom: 3 }}>
                                     <ItemConference conference={conference} deleteConference={deleteConference} openFormForConferenceEdit={openFormForConferenceEdit}/>

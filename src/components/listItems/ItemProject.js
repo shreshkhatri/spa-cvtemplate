@@ -4,7 +4,7 @@ import { formatDate, capitalizeWords } from '@/assets/utilityFunctions';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 
-export default function ItemProject({ project, deleteProject, openFormForProjectEdit }) {
+export default function ItemProject({ project, deleteProject, openFormForProjectEdit ,isDragging}) {
     const [isMouseOver, setIsMouseOver] = useState(false);
 
     return (
@@ -16,8 +16,8 @@ export default function ItemProject({ project, deleteProject, openFormForProject
             },
             alignItems: 'center',
             width: '100%',
-            boxShadow: isMouseOver ? 1 : 0,
-            borderRadius: isMouseOver ? 1 : 0,
+            boxShadow:isMouseOver || isDragging ?1:0,
+            borderRadius:isMouseOver || isDragging ?1:0,
             p: 1
         }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
             <Box sx={{ flexGrow: 1, flexWrap:'wrap' }}>

@@ -5,7 +5,7 @@ import { getAllAuthorsName, getYear, } from '@/assets/utilityFunctions';
 import _ from 'lodash';
 import { Box } from '@mui/material';
 
-export default function ItemConference({ conference, deleteConference ,openFormForConferenceEdit}) {
+export default function ItemConference({ conference, deleteConference ,openFormForConferenceEdit,isDragging}) {
 
     const [isMouseOver, setIsMouseOver] = useState(false);
 
@@ -18,8 +18,8 @@ export default function ItemConference({ conference, deleteConference ,openFormF
             },
             alignItems: 'center',
             width: '100%',
-            boxShadow: isMouseOver ? 1 : 0,
-            borderRadius: isMouseOver ? 1 : 0,
+            boxShadow:isMouseOver || isDragging ?1:0,
+            borderRadius:isMouseOver || isDragging ?1:0,
             p: 1
         }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
             <Box sx={{ flexGrow: 1 }}>

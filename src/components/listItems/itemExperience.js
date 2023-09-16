@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { Box } from '@mui/material';
 
 
-export default function ItemExperience({ work_experience, deleteWorkExperience, openFormForWorkExperienceEdit }) {
+export default function ItemExperience({ work_experience, deleteWorkExperience, openFormForWorkExperienceEdit, isDragging }) {
 
     const [isMouseOver, setIsMouseOver] = useState(false);
 
@@ -19,8 +19,8 @@ export default function ItemExperience({ work_experience, deleteWorkExperience, 
             },
             alignItems: 'center',
             width: '100%',
-            boxShadow: isMouseOver ? 1 : 0,
-            borderRadius: isMouseOver ? 1 : 0,
+            boxShadow:isMouseOver || isDragging ?1:0,
+            borderRadius:isMouseOver || isDragging ?1:0,
             p: 1
         }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
             <Box sx={{ flexGrow: 1 }}>

@@ -8,52 +8,94 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Button from '@mui/material/Button';
 import ItemProject from './listItems/ItemProject';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { DROPPABLE_TYPE_IDS } from '@/data/data';
 
 
-export default function ProjectsTimeline({ projects, deleteProject,openFormForProjectEdit }) {
+export default function ProjectsTimeline({ sortProjectHistory, projects, deleteProject, openFormForProjectEdit }) {
+
+    const onDragEnd = (result) => {
+
+        const { destination, source, draggableId } = result;
+
+        if (!destination) return;
+
+        if (destination.droppableId === source.droppableId && destination.index === source.index) return;
+
+        const tempArray = [...projects];
+        const deletedItem = tempArray.splice(source.index, 1);
+        tempArray.splice(destination.index, 0, ...deletedItem);
+        sortProjectHistory(tempArray);
+    }
+
+
     return (
-        <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            minHeight:'20vh'
-        }}>
-            
-            {
-                projects.length != 0 &&
+        <DragDropContext onDragEnd={onDragEnd}>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+                minHeight: '20vh'
+            }}>
 
-                <Timeline
-                    sx={{
-                        [`& .${timelineItemClasses.root}:before`]: {
-                            flex: 0,
-                            padding: 2,
-                        },
-                    }}
-                >
+                {
+                    projects.length != 0 &&
+                    <Droppable droppableId={DROPPABLE_TYPE_IDS.projectTimeline}>
+                        {
+                            (provided, snapshot) => (
+                                <Timeline
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                    sx={{
+                                        [`& .${timelineItemClasses.root}:before`]: {
+                                            flex: 0,
+                                            padding: 2,
+                                        },
+                                        border: snapshot.isDraggingOver ? 1 : 0,
+                                        borderColor: snapshot.isDraggingOver ? '#f9f6ee' : null,
+                                        boxShadow: snapshot.isDraggingOver ? 1 : 0,
+                                        borderRadius: snapshot.isDraggingOver ? 2 : 0,
+                                    }}
+                                >
 
-                    {
-                        projects.map((project) => {
-                            return <TimelineItem key={project.projectID} >
+                                    {
+                                        projects.map((project, index) => {
+                                            return (
+                                                <Draggable draggableId={project.projectID} key={project.projectID} index={index}>
+                                                    {
+                                                        (provided, snapshot) => (
+                                                            <TimelineItem ref={provided.innerRef} key={project.projectID}  {...provided.draggableProps} {...provided.dragHandleProps}>
 
-                                <TimelineSeparator>
-                                    <TimelineDot color='success' />
-                                </TimelineSeparator>
-                                <TimelineContent sx={{ paddingBottom: 3 }}>
-                                    <ItemProject project={project} deleteProject={deleteProject} openFormForProjectEdit={openFormForProjectEdit}/>
-                                </TimelineContent>
-                            </TimelineItem>
+                                                                <TimelineSeparator>
+                                                                    <TimelineDot color='success' />
+                                                                </TimelineSeparator>
+                                                                <TimelineContent sx={{ paddingBottom: 3 }}>
+                                                                    <ItemProject project={project} deleteProject={deleteProject} openFormForProjectEdit={openFormForProjectEdit} isDragging={snapshot.isDragging} />
+                                                                </TimelineContent>
+                                                            </TimelineItem>
 
+                                                        )
+                                                    }
 
-                        })
-                    }
-                </Timeline>
+                                                </Draggable>
+                                            )
 
-            }
+                                        })
+                                    }
+                                    {provided.placeholder}
+                                </Timeline>
 
-            {
-                projects.length == 0 && <Typography align='center'>No Projects added yet. <br></br> Start adding new qualification by clicking link above.</Typography>
-            }
-        </Box>
+                            )
+                        }
+                    </Droppable>
+
+                }
+
+                {
+                    projects.length == 0 && <Typography align='center'>No Projects added yet. <br></br> Start adding new qualification by clicking link above.</Typography>
+                }
+            </Box>
+        </DragDropContext>
 
     );
 }

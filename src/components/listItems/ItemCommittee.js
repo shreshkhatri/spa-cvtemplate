@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import _ from 'lodash';
 import { formatDate, capitalizeWords } from '@/assets/utilityFunctions';
 
-export default function ItemCommittee({ committee, deleteCommittee, openFormForCommitteeEdit }) {
+export default function ItemCommittee({ committee, deleteCommittee, openFormForCommitteeEdit, isDragging}) {
     const [isMouseOver, setIsMouseOver] = useState(false);
     return (
         <Box sx={{
@@ -16,8 +16,8 @@ export default function ItemCommittee({ committee, deleteCommittee, openFormForC
             },
             alignItems: 'center',
             width: '100%',
-            boxShadow: isMouseOver ? 1 : 0,
-            borderRadius: isMouseOver ? 1 : 0,
+            boxShadow:isMouseOver || isDragging ?1:0,
+            borderRadius:isMouseOver || isDragging ?1:0,
             p: 1
         }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
             <Box sx={{ flexGrow: 1 }} >
