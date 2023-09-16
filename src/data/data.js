@@ -5,3 +5,7 @@ export const PUBLICATION_TYPES =[
     'BOOKS',
     'CHAPTERS'
 ];
+
+export const DROPPABLE_TYPE_IDS = {
+    educationTimeline:'timeline for education history',
+}

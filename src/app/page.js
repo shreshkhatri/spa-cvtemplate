@@ -1,4 +1,5 @@
 'use client';
+import {DragDropContext} from 'react-beautiful-dnd'
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
@@ -93,7 +94,18 @@ const [openEditJournalForm, setOpenEditJournalForm] = useState(false);
 
 const [tempStore,setTempStore] =  useState(null);
 
-console.log(tempStore)
+/************************************** FUNCTION FOR REARRANGING THE ARRAY ELEMENTS AFTER DRAG & DROP OPERATION ********************** */
+
+  //function to add new degree Information
+  function sortEducationHistory(updatedArray) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      education_history: updatedArray
+    }));
+  }
+
+
+
 
 /*************************************  FUNCTION FOR OPENING FORM FOR EDITING DATA  **************************************************/
 
@@ -766,6 +778,7 @@ function editPublication(updatedData) {
 
 
   return (
+    <DragDropContext onDragEnd={()=>onDragEnd()} >
     <Box sx={{
       display: 'flex',
       flexDirection: 'column',
@@ -841,7 +854,7 @@ function editPublication(updatedData) {
               </Tooltip>
             </Box>
           </Box>
-          <EducationTimeLine education_history={cvdata.education_history} deleteEducationDegree={deleteEducationDegree} openFormForDegreeEdit={openFormForDegreeEdit}/></>}
+          <EducationTimeLine sortEducationHistory={sortEducationHistory} education_history={cvdata.education_history} deleteEducationDegree={deleteEducationDegree} openFormForDegreeEdit={openFormForDegreeEdit}/></>}
 
 
 
@@ -1195,6 +1208,7 @@ function editPublication(updatedData) {
         {openEditJournalForm && <EditJournalForm open={openEditJournalForm} setOpen={setOpenEditJournalForm} jrnl={tempStore} editJournal={editJournal}/>}
       </Box>
     </Box>
+    </DragDropContext>
   )
 }
 

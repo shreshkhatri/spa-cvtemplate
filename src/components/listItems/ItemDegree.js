@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { Box, } from '@mui/material';
 
 
-export default function ItemDegree({ degree, deleteEducationDegree, openFormForDegreeEdit}) {
+export default function ItemDegree({ degree, deleteEducationDegree, openFormForDegreeEdit,isDragging}) {
 
     const [isMouseOver, setIsMouseOver] = useState(false);
 
@@ -19,8 +19,8 @@ export default function ItemDegree({ degree, deleteEducationDegree, openFormForD
             },
             alignItems: 'center',
             width: '100%',
-            boxShadow:isMouseOver?1:0,
-            borderRadius:isMouseOver?1:0,
+            boxShadow:isMouseOver || isDragging ?1:0,
+            borderRadius:isMouseOver || isDragging ?1:0,
             p:1
         }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
             <Box sx={{ flexGrow: 1 }}>
