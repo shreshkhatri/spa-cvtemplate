@@ -25,8 +25,6 @@ const style = {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    paddingX:10,
-    paddingY:5
 };
 
 
@@ -106,6 +104,14 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                         alignItems: 'center',
                         width: 'inherit',
                         overflowY: 'scroll',
+                        paddingY:{
+                            xs:1,
+                            sm:5,
+                        } ,
+                        paddingX:{
+                            xs:1,
+                            sm:10
+                        },
                         ...style
                     }}
                 >

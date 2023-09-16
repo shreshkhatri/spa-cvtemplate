@@ -24,9 +24,7 @@ const style = {
     right: '1%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
-    boxShadow: 24,
-    paddingX:10,
-    paddingY:5
+    boxShadow: 24
 };
 
 export default function EditPublicationForm({ open, setOpen, publication, editPublication }) {
@@ -138,6 +136,14 @@ export default function EditPublicationForm({ open, setOpen, publication, editPu
                         alignItems: 'center',
                         width: 'inherit',
                         overflowY: 'scroll',
+                        paddingY:{
+                            xs:1,
+                            sm:5,
+                        } ,
+                        paddingX:{
+                            xs:1,
+                            sm:10
+                        },
                         ...style
                     }}
                 >

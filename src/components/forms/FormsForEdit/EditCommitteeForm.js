@@ -24,9 +24,7 @@ const style = {
     right: '1%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
-    boxShadow: 24,
-    paddingY: 5,
-    paddingX: 10,
+    boxShadow: 24
 };
 
 
@@ -106,6 +104,14 @@ export default function EditCommitteeForm({ open, setOpen, committee, editCommit
                         alignItems: 'center',
                         width: 'inherit',
                         overflowY: 'scroll',
+                        paddingY:{
+                            xs:1,
+                            sm:5,
+                        } ,
+                        paddingX:{
+                            xs:1,
+                            sm:10
+                        },
                         ...style
                     }}
                 >

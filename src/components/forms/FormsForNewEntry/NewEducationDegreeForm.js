@@ -21,12 +21,10 @@ const style = {
     top: '1%',
     left: '1%',
     bottom: '1%',
-    right:'1%',
+    right: '1%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
-    boxShadow: 24,
-    paddingY:5,
-    paddingX: 10,
+    boxShadow: 24
 };
 
 
@@ -44,7 +42,7 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
     const [courseSummary, setCourseSummary] = useState('');
 
 
-    function resetFields(){
+    function resetFields() {
         setInstitution('')
         setDegree('')
         setInstitutionCountry(null)
@@ -55,20 +53,20 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
         setDegreeGrade('')
         setCourseSummary('')
     };
-    
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if(!institutionCountry){
+        if (!institutionCountry) {
             alert('Please select the country')
             return
         }
-        if (!startDate){
+        if (!startDate) {
             alert('Please select the course start date')
             return
         }
 
-        if (!isContinue && !endDate){
+        if (!isContinue && !endDate) {
             alert('Please select the course end date')
             return
         }
@@ -94,7 +92,7 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
             aria-labelledby="transition-modal-add-new-education-record"
             aria-describedby="transition-modal-add-new-education-record"
             open={open}
-            onClose={()=>setOpen(false)}
+            onClose={() => setOpen(false)}
             closeAfterTransition
             slots={{ backdrop: Backdrop }}
             slotProps={{
@@ -110,16 +108,24 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                         flexDirection: 'column',
                         alignItems: 'center',
                         width: 'inherit',
-                        overflowY:'scroll',
+                        overflowY: 'scroll',
+                        paddingY:{
+                            xs:1,
+                            sm:5,
+                        } ,
+                        paddingX:{
+                            xs:1,
+                            sm:10
+                        },
                         ...style
                     }}
                 >
                     <Box component="form" onSubmit={handleSubmit}>
 
                         <Grid container spacing={2}>
-                        <Grid item xs={12} >
-                            <Typography variant='h5'> Education Qualification Details</Typography>
-                        </Grid>
+                            <Grid item xs={12} >
+                                <Typography variant='h5'> Education Qualification Details</Typography>
+                            </Grid>
                             <Grid item xs={12} >
                                 <TextField
                                     autoComplete='off'
@@ -185,13 +191,13 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                             <Grid item xs={12} >
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
-                                        <DatePicker  disabled={isContinue} value={endDate} label="End Date" size='small' format='LL' onChange={date => setEndDate(date)} />
+                                        <DatePicker disabled={isContinue} value={endDate} label="End Date" size='small' format='LL' onChange={date => setEndDate(date)} />
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    
+
                                     fullWidth
                                     id="degree-grade"
                                     label="Degree grade / remarks"
@@ -204,7 +210,7 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                            
+
                                     fullWidth
                                     id="course-summary"
                                     label="Course Summary"
@@ -226,7 +232,7 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                                 xs: 'column',
                                 sm: 'row'
                             },
-                            paddingTop:1,
+                            paddingTop: 1,
                             gap: 1
                         }}>
                             <Button
@@ -234,11 +240,11 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                                 size='small'
                                 variant="contained"
                                 sx={{
-                                    backgroundColor:'error.main',
-                                    padding:1,
-                                    flexGrow:1
+                                    backgroundColor: 'error.main',
+                                    padding: 1,
+                                    flexGrow: 1
                                 }}
-                                onClick={()=> setOpen(false)}
+                                onClick={() => setOpen(false)}
                             >
                                 Cancel
                             </Button>
@@ -246,12 +252,12 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                    size='small'
-                    sx={{
-                        backgroundColor:'success.main',
-                        padding:1,
-                        flexGrow:1
-                    }}
+                                size='small'
+                                sx={{
+                                    backgroundColor: 'success.main',
+                                    padding: 1,
+                                    flexGrow: 1
+                                }}
                             >
                                 Add
                             </Button>

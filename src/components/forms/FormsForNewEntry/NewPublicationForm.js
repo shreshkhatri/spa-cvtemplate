@@ -23,9 +23,7 @@ const style = {
     right: '1%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
-    boxShadow: 24,
-    paddingX:10,
-    paddingY:5
+    boxShadow: 24
 };
 
 export default function NewPublicationForm({ open, setOpen, addNewPublication }) {
@@ -77,25 +75,27 @@ export default function NewPublicationForm({ open, setOpen, addNewPublication })
 
 
     const handleSubmit = (event) => {
+        
         event.preventDefault();
+        
         if (authors.length === 0) {
             alert('Please add at least one author for the publication');
             return;
         }
+
         addNewPublication({
             publicationID: uniqid(),
             title: title,
             type: publicationType,
             page_range: pageRange,
             authors: authors,
-            publication_date: publicationDate ? publicationDate.toISOString().substring(0, 10) : null,
+            publication_date: publicationDate ? publicationDate.format('YYYY-MM-DD') : null,
             publication_event: publicationEvent,
             publication_venue: publicationVenue,
-            DOI: DOI ? DOI.toISOString(0, 10) : null,
+            DOI: DOI ? DOI.format('YYYY-MM-DD') : null,
             edition_volume: editionVolume,
             abstract: abstract,
             publication_url: publicationURL
-
         })
         resetFields()
         setOpen(false)
@@ -123,6 +123,14 @@ export default function NewPublicationForm({ open, setOpen, addNewPublication })
                         alignItems: 'center',
                         width: 'inherit',
                         overflowY: 'scroll',
+                        paddingY:{
+                            xs:1,
+                            sm:5,
+                        } ,
+                        paddingX:{
+                            xs:1,
+                            sm:10
+                        },
                         ...style
                     }}
                 >

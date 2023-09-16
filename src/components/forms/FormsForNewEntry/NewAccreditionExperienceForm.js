@@ -23,7 +23,6 @@ const style = {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 2,
 };
 
 export default function NewAccreditionExperienceForm({  open, setOpen, addNewAccreditionExperience }) {
@@ -87,6 +86,14 @@ export default function NewAccreditionExperienceForm({  open, setOpen, addNewAcc
                         alignItems: 'center',
                         width: 'inherit',
                         overflowY:'scroll',
+                        paddingY:{
+                            xs:1,
+                            sm:5,
+                        },
+                        paddingX:{
+                            xs:1,
+                            sm:10
+                        },
                         ...style
                     }}
                 >
