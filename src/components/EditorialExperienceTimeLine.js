@@ -6,27 +6,13 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import ItemEditorial from './listItems/ItemEditorial';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { Draggable, Droppable } from 'react-beautiful-dnd'
 import { DROPPABLE_TYPE_IDS } from '@/data/data';
 
 
-export default function EditorialExperienceTimeLine({ sortEditorialHistory, editorial_experience, deleteEditorialExperience, openFormForEditorialExperienceEdit }) {
+export default function EditorialExperienceTimeLine({ editorial_experience, deleteEditorialExperience, openFormForEditorialExperienceEdit }) {
 
-    const onDragEnd = (result) => {
-
-        const { destination, source, draggableId } = result;
-
-        if (!destination) return;
-
-        if (destination.droppableId === source.droppableId && destination.index === source.index) return;
-
-        const tempArray = [...editorial_experience];
-        const deletedItem = tempArray.splice(source.index, 1);
-        tempArray.splice(destination.index, 0, ...deletedItem);
-        sortEditorialHistory(tempArray);
-    }
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -87,6 +73,6 @@ export default function EditorialExperienceTimeLine({ sortEditorialHistory, edit
                     editorial_experience.length == 0 && <Typography align='center'>No Records are added yet. <br></br> Start adding new by clicking Add button above.</Typography>
                 }
             </Box>
-        </DragDropContext>
+        
     );
 }

@@ -8,29 +8,14 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Button from '@mui/material/Button';
 import ItemProject from './listItems/ItemProject';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { Draggable, Droppable } from 'react-beautiful-dnd'
 import { DROPPABLE_TYPE_IDS } from '@/data/data';
 
 
-export default function ProjectsTimeline({ sortProjectHistory, projects, deleteProject, openFormForProjectEdit }) {
-
-    const onDragEnd = (result) => {
-
-        const { destination, source, draggableId } = result;
-
-        if (!destination) return;
-
-        if (destination.droppableId === source.droppableId && destination.index === source.index) return;
-
-        const tempArray = [...projects];
-        const deletedItem = tempArray.splice(source.index, 1);
-        tempArray.splice(destination.index, 0, ...deletedItem);
-        sortProjectHistory(tempArray);
-    }
+export default function ProjectsTimeline({ projects, deleteProject, openFormForProjectEdit }) {
 
 
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -95,7 +80,6 @@ export default function ProjectsTimeline({ sortProjectHistory, projects, deleteP
                     projects.length == 0 && <Typography align='center'>No Projects added yet. <br></br> Start adding new qualification by clicking link above.</Typography>
                 }
             </Box>
-        </DragDropContext>
 
     );
 }

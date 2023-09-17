@@ -6,30 +6,15 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import {  Draggable, Droppable } from 'react-beautiful-dnd'
 import { DROPPABLE_TYPE_IDS } from '@/data/data';
 import ItemAwardHonor from './listItems/ItemAwardHonor';
 
 
-export default function AwardHonorsTimeLine({ sortAwardHistory, awards_honors, deleteAward, openFormForAwardHonorEdit }) {
-
-    const onDragEnd = (result) => {
-
-        const { destination, source, draggableId } = result;
-
-        if (!destination) return;
-
-        if (destination.droppableId === source.droppableId && destination.index === source.index) return;
-
-        const tempArray = [...awards_honors];
-        const deletedItem = tempArray.splice(source.index, 1);
-        tempArray.splice(destination.index, 0, ...deletedItem);
-        sortAwardHistory(tempArray);
-    }
+export default function AwardHonorsTimeLine({ awards_honors, deleteAward, openFormForAwardHonorEdit }) {
 
 
     return (
-        <DragDropContext onDragEnd={onDragEnd} >
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -97,7 +82,6 @@ export default function AwardHonorsTimeLine({ sortAwardHistory, awards_honors, d
                     awards_honors.length == 0 && <Typography align='center'>No awards / honors added yet. <br></br> Start adding new by clicking link above.</Typography>
                 }
             </Box>
-        </DragDropContext>
 
     );
 }

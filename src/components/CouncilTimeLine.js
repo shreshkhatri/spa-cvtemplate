@@ -7,27 +7,13 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import ItemCouncil from './listItems/ItemCouncil';
 import { DROPPABLE_TYPE_IDS } from '@/data/data';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { Draggable, Droppable } from 'react-beautiful-dnd'
 
 
-export default function CouncilTimeLine({ sortCouncilHistory, councils, deleteCouncil, openFormForCouncilEdit }) {
+export default function CouncilTimeLine({ councils, deleteCouncil, openFormForCouncilEdit }) {
 
-    const onDragEnd = (result) => {
-
-        const { destination, source, draggableId } = result;
-
-        if (!destination) return;
-
-        if (destination.droppableId === source.droppableId && destination.index === source.index) return;
-
-        const tempArray = [...councils];
-        const deletedItem = tempArray.splice(source.index, 1);
-        tempArray.splice(destination.index, 0, ...deletedItem);
-        sortCouncilHistory(tempArray);
-    }
 
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -79,6 +65,5 @@ export default function CouncilTimeLine({ sortCouncilHistory, councils, deleteCo
                     councils.length == 0 && <Typography align='center'>No Councils added yet. <br></br> Start adding new by clicking add button above.</Typography>
                 }
             </Box>
-        </DragDropContext>
     );
 }

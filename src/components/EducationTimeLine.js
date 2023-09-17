@@ -6,42 +6,49 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
-import { } from 'react-beautiful-dnd';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { Droppable, Draggable } from 'react-beautiful-dnd'
 import _ from 'lodash';
+import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 import ItemDegree from './listItems/ItemDegree';
 import { DROPPABLE_TYPE_IDS } from '@/data/data';
+import { IconButton, Tooltip } from '@mui/material';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 
-export default function EducationTimeLine({ sortEducationHistory, education_history, deleteEducationDegree, openFormForDegreeEdit }) {
-
-    const onDragEnd = (result) => {
-
-        console.log(result)
-
-        const {destination, source, draggableId} = result;
-
-        if (!destination) return;
-
-        if (destination.droppableId === source.droppableId && destination.index === source.index ) return;
-
-        const tempArray = [...education_history];
-        const deletedItem = tempArray.splice(source.index,1);
-        tempArray.splice(destination.index,0,...deletedItem);
-        sortEducationHistory(tempArray);
-    }
+export default function EducationTimeLine({ education_history, deleteEducationDegree, openFormForDegreeEdit ,setOpenNewEducationForm, deleteEducationHistory}) {
 
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
-        <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            minHeight: '20vh'
-        }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+            <Box id='education_history' sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                width: '100%'
+            }}>
+                <Typography variant="h6">
+                    Education
+                </Typography>
+                <Box>
+                    <Tooltip title='Add education degree'>
+                        <IconButton onClick={() => setOpenNewEducationForm(true)}>
+                            <LibraryAddOutlinedIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title='delete education history'>
+                        <IconButton onClick={deleteEducationHistory}>
+                            <HighlightOffOutlinedIcon />
+                        </IconButton>
+                    </Tooltip>
+                </Box>
+            </Box>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+                minHeight: '20vh'
+            }}>
 
-            {
-                education_history.length !== 0 &&
-                
+                {
+                    education_history.length !== 0 &&
+
                     <Droppable droppableId={DROPPABLE_TYPE_IDS.educationTimeline}>
                         {
                             (provided, snapshot) => (
@@ -51,10 +58,10 @@ export default function EducationTimeLine({ sortEducationHistory, education_hist
                                             flex: 0,
                                             padding: 2,
                                         },
-                                        border:snapshot.isDraggingOver?1:0,
-                                        borderColor:snapshot.isDraggingOver?'#f9f6ee':null,
-                                        boxShadow:snapshot.isDraggingOver?1:0,
-                                        borderRadius:snapshot.isDraggingOver?2:0,
+                                        border: snapshot.isDraggingOver ? 1 : 0,
+                                        borderColor: snapshot.isDraggingOver ? '#f9f6ee' : null,
+                                        boxShadow: snapshot.isDraggingOver ? 1 : 0,
+                                        borderRadius: snapshot.isDraggingOver ? 2 : 0,
 
                                     }}
                                 >
@@ -71,7 +78,7 @@ export default function EducationTimeLine({ sortEducationHistory, education_hist
                                                                 {(education_history.length - 1) !== index && <TimelineConnector />}
                                                             </TimelineSeparator>
                                                             <TimelineContent sx={{ paddingBottom: 1 }}>
-                                                                <ItemDegree degree={degree} deleteEducationDegree={deleteEducationDegree} openFormForDegreeEdit={openFormForDegreeEdit} isDragging={snapshot.isDragging}/>
+                                                                <ItemDegree degree={degree} deleteEducationDegree={deleteEducationDegree} openFormForDegreeEdit={openFormForDegreeEdit} isDragging={snapshot.isDragging} />
                                                             </TimelineContent>
                                                         </TimelineItem>)
                                                     }
@@ -87,12 +94,13 @@ export default function EducationTimeLine({ sortEducationHistory, education_hist
                         }
 
                     </Droppable>
-            
-            }
-            {
-                education_history.length == 0 && <Typography align='center'>No Qualifications added yet. <br></br> Start adding new qualification by clicking link above.</Typography>
-            }
-        </Box></DragDropContext>
+
+                }
+                {
+                    education_history.length == 0 && <Typography align='center'>No Qualifications added yet. <br></br> Start adding new qualification by clicking link above.</Typography>
+                }
+            </Box>
+        </Box>
 
     );
 }

@@ -33,7 +33,7 @@ export default function ItemDegree({ degree, deleteEducationDegree, openFormForD
                 </Typography>
 
                 <Typography display='inline' sx={{ fontWeight: 'bold' }}>
-                    {capitalizeWords(degree.degree)} , {capitalizeWords(degree.institution)} ,{capitalizeWords(degree.city)} , {degree.country.label}
+                    {capitalizeWords(degree.degree)} , {capitalizeWords(degree.institution)} ,{capitalizeWords(degree.city)} , {degree.country?degree.country.label:null}
                 </Typography>
 
                 {!_.isEmpty(degree.grade) && <Typography variant="body2" display='inline' sx={{ fontWeight: 'bold', fontStyle: 'italic' }}> {capitalizeWords(degree.grade)}</Typography>}

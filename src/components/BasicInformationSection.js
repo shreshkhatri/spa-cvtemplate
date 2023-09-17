@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {useState} from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -15,6 +15,8 @@ import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 
 export default function BasicInformationSection({ basic_information, setEditBasicInfoMode }) {
 
+  const [isMouseOver, setIsMouseOver] = useState(false);
+
 
   return <Box sx={{
     display: 'flex',
@@ -23,7 +25,7 @@ export default function BasicInformationSection({ basic_information, setEditBasi
       sm: 'row'
     },
     width: '100%'
-  }} >
+  }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
 
     {
       /* this will be uncommented later on 
@@ -43,7 +45,7 @@ export default function BasicInformationSection({ basic_information, setEditBasi
     <Card sx={{ flexGrow: 1 }} variant="outlined" >
       <CardContent >
         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
-          <Tooltip sx={{padding:0,margin:0}} title='Update Personal Information'>
+          <Tooltip sx={{padding:0,margin:0, visibility:isMouseOver?'visible':'hidden'}} title='Update Personal Information'>
             <IconButton  onClick={() => setEditBasicInfoMode(true)} >
               <EditNoteOutlinedIcon />
             </IconButton>

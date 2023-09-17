@@ -6,28 +6,14 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import ItemCommittee from './listItems/ItemCommittee';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import {  Draggable, Droppable } from 'react-beautiful-dnd'
 import { DROPPABLE_TYPE_IDS } from '@/data/data';
 
 
-export default function CommitteeTimeLine({ sortCommitteeHistory, committees, deleteCommittee, openFormForCommitteeEdit }) {
+export default function CommitteeTimeLine({  committees, deleteCommittee, openFormForCommitteeEdit }) {
 
-    const onDragEnd = (result) => {
-
-        const { destination, source, draggableId } = result;
-
-        if (!destination) return;
-
-        if (destination.droppableId === source.droppableId && destination.index === source.index) return;
-
-        const tempArray = [...committees];
-        const deletedItem = tempArray.splice(source.index, 1);
-        tempArray.splice(destination.index, 0, ...deletedItem);
-        sortCommitteeHistory(tempArray);
-    }
-
+   
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -67,13 +53,10 @@ export default function CommitteeTimeLine({ sortCommitteeHistory, committees, de
                                                             <ItemCommittee committee={committee} deleteCommittee={deleteCommittee} openFormForCommitteeEdit={openFormForCommitteeEdit} isDragging={snapshot.isDragging}/>
                                                         </TimelineContent>
                                                     </TimelineItem>
-                                                )
-                                            }
+                                                )}
                                         </Draggable>
-
                                     })
                                 }
-
                                 {provided.placeholder}
                             </Timeline>
                         )}
@@ -83,7 +66,6 @@ export default function CommitteeTimeLine({ sortCommitteeHistory, committees, de
                     committees.length == 0 && <Typography align='center'>No Committees added yet. <br></br> Click Add button to start adding Committee memberships.</Typography>
                 }
             </Box>
-        </DragDropContext>
 
     );
 }
