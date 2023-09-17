@@ -10,12 +10,39 @@ import Button from '@mui/material/Button';
 import ItemProject from './listItems/ItemProject';
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 import { DROPPABLE_TYPE_IDS } from '@/data/data';
-
-
-export default function ProjectsTimeline({ projects, deleteProject, openFormForProjectEdit }) {
-
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
+import { IconButton, Tooltip } from '@mui/material';
+import { useState } from 'react';
+export default function ProjectsTimeline({ setOpenNewProjectForm, deleteProjects, projects, deleteProject, openFormForProjectEdit }) {
+    const [isMouseOver, setIsMouseOver] = useState(false);
 
     return (
+        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
+            <Box id='projects' sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                width: '100%',
+            }}>
+                <Typography variant="h6">
+                    Projects
+                </Typography>
+
+
+                <Box sx={{ visibility: isMouseOver ? 'visible' : 'hidden' }}>
+                    <Tooltip title='Add New Project'>
+                        <IconButton onClick={() => setOpenNewProjectForm(true)}>
+                            <LibraryAddOutlinedIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title='Delete Projects'>
+                        <IconButton onClick={deleteProjects}>
+                            <HighlightOffOutlinedIcon />
+                        </IconButton>
+                    </Tooltip>
+                </Box>
+
+            </Box>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -80,6 +107,7 @@ export default function ProjectsTimeline({ projects, deleteProject, openFormForP
                     projects.length == 0 && <Typography align='center'>No Projects added yet. <br></br> Start adding new qualification by clicking link above.</Typography>
                 }
             </Box>
+        </Box>
 
     );
 }

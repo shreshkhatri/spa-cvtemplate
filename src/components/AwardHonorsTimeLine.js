@@ -6,15 +6,40 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
-import {  Draggable, Droppable } from 'react-beautiful-dnd'
+import { Draggable, Droppable } from 'react-beautiful-dnd'
 import { DROPPABLE_TYPE_IDS } from '@/data/data';
 import ItemAwardHonor from './listItems/ItemAwardHonor';
+import { IconButton, Tooltip } from '@mui/material';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
+import { useState } from 'react';
 
-
-export default function AwardHonorsTimeLine({ awards_honors, deleteAward, openFormForAwardHonorEdit }) {
-
+export default function AwardHonorsTimeLine({ deleteAwardSection, setOpenNewAwardHonorForm, awards_honors, deleteAward, openFormForAwardHonorEdit }) {
+    const [isMouseOver, setIsMouseOver] = useState(false);
 
     return (
+        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
+            <Box id='awards_honors' sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                width: '100%',
+            }}>
+                <Typography variant="h6">
+                    Honors / Awards
+                </Typography>
+                <Box sx={{ visibility: isMouseOver ? 'visible' : 'hidden' }}>
+                    <Tooltip title='Add Award/Honor Details'>
+                        <IconButton onClick={() => setOpenNewAwardHonorForm(true)}>
+                            <LibraryAddOutlinedIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title='Delete Awards/Honors section'>
+                        <IconButton onClick={deleteAwardSection}>
+                            <HighlightOffOutlinedIcon />
+                        </IconButton>
+                    </Tooltip>
+                </Box>
+            </Box>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -82,6 +107,7 @@ export default function AwardHonorsTimeLine({ awards_honors, deleteAward, openFo
                     awards_honors.length == 0 && <Typography align='center'>No awards / honors added yet. <br></br> Start adding new by clicking link above.</Typography>
                 }
             </Box>
+        </Box>
 
     );
 }

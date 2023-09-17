@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Timeline from '@mui/lab/Timeline';
@@ -8,25 +9,28 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import _ from 'lodash';
-import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
+
 import ItemDegree from './listItems/ItemDegree';
 import { DROPPABLE_TYPE_IDS } from '@/data/data';
 import { IconButton, Tooltip } from '@mui/material';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 
-export default function EducationTimeLine({ education_history, deleteEducationDegree, openFormForDegreeEdit ,setOpenNewEducationForm, deleteEducationHistory}) {
+export default function EducationTimeLine({ education_history, deleteEducationDegree, openFormForDegreeEdit, setOpenNewEducationForm, deleteEducationHistory }) {
+
+    const [isMouseOver, setIsMouseOver] = useState(false);
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
             <Box id='education_history' sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 width: '100%'
-            }}>
+            }} >
                 <Typography variant="h6">
                     Education
                 </Typography>
-                <Box>
+                <Box sx={{ visibility: isMouseOver ? 'visible' : 'hidden' }}>
                     <Tooltip title='Add education degree'>
                         <IconButton onClick={() => setOpenNewEducationForm(true)}>
                             <LibraryAddOutlinedIcon />

@@ -8,11 +8,37 @@ import TimelineDot from '@mui/lab/TimelineDot';
 import ItemEditorial from './listItems/ItemEditorial';
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 import { DROPPABLE_TYPE_IDS } from '@/data/data';
+import { IconButton, Tooltip } from '@mui/material';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
+import { useState } from 'react';
 
-
-export default function EditorialExperienceTimeLine({ editorial_experience, deleteEditorialExperience, openFormForEditorialExperienceEdit }) {
-
+export default function EditorialExperienceTimeLine({ setOpenNewEditorialExperienceForm, deleteEditorialExperienceSection,editorial_experience, deleteEditorialExperience, openFormForEditorialExperienceEdit }) {
+    const [isMouseOver, setIsMouseOver] = useState(false);
     return (
+        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
+            <Box id='editorial_experience' sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                width: '100%',
+            }}>
+                <Typography variant="h6">
+                    Editorial Board and Organized Special Issue
+                </Typography>
+                <Box sx={{ visibility: isMouseOver ? 'visible' : 'hidden' }}>
+                    <Tooltip title='Add Editoial Experience'>
+                        <IconButton onClick={() => setOpenNewEditorialExperienceForm(true)}>
+                            <LibraryAddOutlinedIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title='Delete Editoial ExperienceEditoial Experience Section'>
+                        <IconButton onClick={deleteEditorialExperienceSection}>
+                            <HighlightOffOutlinedIcon />
+                        </IconButton>
+                    </Tooltip>
+                </Box>
+
+            </Box>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -73,6 +99,6 @@ export default function EditorialExperienceTimeLine({ editorial_experience, dele
                     editorial_experience.length == 0 && <Typography align='center'>No Records are added yet. <br></br> Start adding new by clicking Add button above.</Typography>
                 }
             </Box>
-        
+        </Box>
     );
 }

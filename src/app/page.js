@@ -39,8 +39,6 @@ import AccreditationsTimeLine from '@/components/AccreditationsTimeLine';
 import NewEditorialExperienceForm from '@/components/forms/FormsForNewEntry/NewEditorialExperience';
 import EditorialExperienceTimeLine from '@/components/EditorialExperienceTimeLine';
 import NewEducationDegreeForm from '@/components/forms/FormsForNewEntry/NewEducationDegreeForm';
-import NewTechnicalSkillForm from '@/components/forms/FormsForNewEntry/NewTechnicalSkillForm';
-import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 import EditEducationDegreeForm from '@/components/forms/FormsForEdit/EditEducationDegreeForm';
 import EditWorkExperienceForm from '@/components/forms/FormsForEdit/EditWorkExperienceForm';
 import EditProjectForm from '@/components/forms/FormsForEdit/EditProjectForm';
@@ -769,7 +767,7 @@ export default function Home() {
 
   return (
     <AppTheme>
-      <DragDropContext onDragEnd={result => onDragEndHndler(result,cvdata,updateCVData)}>
+      <DragDropContext onDragEnd={result => onDragEndHndler(result, cvdata, updateCVData)}>
         <Box sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -827,28 +825,8 @@ export default function Home() {
 
 
             {cvdata.hasOwnProperty('work_history') && <>
-              <Box id='work_history' sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%'
-              }}>
-                <Typography variant="h6">
-                  Experiences
-                </Typography>
-                <Box>
-                  <Tooltip title='Add New Experience'>
-                    <IconButton onClick={() => setOpenNewExperienceForm(true)}>
-                      <LibraryAddOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title='Delete all experiences'>
-                    <IconButton onClick={deleteWorkHistory}>
-                      <HighlightOffOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              </Box>
-              <WorkExperienceTimeLine work_history={cvdata.work_history} deleteWorkExperience={deleteWorkExperience} openFormForWorkExperienceEdit={openFormForWorkExperienceEdit} /></>}
+
+              <WorkExperienceTimeLine deleteWorkHistory={deleteWorkHistory} setOpenNewExperienceForm={setOpenNewExperienceForm} work_history={cvdata.work_history} deleteWorkExperience={deleteWorkExperience} openFormForWorkExperienceEdit={openFormForWorkExperienceEdit} /></>}
 
 
 
@@ -878,273 +856,30 @@ export default function Home() {
 
               <AccreditationsTimeLine accreditations={cvdata.accreditations} deleteAccreditation={deleteAccreditation} /></>}
 
-            {cvdata.hasOwnProperty('projects') && <>
-              <Box id='projects' sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
-              }}>
-                <Typography variant="h6">
-                  Projects
-                </Typography>
+            {cvdata.hasOwnProperty('projects') && <ProjectsTimeline deleteProjects={deleteProjects} setOpenNewProjectForm={setOpenNewProjectForm} projects={cvdata.projects} deleteProject={deleteProject} openFormForProjectEdit={openFormForProjectEdit} />}
 
 
-                <Box>
-                  <Tooltip title='Add New Project'>
-                    <IconButton onClick={() => setOpenNewProjectForm(true)}>
-                      <LibraryAddOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title='Delete Projects'>
-                    <IconButton onClick={deleteProjects}>
-                      <HighlightOffOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-
-              </Box>
-              <ProjectsTimeline  projects={cvdata.projects} deleteProject={deleteProject} openFormForProjectEdit={openFormForProjectEdit} />
-            </>}
+            { cvdata.hasOwnProperty('technical_skills') && <TechnicalSkillsList addNewTechnicalSkill={addNewTechnicalSkill} openNewTechnicalSkillForm={openNewTechnicalSkillForm} deleteTechnicallSection={deleteTechnicallSection} setOpenNewTechnicalSkillForm={setOpenNewTechnicalSkillForm} technical_skills={cvdata.technical_skills} deleteTechnicalSkill={deleteTechnicalSkill} /> }
 
 
-            {
-              cvdata.hasOwnProperty('technical_skills') && <>
-                <Box id='technical_skills' sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  width: '100%',
-                }}>
-                  <Typography variant="h6">
-                    Technical Skills
-                  </Typography>
-                  <Box>
-                    <Tooltip title='Add Technical Skill'>
-                      <IconButton onClick={() => setOpenNewTechnicalSkillForm(true)}>
-                        <LibraryAddOutlinedIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title='Delete Technical Skill Section'>
-                      <IconButton onClick={deleteTechnicallSection}>
-                        <HighlightOffOutlinedIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
-
-                </Box>
-                <NewTechnicalSkillForm open={openNewTechnicalSkillForm} setOpen={setOpenNewTechnicalSkillForm} addNewTechnicalSkill={addNewTechnicalSkill} />
-                <TechnicalSkillsList technical_skills={cvdata.technical_skills} deleteTechnicalSkill={deleteTechnicalSkill} />
-              </>
-            }
+            {cvdata.hasOwnProperty('editorial_experience') && <EditorialExperienceTimeLine deleteEditorialExperienceSection={deleteEditorialExperienceSection} setOpenNewEditorialExperienceForm={setOpenNewEditorialExperienceForm} editorial_experience={cvdata.editorial_experience} deleteEditorialExperience={deleteEditorialExperience} openFormForEditorialExperienceEdit={openFormForEditorialExperienceEdit} />}
 
 
-            {cvdata.hasOwnProperty('editorial_experience') && <>
-              <Box id='editorial_experience' sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
-              }}>
-                <Typography variant="h6">
-                  Editorial Board and Organized Special Issue
-                </Typography>
-                <Box>
-                  <Tooltip title='Add Editoial Experience'>
-                    <IconButton onClick={() => setOpenNewEditorialExperienceForm(true)}>
-                      <LibraryAddOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title='Delete Editoial ExperienceEditoial Experience Section'>
-                    <IconButton onClick={deleteEditorialExperienceSection}>
-                      <HighlightOffOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
+            {cvdata.hasOwnProperty('publications') && <PublicationsTimeLine setOpenNewPublicationForm={setOpenNewPublicationForm} deletePublications={deletePublications} publications={cvdata.publications} deletePublication={deletePublication} openFormForPublicationEdit={openFormForPublicationEdit} />}
 
-              </Box>
-
-              <EditorialExperienceTimeLine editorial_experience={cvdata.editorial_experience} deleteEditorialExperience={deleteEditorialExperience} openFormForEditorialExperienceEdit={openFormForEditorialExperienceEdit} /></>}
-
-
-            {cvdata.hasOwnProperty('publications') && <>
-              <Box id='publications' sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
-              }}>
-                <Typography variant="h6">
-                  Publications
-                </Typography>
-                <Box>
-                  <Tooltip title='Add Editoial Experience'>
-                    <IconButton onClick={() => setOpenNewPublicationForm(true)}>
-                      <LibraryAddOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title='Delete Publications Section'>
-                    <IconButton onClick={deletePublications}>
-                      <HighlightOffOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              </Box>
-              <PublicationsTimeLine publications={cvdata.publications} deletePublication={deletePublication} openFormForPublicationEdit={openFormForPublicationEdit} /></>}
-
-            {cvdata.hasOwnProperty('committees') && <>
-              <Box id='committees' sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
-              }}>
-                <Typography variant="h6">
-                  Committees Associations
-                </Typography>
-                <Box>
-                  <Tooltip title='Add Committee Memberships'>
-                    <IconButton onClick={() => setOpenNewCommitteeForm(true)}>
-                      <LibraryAddOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title='Delete Committee Memberships Section'>
-                    <IconButton onClick={deleteCommitteeSection}>
-                      <HighlightOffOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              </Box>
-              <CommitteeTimeLine committees={cvdata.committees} deleteCommittee={deleteCommittee} openFormForCommitteeEdit={openFormForCommitteeEdit} />
-            </>}
+            {cvdata.hasOwnProperty('committees') && <CommitteeTimeLine deleteCommitteeSection={deleteCommitteeSection} setOpenNewCommitteeForm={setOpenNewCommitteeForm} committees={cvdata.committees} deleteCommittee={deleteCommittee} openFormForCommitteeEdit={openFormForCommitteeEdit} />}
 
 
 
-            {cvdata.hasOwnProperty('councils') && <>
-              <Box id='councils' sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
-              }}>
-                <Typography variant="h6">
-                  Councils Association
-                </Typography>
-                <Box>
-                  <Tooltip title='Add Council Memberships'>
-                    <IconButton onClick={() => setOpenNewCouncilForm(true)}>
-                      <LibraryAddOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title='Delete Councils  Section'>
-                    <IconButton onClick={deleteCouncilsSection}>
-                      <HighlightOffOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              </Box>
+            {cvdata.hasOwnProperty('councils') && <CouncilTimeLine setOpenNewCouncilForm={setOpenNewCouncilForm} deleteCouncilsSection={deleteCouncilsSection} councils={cvdata.councils} deleteCouncil={deleteCouncil} openFormForCouncilEdit={openFormForCouncilEdit} />}
 
-              <CouncilTimeLine councils={cvdata.councils} deleteCouncil={deleteCouncil} openFormForCouncilEdit={openFormForCouncilEdit} />
-            </>
-            }
+            {cvdata.hasOwnProperty('memberships') && <MembershipTimeLine deleteMembershipSection={deleteMembershipSection} setOpenNewMembershipForm={setOpenNewMembershipForm} memberships={cvdata.memberships} deleteMembership={deleteMembership} openFormForMembershipEdit={openFormForMembershipEdit} />}
 
-            {cvdata.hasOwnProperty('memberships') && <>
-              <Box id='memberships' sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
-              }}>
-                <Typography variant="h6">
-                  Memberships
-                </Typography>
-                <Box>
-                  <Tooltip title='Add Membership'>
-                    <IconButton onClick={() => setOpenNewMembershipForm(true)}>
-                      <LibraryAddOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title='Delete membership section'>
-                    <IconButton onClick={deleteMembershipSection}>
-                      <HighlightOffOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              </Box>
-              <MembershipTimeLine memberships={cvdata.memberships} deleteMembership={deleteMembership} openFormForMembershipEdit={openFormForMembershipEdit} />
-            </>
-            }
+            {cvdata.hasOwnProperty('awards_honors') && <AwardHonorsTimeLine deleteAwardSection={deleteAwardSection} setOpenNewAwardHonorForm={setOpenNewAwardHonorForm} awards_honors={cvdata.awards_honors} deleteAward={deleteAward} openFormForAwardHonorEdit={openFormForAwardHonorEdit} />}
 
-            {cvdata.hasOwnProperty('awards_honors') && <>
-              <Box id='awards_honors' sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
-              }}>
-                <Typography variant="h6">
-                  Honors / Awards
-                </Typography>
-                <Box>
-                  <Tooltip title='Add Award/Honor Details'>
-                    <IconButton onClick={() => setOpenNewAwardHonorForm(true)}>
-                      <LibraryAddOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title='Delete Awards/Honors section'>
-                    <IconButton onClick={deleteAwardSection}>
-                      <HighlightOffOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              </Box>
-              <AwardHonorsTimeLine  awards_honors={cvdata.awards_honors} deleteAward={deleteAward} openFormForAwardHonorEdit={openFormForAwardHonorEdit} />
-            </>
-            }
+            {cvdata.hasOwnProperty('conferences') && <ConferencesList deleteConferencesSection={deleteConferencesSection} setOpenNewConferenceForm={setOpenNewConferenceForm} conferences={cvdata.conferences} deleteConference={deleteConference} openFormForConferenceEdit={openFormForConferenceEdit} />}
 
-            {cvdata.hasOwnProperty('conferences') && <>
-              <Box id='conferences' sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
-              }}>
-                <Typography variant="h6">
-                  Conferences
-                </Typography>
-                <Box>
-                  <Tooltip title='Add Conference Details'>
-                    <IconButton onClick={() => setOpenNewConferenceForm(true)}>
-                      <LibraryAddOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title='Delete Conference section'>
-                    <IconButton onClick={deleteConferencesSection}>
-                      <HighlightOffOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              </Box>
-              <ConferencesList  conferences={cvdata.conferences} deleteConference={deleteConference} openFormForConferenceEdit={openFormForConferenceEdit} />
-            </>
-            }
-
-            {cvdata.hasOwnProperty('journals') && <>
-              <Box id='journals' sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
-              }}>
-                <Typography variant="h6">
-                  Journals
-                </Typography>
-                <Box>
-                  <Tooltip title='Add journal Details'>
-                    <IconButton onClick={() => setOpenNewJournalForm(true)}>
-                      <LibraryAddOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title='Delete journals section'>
-                    <IconButton onClick={deleteJournalsSection}>
-                      <HighlightOffOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              </Box>
-              <JournalsList journals={cvdata.journals} deleteJournal={deleteJournal} openFormForJournalEdit={openFormForJournalEdit} />
-            </>
-            }
+            {cvdata.hasOwnProperty('journals') && <JournalsList setOpenNewJournalForm={setOpenNewJournalForm} deleteJournalsSection={deleteJournalsSection} journals={cvdata.journals} deleteJournal={deleteJournal} openFormForJournalEdit={openFormForJournalEdit} /> }
 
 
             <CVSectionButtons cvdata={cvdata} CVMenuButtonHandlers={CVMenuButtonHandlers} />

@@ -8,12 +8,40 @@ import TimelineDot from '@mui/lab/TimelineDot';
 import ItemCouncil from './listItems/ItemCouncil';
 import { DROPPABLE_TYPE_IDS } from '@/data/data';
 import { Draggable, Droppable } from 'react-beautiful-dnd'
+import { IconButton, Tooltip } from '@mui/material';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
+import { useState } from 'react';
 
+export default function CouncilTimeLine({ deleteCouncilsSection, setOpenNewCouncilForm,councils, deleteCouncil, openFormForCouncilEdit }) {
 
-export default function CouncilTimeLine({ councils, deleteCouncil, openFormForCouncilEdit }) {
+    const [isMouseOver, setIsMouseOver] = useState(false);
 
 
     return (
+        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
+        <Box id='councils' sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '100%',
+          }}>
+            <Typography variant="h6">
+              Councils Association
+            </Typography>
+            <Box sx={{ visibility: isMouseOver ? 'visible' : 'hidden' }}>
+              <Tooltip title='Add Council Memberships'>
+                <IconButton onClick={() => setOpenNewCouncilForm(true)}>
+                  <LibraryAddOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title='Delete Councils  Section'>
+                <IconButton onClick={deleteCouncilsSection}>
+                  <HighlightOffOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </Box>
+
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -64,6 +92,8 @@ export default function CouncilTimeLine({ councils, deleteCouncil, openFormForCo
                 {
                     councils.length == 0 && <Typography align='center'>No Councils added yet. <br></br> Start adding new by clicking add button above.</Typography>
                 }
+            </Box>
+
             </Box>
     );
 }

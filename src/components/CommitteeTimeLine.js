@@ -8,12 +8,37 @@ import TimelineDot from '@mui/lab/TimelineDot';
 import ItemCommittee from './listItems/ItemCommittee';
 import {  Draggable, Droppable } from 'react-beautiful-dnd'
 import { DROPPABLE_TYPE_IDS } from '@/data/data';
+import { IconButton, Tooltip } from '@mui/material';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
+import { useState } from 'react';
 
-
-export default function CommitteeTimeLine({  committees, deleteCommittee, openFormForCommitteeEdit }) {
-
+export default function CommitteeTimeLine({deleteCommitteeSection,  setOpenNewCommitteeForm, committees, deleteCommittee, openFormForCommitteeEdit }) {
+    const [isMouseOver, setIsMouseOver] = useState(false);
    
     return (
+        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
+        <Box id='committees' sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '100%',
+          }}>
+            <Typography variant="h6">
+              Committees Associations
+            </Typography>
+            <Box sx={{ visibility: isMouseOver ? 'visible' : 'hidden' }}>
+              <Tooltip title='Add Committee Memberships'>
+                <IconButton onClick={() => setOpenNewCommitteeForm(true)}>
+                  <LibraryAddOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title='Delete Committee Memberships Section'>
+                <IconButton onClick={deleteCommitteeSection}>
+                  <HighlightOffOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </Box>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -65,6 +90,7 @@ export default function CommitteeTimeLine({  committees, deleteCommittee, openFo
                 {
                     committees.length == 0 && <Typography align='center'>No Committees added yet. <br></br> Click Add button to start adding Committee memberships.</Typography>
                 }
+            </Box>
             </Box>
 
     );

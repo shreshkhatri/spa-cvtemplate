@@ -1,9 +1,8 @@
-import { useRef, useState } from 'react';
+import {  useState } from 'react';
 import uniqid from 'uniqid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 
 
 export default function NewTechnicalSkillForm({ open, setOpen, addNewTechnicalSkill }) {
@@ -46,6 +45,7 @@ export default function NewTechnicalSkillForm({ open, setOpen, addNewTechnicalSk
                 value={skill}
                 autoFocus
                 onChange={e => setSkill(e.target.value)}
+                onBlur={()=>setOpen(false)}
             />
             <Box sx={{
                 display: 'flex',

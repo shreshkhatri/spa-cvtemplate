@@ -9,11 +9,37 @@ import TimelineDot from '@mui/lab/TimelineDot';
 import ItemExperience from './listItems/itemExperience';
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 import { DROPPABLE_TYPE_IDS } from '@/data/data';
+import { IconButton, Tooltip } from '@mui/material';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
+import { useState } from 'react';
 
-
-export default function WorkExperienceTimeLine({ work_history, deleteWorkExperience, openFormForWorkExperienceEdit }) {
+export default function WorkExperienceTimeLine({ deleteWorkHistory, setOpenNewExperienceForm, work_history, deleteWorkExperience, openFormForWorkExperienceEdit }) {
+  const [isMouseOver, setIsMouseOver] = useState(false);
 
   return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
+      <Box id='work_history' sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '100%'
+      }}>
+        <Typography variant="h6">
+          Experiences
+        </Typography>
+        <Box sx={{ visibility: isMouseOver ? 'visible' : 'hidden' }}>
+          <Tooltip title='Add New Experience'>
+            <IconButton onClick={() => setOpenNewExperienceForm(true)}>
+              <LibraryAddOutlinedIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title='Delete all experiences'>
+            <IconButton onClick={deleteWorkHistory}>
+              <HighlightOffOutlinedIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      </Box>
       <Box sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -43,24 +69,24 @@ export default function WorkExperienceTimeLine({ work_history, deleteWorkExperie
                   {
                     work_history.map((work_experience, index) => {
                       return <Draggable draggableId={work_experience.employmentID} key={work_experience.employmentID} index={index}>
-                          {(provided, snapshot) => (
-                            <TimelineItem ref={provided.innerRef} key={work_experience.employmentID} {...provided.draggableProps} {...provided.dragHandleProps}>
+                        {(provided, snapshot) => (
+                          <TimelineItem ref={provided.innerRef} key={work_experience.employmentID} {...provided.draggableProps} {...provided.dragHandleProps}>
 
-                              <TimelineSeparator>
-                                <TimelineDot color='success' />
-                                {(work_history.length - 1) !== index && <TimelineConnector />}
-                              </TimelineSeparator>
-                              <TimelineContent sx={{ paddingBottom: 1 }}>
-                                <ItemExperience work_experience={work_experience} deleteWorkExperience={deleteWorkExperience} openFormForWorkExperienceEdit={openFormForWorkExperienceEdit} isDragging={snapshot.isDragging}/>
-                              </TimelineContent>
-                            </TimelineItem>
-                          )}
-                        </Draggable>
+                            <TimelineSeparator>
+                              <TimelineDot color='success' />
+                              {(work_history.length - 1) !== index && <TimelineConnector />}
+                            </TimelineSeparator>
+                            <TimelineContent sx={{ paddingBottom: 1 }}>
+                              <ItemExperience work_experience={work_experience} deleteWorkExperience={deleteWorkExperience} openFormForWorkExperienceEdit={openFormForWorkExperienceEdit} isDragging={snapshot.isDragging} />
+                            </TimelineContent>
+                          </TimelineItem>
+                        )}
+                      </Draggable>
                     })
                   }
                   {provided.placeholder}
                 </Timeline>
-                )}
+              )}
 
           </Droppable>
         }
@@ -68,5 +94,6 @@ export default function WorkExperienceTimeLine({ work_history, deleteWorkExperie
           work_history.length == 0 && <Typography align='center'>No experiences added yet. <br></br> Start adding new qualification by clicking link above.</Typography>
         }
       </Box>
+    </Box>
   );
 }
