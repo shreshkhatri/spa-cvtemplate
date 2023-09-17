@@ -54,6 +54,8 @@ import EditConferenceForm from '@/components/forms/FormsForEdit/EditConferenceFo
 import EditJournalForm from '@/components/forms/FormsForEdit/EditJournalForm';
 import QuickLiinks from '@/components/QuickLiinks';
 import FloatingButton from '@/components/FloatingButton';
+import AppTheme from '@/assets/AppTheme';
+
 
 export default function Home() {
   const [cvdata, updateCVData] = useState(CVDATA)
@@ -850,7 +852,7 @@ export default function Home() {
 
 
   return (
-    
+    <AppTheme>
       <Box sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -883,7 +885,7 @@ export default function Home() {
             </Typography>
           </Box>
 
-          {!isBasicInfoEditModeOn && <BasicInformationSection basic_information={cvdata.basic_information} setEditBasicInfoMode={setEditBasicInfoMode}/>}
+          {!isBasicInfoEditModeOn && <BasicInformationSection basic_information={cvdata.basic_information} setEditBasicInfoMode={setEditBasicInfoMode} />}
 
           {isBasicInfoEditModeOn && <BasicInformationForm basic_information={cvdata.basic_information} updateBasicInformation={updateBasicInformation} setEditBasicInfoMode={setEditBasicInfoMode} />}
 
@@ -1276,8 +1278,9 @@ export default function Home() {
           {openEditJournalForm && <EditJournalForm open={openEditJournalForm} setOpen={setOpenEditJournalForm} jrnl={tempStore} editJournal={editJournal} />}
           <FloatingButton />
         </Box>
-        
+
       </Box>
+    </AppTheme>
   )
 }
 
