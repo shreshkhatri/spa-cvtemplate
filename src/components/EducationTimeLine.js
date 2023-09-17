@@ -16,6 +16,8 @@ export default function EducationTimeLine({ sortEducationHistory, education_hist
 
     const onDragEnd = (result) => {
 
+        console.log(result)
+
         const {destination, source, draggableId} = result;
 
         if (!destination) return;

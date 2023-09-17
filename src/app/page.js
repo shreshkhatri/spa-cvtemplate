@@ -1,5 +1,4 @@
 'use client';
-import {DragDropContext} from 'react-beautiful-dnd'
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
@@ -53,6 +52,7 @@ import EditMembershipForm from '@/components/forms/FormsForEdit/EditMembershipFo
 import EditAwardHonorForm from '@/components/forms/FormsForEdit/EditAwardHonorForm';
 import EditConferenceForm from '@/components/forms/FormsForEdit/EditConferenceForm';
 import EditJournalForm from '@/components/forms/FormsForEdit/EditJournalForm';
+import QuickLiinks from '@/components/QuickLiinks';
 
 export default function Home() {
   const [cvdata, updateCVData] = useState(CVDATA)
@@ -78,24 +78,24 @@ export default function Home() {
 
   //stes for forms for modifying the existing entry
   // States for forms
-const [openEditEducationForm, setOpenEditEducationForm] = useState(false);
-const [openEditExperienceForm, setOpenEditExperienceForm] = useState(false);
-const [openEditAccreditionExperienceForm, setOpenEditAccreditionExperienceForm] = useState(false);
-const [openEditProjectForm, setOpenEditProjectForm] = useState(false);
-const [openEditTechnicalSkillForm, setOpenEditTechnicalSkillForm] = useState(false);
-const [openEditEditorialExperienceForm, setOpenEditEditorialExperienceForm] = useState(false);
-const [openEditPublicationForm, setOpenEditPublicationForm] = useState(false);
-const [openEditCommitteeForm, setOpenEditCommitteeForm] = useState(false);
-const [openEditCouncilForm, setOpenEditCouncilForm] = useState(false);
-const [openEditMembershipForm, setOpenEditMembershipForm] = useState(false);
-const [openEditAwardHonorForm, setOpenEditAwardHonorForm] = useState(false);
-const [openEditConferenceForm, setOpenEditConferenceForm] = useState(false);
-const [openEditJournalForm, setOpenEditJournalForm] = useState(false);
+  const [openEditEducationForm, setOpenEditEducationForm] = useState(false);
+  const [openEditExperienceForm, setOpenEditExperienceForm] = useState(false);
+  const [openEditAccreditionExperienceForm, setOpenEditAccreditionExperienceForm] = useState(false);
+  const [openEditProjectForm, setOpenEditProjectForm] = useState(false);
+  const [openEditTechnicalSkillForm, setOpenEditTechnicalSkillForm] = useState(false);
+  const [openEditEditorialExperienceForm, setOpenEditEditorialExperienceForm] = useState(false);
+  const [openEditPublicationForm, setOpenEditPublicationForm] = useState(false);
+  const [openEditCommitteeForm, setOpenEditCommitteeForm] = useState(false);
+  const [openEditCouncilForm, setOpenEditCouncilForm] = useState(false);
+  const [openEditMembershipForm, setOpenEditMembershipForm] = useState(false);
+  const [openEditAwardHonorForm, setOpenEditAwardHonorForm] = useState(false);
+  const [openEditConferenceForm, setOpenEditConferenceForm] = useState(false);
+  const [openEditJournalForm, setOpenEditJournalForm] = useState(false);
 
-const [tempStore,setTempStore] =  useState(null);
+  const [tempStore, setTempStore] = useState(null);
 
 
-/************************************** FUNCTION FOR REARRANGING THE ARRAY ELEMENTS AFTER DRAG & DROP OPERATION ********************** */
+  /************************************** FUNCTION FOR REARRANGING THE ARRAY ELEMENTS AFTER DRAG & DROP OPERATION ********************** */
 
   //function to update education history after drag and drop
   function sortEducationHistory(updatedArray) {
@@ -105,156 +105,156 @@ const [tempStore,setTempStore] =  useState(null);
     }));
   }
 
-    //function to update work history after drag and drop
-    function sortExperienceHistory(updatedArray) {
-      updateCVData(prevCVData => ({
-        ...prevCVData,
-        work_history: updatedArray
-      }));
-    }
-  
-
-    //function to update project history after drag and drop
-    function sortProjectHistory(updatedArray) {
-      updateCVData(prevCVData => ({
-        ...prevCVData,
-        projects: updatedArray
-      }));
-    }
+  //function to update work history after drag and drop
+  function sortExperienceHistory(updatedArray) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      work_history: updatedArray
+    }));
+  }
 
 
-    //function to update editorial experiencec history after drag and drop
-    function sortEditorialHistory(updatedArray) {
-      updateCVData(prevCVData => ({
-        ...prevCVData,
-        editorial_experience: updatedArray
-      }));
-    }
+  //function to update project history after drag and drop
+  function sortProjectHistory(updatedArray) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      projects: updatedArray
+    }));
+  }
 
 
-    //function to update committee history after drag and drop
-    function sortCommitteeHistory(updatedArray) {
-      updateCVData(prevCVData => ({
-        ...prevCVData,
-        committees: updatedArray
-      }));
-    }
+  //function to update editorial experiencec history after drag and drop
+  function sortEditorialHistory(updatedArray) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      editorial_experience: updatedArray
+    }));
+  }
 
 
-    //function to update council membership history after drag and drop
-    function sortCouncilHistory(updatedArray) {
-      updateCVData(prevCVData => ({
-        ...prevCVData,
-        councils: updatedArray
-      }));
-    }
+  //function to update committee history after drag and drop
+  function sortCommitteeHistory(updatedArray) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      committees: updatedArray
+    }));
+  }
 
 
-    //function to update memberships history after drag and drop
-    function sortMembershipHistory(updatedArray) {
-      updateCVData(prevCVData => ({
-        ...prevCVData,
-        memberships: updatedArray
-      }));
-    }
+  //function to update council membership history after drag and drop
+  function sortCouncilHistory(updatedArray) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      councils: updatedArray
+    }));
+  }
 
 
-    //function to update award history after drag and drop
-    function sortAwardHistory(updatedArray) {
-      updateCVData(prevCVData => ({
-        ...prevCVData,
-        awards_honors: updatedArray
-      }));
-    }
+  //function to update memberships history after drag and drop
+  function sortMembershipHistory(updatedArray) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      memberships: updatedArray
+    }));
+  }
 
 
-//function to update conferences history after drag and drop
-    function sortConferenceHistory(updatedArray) {
-      updateCVData(prevCVData => ({
-        ...prevCVData,
-        conferences: updatedArray
-      }));
-    }
+  //function to update award history after drag and drop
+  function sortAwardHistory(updatedArray) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      awards_honors: updatedArray
+    }));
+  }
 
 
-
-/*************************************  FUNCTION FOR OPENING FORM FOR EDITING DATA  **************************************************/
-
-
-// function for setting the form up for editing journal details
-function openFormForJournalEdit(journalID){
-  setTempStore(cvdata.journals.find(journal => journal.journalID == journalID));
-  setOpenEditJournalForm(true);
-}
+  //function to update conferences history after drag and drop
+  function sortConferenceHistory(updatedArray) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      conferences: updatedArray
+    }));
+  }
 
 
 
-// function for setting the form up for editing conference details
-function openFormForConferenceEdit(conferenceID){
-  setTempStore(cvdata.conferences.find(conference => conference.conferenceID == conferenceID));
-  setOpenEditConferenceForm(true);
-}
+  /*************************************  FUNCTION FOR OPENING FORM FOR EDITING DATA  **************************************************/
 
 
-// function for setting the form up for editing award and honor details
-function openFormForAwardHonorEdit(award_honor_ID){
-  setTempStore(cvdata.awards_honors.find(award => award.award_honor_ID == award_honor_ID));
-  setOpenEditAwardHonorForm(true);
-}
-
-// function for setting the form up for editing membership details
-function openFormForMembershipEdit(membershipID){
-  setTempStore(cvdata.memberships.find(membership => membership.membershipID == membershipID));
-  setOpenEditMembershipForm(true);
-}
-
-
-// function for setting the form up for editing council details
-function openFormForCouncilEdit(councilID){
-  setTempStore(cvdata.councils.find(council => council.councilID == councilID));
-  setOpenEditCouncilForm(true);
-}
-
-// function for setting the form up for editing editorial experience
-function openFormForCommitteeEdit(committeeID){
-  setTempStore(cvdata.committees.find(committee => committee.committeeID == committeeID));
-  setOpenEditCommitteeForm(true);
-}
-
-// function for setting the form up for editing editorial experience
-function openFormForEditorialExperienceEdit(experienceID){
-  setTempStore(cvdata.editorial_experience.find(experience => experience.experienceID == experienceID));
-  setOpenEditEditorialExperienceForm(true);
-}
+  // function for setting the form up for editing journal details
+  function openFormForJournalEdit(journalID) {
+    setTempStore(cvdata.journals.find(journal => journal.journalID == journalID));
+    setOpenEditJournalForm(true);
+  }
 
 
 
-// function for setting the form up for editing publication information 
-function openFormForPublicationEdit(publicationID){
-  setTempStore(cvdata.publications.find(publication => publication.publicationID == publicationID));
-  setOpenEditPublicationForm(true);
-}
+  // function for setting the form up for editing conference details
+  function openFormForConferenceEdit(conferenceID) {
+    setTempStore(cvdata.conferences.find(conference => conference.conferenceID == conferenceID));
+    setOpenEditConferenceForm(true);
+  }
 
 
-// function for setting the form up for editing project information 
-function openFormForProjectEdit(projectID){
-  setTempStore(cvdata.projects.find(project => project.projectID == projectID));
-  setOpenEditProjectForm(true);
-}
+  // function for setting the form up for editing award and honor details
+  function openFormForAwardHonorEdit(award_honor_ID) {
+    setTempStore(cvdata.awards_honors.find(award => award.award_honor_ID == award_honor_ID));
+    setOpenEditAwardHonorForm(true);
+  }
+
+  // function for setting the form up for editing membership details
+  function openFormForMembershipEdit(membershipID) {
+    setTempStore(cvdata.memberships.find(membership => membership.membershipID == membershipID));
+    setOpenEditMembershipForm(true);
+  }
 
 
-// function for setting the form for editing degree information and loading the data into tempstorage
-function openFormForDegreeEdit(degreeID){
-  setTempStore(cvdata.education_history.find(degree => degree.degreeID == degreeID));
-  setOpenEditEducationForm(true);
-}
+  // function for setting the form up for editing council details
+  function openFormForCouncilEdit(councilID) {
+    setTempStore(cvdata.councils.find(council => council.councilID == councilID));
+    setOpenEditCouncilForm(true);
+  }
+
+  // function for setting the form up for editing editorial experience
+  function openFormForCommitteeEdit(committeeID) {
+    setTempStore(cvdata.committees.find(committee => committee.committeeID == committeeID));
+    setOpenEditCommitteeForm(true);
+  }
+
+  // function for setting the form up for editing editorial experience
+  function openFormForEditorialExperienceEdit(experienceID) {
+    setTempStore(cvdata.editorial_experience.find(experience => experience.experienceID == experienceID));
+    setOpenEditEditorialExperienceForm(true);
+  }
 
 
-// function for opening th form for dediting employment details 
-function openFormForWorkExperienceEdit(employmentID){
-setTempStore(cvdata.work_history.find(work_experience => work_experience.employmentID == employmentID));
-setOpenEditExperienceForm(true);
-}
+
+  // function for setting the form up for editing publication information 
+  function openFormForPublicationEdit(publicationID) {
+    setTempStore(cvdata.publications.find(publication => publication.publicationID == publicationID));
+    setOpenEditPublicationForm(true);
+  }
+
+
+  // function for setting the form up for editing project information 
+  function openFormForProjectEdit(projectID) {
+    setTempStore(cvdata.projects.find(project => project.projectID == projectID));
+    setOpenEditProjectForm(true);
+  }
+
+
+  // function for setting the form for editing degree information and loading the data into tempstorage
+  function openFormForDegreeEdit(degreeID) {
+    setTempStore(cvdata.education_history.find(degree => degree.degreeID == degreeID));
+    setOpenEditEducationForm(true);
+  }
+
+
+  // function for opening th form for dediting employment details 
+  function openFormForWorkExperienceEdit(employmentID) {
+    setTempStore(cvdata.work_history.find(work_experience => work_experience.employmentID == employmentID));
+    setOpenEditExperienceForm(true);
+  }
 
 
 
@@ -629,92 +629,92 @@ setOpenEditExperienceForm(true);
   }
 
   /*************************************** FUNCTION TO EDIT INDIVIDUAL ITEMS FROM THE LIST *****************************************/
-  
-//function to edit journal from  the existing list
-function editJournal(updatedData) {
-  updateCVData(prevCVData => ({
-    ...prevCVData,
-    journals: prevCVData.journals.map(journal => journal.journalID == updatedData.journalID ? updatedData:journal)
-  }));
-  setTempStore(null);
-}
+
+  //function to edit journal from  the existing list
+  function editJournal(updatedData) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      journals: prevCVData.journals.map(journal => journal.journalID == updatedData.journalID ? updatedData : journal)
+    }));
+    setTempStore(null);
+  }
 
 
   //function to edit conference from  the existing list
-function editConference(updatedData) {
-  updateCVData(prevCVData => ({
-    ...prevCVData,
-    conferences: prevCVData.conferences.map(conference => conference.conferenceID == updatedData.conferenceID ? updatedData:conference)
-  }));
-  setTempStore(null);
-}
+  function editConference(updatedData) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      conferences: prevCVData.conferences.map(conference => conference.conferenceID == updatedData.conferenceID ? updatedData : conference)
+    }));
+    setTempStore(null);
+  }
 
 
   //function to edit awardHonor details from the existing list
-function editAwardHonor(updatedData) {
-  updateCVData(prevCVData => ({
-    ...prevCVData,
-    awards_honors: prevCVData.awards_honors.map(award => award.award_honor_ID == updatedData.award_honor_ID ? updatedData:award)
-  }));
-  setTempStore(null);
-}
+  function editAwardHonor(updatedData) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      awards_honors: prevCVData.awards_honors.map(award => award.award_honor_ID == updatedData.award_honor_ID ? updatedData : award)
+    }));
+    setTempStore(null);
+  }
 
 
   //function to edit membership details from the existing list
-function editMembership(updatedData) {
-  updateCVData(prevCVData => ({
-    ...prevCVData,
-    memberships: prevCVData.memberships.map(membership => membership.membershipID == updatedData.membershipID ? updatedData:membership)
-  }));
-  setTempStore(null);
-}
+  function editMembership(updatedData) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      memberships: prevCVData.memberships.map(membership => membership.membershipID == updatedData.membershipID ? updatedData : membership)
+    }));
+    setTempStore(null);
+  }
 
 
   //function to edit council details from the existing list
-function editCouncil(updatedData) {
-  updateCVData(prevCVData => ({
-    ...prevCVData,
-    councils: prevCVData.councils.map(council => council.councilID == updatedData.councilID ? updatedData:council)
-  }));
-  setTempStore(null);
-}
+  function editCouncil(updatedData) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      councils: prevCVData.councils.map(council => council.councilID == updatedData.councilID ? updatedData : council)
+    }));
+    setTempStore(null);
+  }
 
   //function to edit committee details from the existing list
-function editCommittee(updatedData) {
-  updateCVData(prevCVData => ({
-    ...prevCVData,
-    committees: prevCVData.committees.map(committee => committee.committeeID == updatedData.committeeID ? updatedData:committee)
-  }));
-  setTempStore(null);
-}
+  function editCommittee(updatedData) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      committees: prevCVData.committees.map(committee => committee.committeeID == updatedData.committeeID ? updatedData : committee)
+    }));
+    setTempStore(null);
+  }
 
 
   //function to edit editorial experience from the existing list
-function editEditorialExperience(updatedData) {
-  updateCVData(prevCVData => ({
-    ...prevCVData,
-    editorial_experience: prevCVData.editorial_experience.map(experience => experience.experienceID == updatedData.experienceID ? updatedData:experience)
-  }));
-  setTempStore(null);
-}
+  function editEditorialExperience(updatedData) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      editorial_experience: prevCVData.editorial_experience.map(experience => experience.experienceID == updatedData.experienceID ? updatedData : experience)
+    }));
+    setTempStore(null);
+  }
 
 
 
   //function to edit publication detail from the existing list
-function editPublication(updatedData) {
-  updateCVData(prevCVData => ({
-    ...prevCVData,
-    publications: prevCVData.publications.map(publication => publication.publicationID == updatedData.publicationID ? updatedData:publication)
-  }));
-  setTempStore(null);
-}
+  function editPublication(updatedData) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      publications: prevCVData.publications.map(publication => publication.publicationID == updatedData.publicationID ? updatedData : publication)
+    }));
+    setTempStore(null);
+  }
 
 
   //function to edit project detail from the existing list
   function editProject(updatedData) {
     updateCVData(prevCVData => ({
       ...prevCVData,
-      projects: prevCVData.projects.map(project => project.projectID == updatedData.projectID ? updatedData:project)
+      projects: prevCVData.projects.map(project => project.projectID == updatedData.projectID ? updatedData : project)
     }));
     setTempStore(null);
   }
@@ -723,21 +723,21 @@ function editPublication(updatedData) {
   function editEducationDegree(updatedData) {
     updateCVData(prevCVData => ({
       ...prevCVData,
-      education_history: prevCVData.education_history.map(degree => degree.degreeID == updatedData.degreeID ? updatedData:degree)
+      education_history: prevCVData.education_history.map(degree => degree.degreeID == updatedData.degreeID ? updatedData : degree)
     }));
     setTempStore(null);
   }
 
 
-    //function to edit work experience item from the exisiting list
-    function editWorkExperience(updatedData) {
-      updateCVData(prevCVData => ({
-        ...prevCVData,
-        work_history: prevCVData.work_history.map(work_experience => work_experience.employmentID == updatedData.employmentID ? updatedData:work_experience)
-      }));
-      setTempStore(null);
-    }
-  
+  //function to edit work experience item from the exisiting list
+  function editWorkExperience(updatedData) {
+    updateCVData(prevCVData => ({
+      ...prevCVData,
+      work_history: prevCVData.work_history.map(work_experience => work_experience.employmentID == updatedData.employmentID ? updatedData : work_experience)
+    }));
+    setTempStore(null);
+  }
+
   /*************************************** FUNCTION TO DELETE INDIVIDUAL ITEMS FROM THE LIST ***************************************/
 
   //function to delete editorialExperience item from the exisiting list
@@ -849,437 +849,432 @@ function editPublication(updatedData) {
 
 
   return (
-    <DragDropContext onDragEnd={()=>onDragEnd()} >
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      minHeight: '100vh',
-      width: '100%'
-    }}>
+    
       <Box sx={{
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        gap: 2,
-        width: '100%',
-        paddingX: {
-          xs: 1,
-          sm: 5,
-          md: 10
-        }
+        minHeight: '100vh',
+        width: '100%'
       }}>
         <Box sx={{
           display: 'flex',
-          justifyContent: 'space-between',
-          paddingTop:2,
-          width: '100%'
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          gap: 2,
+          width: '100%',
+          paddingX: {
+            xs: 1,
+            sm: 5,
+            md: 10
+          }
         }}>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            Personal Information
-          </Typography>
-
-          <Tooltip title='Update Personal Information'>
-            <IconButton onClick={() => setEditBasicInfoMode(true)}>
-              <EditNoteOutlinedIcon />
-            </IconButton>
-          </Tooltip>
-        </Box>
-
-        {!isBasicInfoEditModeOn && <BasicInformationSection basic_information={cvdata.basic_information} />}
-
-        {isBasicInfoEditModeOn && <BasicInformationForm basic_information={cvdata.basic_information} updateBasicInformation={updateBasicInformation} setEditBasicInfoMode={setEditBasicInfoMode} />}
-
-        {cvdata.hasOwnProperty('personal_statement') &&
-          !isPersonalStatementEditModeOn &&
-          <PersonalStatement personal_statement={cvdata.personal_statement} deletePersonalStatement={deletePersonalStatement} setIsPersonalStatementEditModeOn={setIsPersonalStatementEditModeOn} />}
-
-
-        {cvdata.hasOwnProperty('personal_statement') && isPersonalStatementEditModeOn && <PersonalStatementForm personal_statement={cvdata.personal_statement} updatePersonalStatement={updatePersonalStatement} setIsPersonalStatementEditModeOn={setIsPersonalStatementEditModeOn} />}
-
-        {cvdata.hasOwnProperty('career_summary') && !isCareerSummaryEditMode && <CareerSummary career_summary={cvdata.career_summary} deleteCareerSummary={deleteCareerSummary} setIsCareerSummaryEditMode={setIsCareerSummaryEditMode} />}
-        {cvdata.hasOwnProperty('career_summary') && isCareerSummaryEditMode && <CareerSummaryForm career_summary={cvdata.career_summary} updateCareerSummary={updateCareerSummary} setIsCareerSummaryEditMode={setIsCareerSummaryEditMode} />}
-
-
-        {cvdata.hasOwnProperty('education_history') && <>
           <Box sx={{
             display: 'flex',
             justifyContent: 'space-between',
+            paddingTop: 2,
             width: '100%'
           }}>
-            <Typography variant="h6">
-              Education
+            <Typography variant="h6" sx={{ flexGrow: 1 }}>
+              Personal Information
             </Typography>
-            <Box>
-              <Tooltip title='Add education degree'>
-                <IconButton onClick={() => setOpenNewEducationForm(true)}>
-                  <LibraryAddOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title='delete education history'>
-                <IconButton onClick={deleteEducationHistory}>
-                  <HighlightOffOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Box>
-          <EducationTimeLine sortEducationHistory={sortEducationHistory} education_history={cvdata.education_history} deleteEducationDegree={deleteEducationDegree} openFormForDegreeEdit={openFormForDegreeEdit}/></>}
-
-
-
-
-        {cvdata.hasOwnProperty('work_history') && <>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%'
-          }}>
-            <Typography variant="h6">
-              Experiences
-            </Typography>
-            <Box>
-              <Tooltip title='Add New Experience'>
-                <IconButton onClick={() => setOpenNewExperienceForm(true)}>
-                  <LibraryAddOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title='Delete all experiences'>
-                <IconButton onClick={deleteWorkHistory}>
-                  <HighlightOffOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Box>
-          <WorkExperienceTimeLine sortExperienceHistory={sortExperienceHistory} work_history={cvdata.work_history} deleteWorkExperience={deleteWorkExperience} openFormForWorkExperienceEdit={openFormForWorkExperienceEdit} /></>}
-
-
-
-        {cvdata.hasOwnProperty('accreditations') && <>
-          <Box sx={{
-            display: 'flex',
-            width: '100%',
-            justifyContent: 'space-between'
-          }}>
-            <Typography variant="h6">
-              Accreditations
-            </Typography>
-
-            <Box>
-              <Tooltip title='Add New accreditation'>
-                <IconButton onClick={() => setOpenNewAccreditionExperienceForm(true)}>
-                  <LibraryAddOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title='Delete accreditation section'>
-                <IconButton onClick={deleteAccreditationsSection}>
-                  <HighlightOffOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
           </Box>
 
-          <AccreditationsTimeLine accreditations={cvdata.accreditations} deleteAccreditation={deleteAccreditation} /></>}
+          {!isBasicInfoEditModeOn && <BasicInformationSection basic_information={cvdata.basic_information} setEditBasicInfoMode={setEditBasicInfoMode}/>}
 
-        {cvdata.hasOwnProperty('projects') && <>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%',
-          }}>
-            <Typography variant="h6">
-              Projects
-            </Typography>
+          {isBasicInfoEditModeOn && <BasicInformationForm basic_information={cvdata.basic_information} updateBasicInformation={updateBasicInformation} setEditBasicInfoMode={setEditBasicInfoMode} />}
+
+          {!_.isNull(cvdata) && <QuickLiinks targets={Object.keys(cvdata)} />}
+
+          {cvdata.hasOwnProperty('personal_statement') &&
+            !isPersonalStatementEditModeOn &&
+            <PersonalStatement personal_statement={cvdata.personal_statement} deletePersonalStatement={deletePersonalStatement} setIsPersonalStatementEditModeOn={setIsPersonalStatementEditModeOn} />}
 
 
-            <Box>
-              <Tooltip title='Add New Project'>
-                <IconButton onClick={() => setOpenNewProjectForm(true)}>
-                  <LibraryAddOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title='Delete Projects'>
-                <IconButton onClick={deleteProjects}>
-                  <HighlightOffOutlinedIcon />
-                </IconButton>
-              </Tooltip>
+          {cvdata.hasOwnProperty('personal_statement') && isPersonalStatementEditModeOn && <PersonalStatementForm personal_statement={cvdata.personal_statement} updatePersonalStatement={updatePersonalStatement} setIsPersonalStatementEditModeOn={setIsPersonalStatementEditModeOn} />}
+
+          {cvdata.hasOwnProperty('career_summary') && !isCareerSummaryEditMode && <CareerSummary career_summary={cvdata.career_summary} deleteCareerSummary={deleteCareerSummary} setIsCareerSummaryEditMode={setIsCareerSummaryEditMode} />}
+          {cvdata.hasOwnProperty('career_summary') && isCareerSummaryEditMode && <CareerSummaryForm career_summary={cvdata.career_summary} updateCareerSummary={updateCareerSummary} setIsCareerSummaryEditMode={setIsCareerSummaryEditMode} />}
+
+
+          {cvdata.hasOwnProperty('education_history') && <>
+            <Box id='education_history' sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%'
+            }}>
+              <Typography variant="h6">
+                Education
+              </Typography>
+              <Box>
+                <Tooltip title='Add education degree'>
+                  <IconButton onClick={() => setOpenNewEducationForm(true)}>
+                    <LibraryAddOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title='delete education history'>
+                  <IconButton onClick={deleteEducationHistory}>
+                    <HighlightOffOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </Box>
+            <EducationTimeLine sortEducationHistory={sortEducationHistory} education_history={cvdata.education_history} deleteEducationDegree={deleteEducationDegree} openFormForDegreeEdit={openFormForDegreeEdit} /></>}
+
+
+
+
+          {cvdata.hasOwnProperty('work_history') && <>
+            <Box id='work_history' sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%'
+            }}>
+              <Typography variant="h6">
+                Experiences
+              </Typography>
+              <Box>
+                <Tooltip title='Add New Experience'>
+                  <IconButton onClick={() => setOpenNewExperienceForm(true)}>
+                    <LibraryAddOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title='Delete all experiences'>
+                  <IconButton onClick={deleteWorkHistory}>
+                    <HighlightOffOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </Box>
+            <WorkExperienceTimeLine sortExperienceHistory={sortExperienceHistory} work_history={cvdata.work_history} deleteWorkExperience={deleteWorkExperience} openFormForWorkExperienceEdit={openFormForWorkExperienceEdit} /></>}
+
+
+
+          {cvdata.hasOwnProperty('accreditations') && <>
+            <Box id='accreditations' sx={{
+              display: 'flex',
+              width: '100%',
+              justifyContent: 'space-between'
+            }}>
+              <Typography variant="h6">
+                Accreditations
+              </Typography>
+
+              <Box>
+                <Tooltip title='Add New accreditation'>
+                  <IconButton onClick={() => setOpenNewAccreditionExperienceForm(true)}>
+                    <LibraryAddOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title='Delete accreditation section'>
+                  <IconButton onClick={deleteAccreditationsSection}>
+                    <HighlightOffOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             </Box>
 
-          </Box>
-          <ProjectsTimeline sortProjectHistory={sortProjectHistory} projects={cvdata.projects} deleteProject={deleteProject} openFormForProjectEdit={openFormForProjectEdit}/>
-        </>}
+            <AccreditationsTimeLine accreditations={cvdata.accreditations} deleteAccreditation={deleteAccreditation} /></>}
 
-
-        {
-          cvdata.hasOwnProperty('technical_skills') && <>
-            <Box sx={{
+          {cvdata.hasOwnProperty('projects') && <>
+            <Box id='projects' sx={{
               display: 'flex',
               justifyContent: 'space-between',
               width: '100%',
             }}>
               <Typography variant="h6">
-                Technical Skills
+                Projects
               </Typography>
+
+
               <Box>
-                <Tooltip title='Add Technical Skill'>
-                  <IconButton onClick={() => setOpenNewTechnicalSkillForm(true)}>
+                <Tooltip title='Add New Project'>
+                  <IconButton onClick={() => setOpenNewProjectForm(true)}>
                     <LibraryAddOutlinedIcon />
                   </IconButton>
                 </Tooltip>
-                <Tooltip title='Delete Technical Skill Section'>
-                  <IconButton onClick={deleteTechnicallSection}>
+                <Tooltip title='Delete Projects'>
+                  <IconButton onClick={deleteProjects}>
                     <HighlightOffOutlinedIcon />
                   </IconButton>
                 </Tooltip>
               </Box>
 
             </Box>
-            <NewTechnicalSkillForm open={openNewTechnicalSkillForm} setOpen={setOpenNewTechnicalSkillForm} addNewTechnicalSkill={addNewTechnicalSkill} />
-            <TechnicalSkillsList technical_skills={cvdata.technical_skills} deleteTechnicalSkill={deleteTechnicalSkill} />
+            <ProjectsTimeline sortProjectHistory={sortProjectHistory} projects={cvdata.projects} deleteProject={deleteProject} openFormForProjectEdit={openFormForProjectEdit} />
+          </>}
+
+
+          {
+            cvdata.hasOwnProperty('technical_skills') && <>
+              <Box id='technical_skills' sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                width: '100%',
+              }}>
+                <Typography variant="h6">
+                  Technical Skills
+                </Typography>
+                <Box>
+                  <Tooltip title='Add Technical Skill'>
+                    <IconButton onClick={() => setOpenNewTechnicalSkillForm(true)}>
+                      <LibraryAddOutlinedIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title='Delete Technical Skill Section'>
+                    <IconButton onClick={deleteTechnicallSection}>
+                      <HighlightOffOutlinedIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+
+              </Box>
+              <NewTechnicalSkillForm open={openNewTechnicalSkillForm} setOpen={setOpenNewTechnicalSkillForm} addNewTechnicalSkill={addNewTechnicalSkill} />
+              <TechnicalSkillsList technical_skills={cvdata.technical_skills} deleteTechnicalSkill={deleteTechnicalSkill} />
+            </>
+          }
+
+
+          {cvdata.hasOwnProperty('editorial_experience') && <>
+            <Box id='editorial_experience' sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}>
+              <Typography variant="h6">
+                Editorial Board and Organized Special Issue
+              </Typography>
+              <Box>
+                <Tooltip title='Add Editoial Experience'>
+                  <IconButton onClick={() => setOpenNewEditorialExperienceForm(true)}>
+                    <LibraryAddOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title='Delete Editoial ExperienceEditoial Experience Section'>
+                  <IconButton onClick={deleteEditorialExperienceSection}>
+                    <HighlightOffOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+
+            </Box>
+
+            <EditorialExperienceTimeLine sortEditorialHistory={sortEditorialHistory} editorial_experience={cvdata.editorial_experience} deleteEditorialExperience={deleteEditorialExperience} openFormForEditorialExperienceEdit={openFormForEditorialExperienceEdit} /></>}
+
+
+          {cvdata.hasOwnProperty('publications') && <>
+            <Box id='publications' sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}>
+              <Typography variant="h6">
+                Publications
+              </Typography>
+              <Box>
+                <Tooltip title='Add Editoial Experience'>
+                  <IconButton onClick={() => setOpenNewPublicationForm(true)}>
+                    <LibraryAddOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title='Delete Publications Section'>
+                  <IconButton onClick={deletePublications}>
+                    <HighlightOffOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </Box>
+            <PublicationsTimeLine publications={cvdata.publications} deletePublication={deletePublication} openFormForPublicationEdit={openFormForPublicationEdit} /></>}
+
+          {cvdata.hasOwnProperty('committees') && <>
+            <Box id='committees' sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}>
+              <Typography variant="h6">
+                Committees Associations
+              </Typography>
+              <Box>
+                <Tooltip title='Add Committee Memberships'>
+                  <IconButton onClick={() => setOpenNewCommitteeForm(true)}>
+                    <LibraryAddOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title='Delete Committee Memberships Section'>
+                  <IconButton onClick={deleteCommitteeSection}>
+                    <HighlightOffOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </Box>
+            <CommitteeTimeLine sortCommitteeHistory={sortCommitteeHistory} committees={cvdata.committees} deleteCommittee={deleteCommittee} openFormForCommitteeEdit={openFormForCommitteeEdit} />
+          </>}
+
+
+
+          {cvdata.hasOwnProperty('councils') && <>
+            <Box id='councils' sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}>
+              <Typography variant="h6">
+                Councils Association
+              </Typography>
+              <Box>
+                <Tooltip title='Add Council Memberships'>
+                  <IconButton onClick={() => setOpenNewCouncilForm(true)}>
+                    <LibraryAddOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title='Delete Councils  Section'>
+                  <IconButton onClick={deleteCouncilsSection}>
+                    <HighlightOffOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </Box>
+
+            <CouncilTimeLine sortCouncilHistory={sortCouncilHistory} councils={cvdata.councils} deleteCouncil={deleteCouncil} openFormForCouncilEdit={openFormForCouncilEdit} />
           </>
-        }
+          }
 
-
-        {cvdata.hasOwnProperty('editorial_experience') && <>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%',
-          }}>
-            <Typography variant="h6">
-              Editorial Board and Organized Special Issue
-            </Typography>
-            <Box>
-              <Tooltip title='Add Editoial Experience'>
-                <IconButton onClick={() => setOpenNewEditorialExperienceForm(true)}>
-                  <LibraryAddOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title='Delete Editoial ExperienceEditoial Experience Section'>
-                <IconButton onClick={deleteEditorialExperienceSection}>
-                  <HighlightOffOutlinedIcon />
-                </IconButton>
-              </Tooltip>
+          {cvdata.hasOwnProperty('memberships') && <>
+            <Box id='memberships' sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}>
+              <Typography variant="h6">
+                Memberships
+              </Typography>
+              <Box>
+                <Tooltip title='Add Membership'>
+                  <IconButton onClick={() => setOpenNewMembershipForm(true)}>
+                    <LibraryAddOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title='Delete membership section'>
+                  <IconButton onClick={deleteMembershipSection}>
+                    <HighlightOffOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             </Box>
+            <MembershipTimeLine sortMembershipHistory={sortMembershipHistory} memberships={cvdata.memberships} deleteMembership={deleteMembership} openFormForMembershipEdit={openFormForMembershipEdit} />
+          </>
+          }
 
-          </Box>
-
-          <EditorialExperienceTimeLine sortEditorialHistory={sortEditorialHistory} editorial_experience={cvdata.editorial_experience} deleteEditorialExperience={deleteEditorialExperience} openFormForEditorialExperienceEdit={openFormForEditorialExperienceEdit} /></>}
-
-
-        {cvdata.hasOwnProperty('publications') && <>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%',
-          }}>
-            <Typography variant="h6">
-              Publications
-            </Typography>
-            <Box>
-              <Tooltip title='Add Editoial Experience'>
-                <IconButton onClick={() => setOpenNewPublicationForm(true)}>
-                  <LibraryAddOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title='Delete Publications Section'>
-                <IconButton onClick={deletePublications}>
-                  <HighlightOffOutlinedIcon />
-                </IconButton>
-              </Tooltip>
+          {cvdata.hasOwnProperty('awards_honors') && <>
+            <Box id='awards_honors' sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}>
+              <Typography variant="h6">
+                Honors / Awards
+              </Typography>
+              <Box>
+                <Tooltip title='Add Award/Honor Details'>
+                  <IconButton onClick={() => setOpenNewAwardHonorForm(true)}>
+                    <LibraryAddOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title='Delete Awards/Honors section'>
+                  <IconButton onClick={deleteAwardSection}>
+                    <HighlightOffOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             </Box>
-          </Box>
-          <PublicationsTimeLine publications={cvdata.publications} deletePublication={deletePublication} openFormForPublicationEdit={openFormForPublicationEdit} /></>}
+            <AwardHonorsTimeLine sortAwardHistory={sortAwardHistory} awards_honors={cvdata.awards_honors} deleteAward={deleteAward} openFormForAwardHonorEdit={openFormForAwardHonorEdit} />
+          </>
+          }
 
-        {cvdata.hasOwnProperty('committees') && <>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%',
-          }}>
-            <Typography variant="h6">
-              Committees Associations
-            </Typography>
-            <Box>
-              <Tooltip title='Add Committee Memberships'>
-                <IconButton onClick={() => setOpenNewCommitteeForm(true)}>
-                  <LibraryAddOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title='Delete Committee Memberships Section'>
-                <IconButton onClick={deleteCommitteeSection}>
-                  <HighlightOffOutlinedIcon />
-                </IconButton>
-              </Tooltip>
+          {cvdata.hasOwnProperty('conferences') && <>
+            <Box id='conferences' sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}>
+              <Typography variant="h6">
+                Conferences
+              </Typography>
+              <Box>
+                <Tooltip title='Add Conference Details'>
+                  <IconButton onClick={() => setOpenNewConferenceForm(true)}>
+                    <LibraryAddOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title='Delete Conference section'>
+                  <IconButton onClick={deleteConferencesSection}>
+                    <HighlightOffOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             </Box>
-          </Box>
-          <CommitteeTimeLine sortCommitteeHistory={sortCommitteeHistory} committees={cvdata.committees} deleteCommittee={deleteCommittee} openFormForCommitteeEdit={openFormForCommitteeEdit}/>
-        </>}
+            <ConferencesList sortConferenceHistory={sortConferenceHistory} conferences={cvdata.conferences} deleteConference={deleteConference} openFormForConferenceEdit={openFormForConferenceEdit} />
+          </>
+          }
 
-
-
-        {cvdata.hasOwnProperty('councils') && <>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%',
-          }}>
-            <Typography variant="h6">
-              Councils Association
-            </Typography>
-            <Box>
-              <Tooltip title='Add Council Memberships'>
-                <IconButton onClick={() => setOpenNewCouncilForm(true)}>
-                  <LibraryAddOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title='Delete Councils  Section'>
-                <IconButton onClick={deleteCouncilsSection}>
-                  <HighlightOffOutlinedIcon />
-                </IconButton>
-              </Tooltip>
+          {cvdata.hasOwnProperty('journals') && <>
+            <Box id='journals' sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}>
+              <Typography variant="h6">
+                Journals
+              </Typography>
+              <Box>
+                <Tooltip title='Add journal Details'>
+                  <IconButton onClick={() => setOpenNewJournalForm(true)}>
+                    <LibraryAddOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title='Delete journals section'>
+                  <IconButton onClick={deleteJournalsSection}>
+                    <HighlightOffOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             </Box>
-          </Box>
-
-          <CouncilTimeLine sortCouncilHistory={sortCouncilHistory} councils={cvdata.councils} deleteCouncil={deleteCouncil} openFormForCouncilEdit={openFormForCouncilEdit}/>
-        </>
-        }
-
-        {cvdata.hasOwnProperty('memberships') && <>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%',
-          }}>
-            <Typography variant="h6">
-              Memberships
-            </Typography>
-            <Box>
-              <Tooltip title='Add Membership'>
-                <IconButton onClick={() => setOpenNewMembershipForm(true)}>
-                  <LibraryAddOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title='Delete membership section'>
-                <IconButton onClick={deleteMembershipSection}>
-                  <HighlightOffOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Box>
-          <MembershipTimeLine sortMembershipHistory={sortMembershipHistory} memberships={cvdata.memberships} deleteMembership={deleteMembership} openFormForMembershipEdit={openFormForMembershipEdit}/>
-        </>
-        }
-
-        {cvdata.hasOwnProperty('awards_honors') && <>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%',
-          }}>
-            <Typography variant="h6">
-              Honors / Awards
-            </Typography>
-            <Box>
-              <Tooltip title='Add Award/Honor Details'>
-                <IconButton onClick={() => setOpenNewAwardHonorForm(true)}>
-                  <LibraryAddOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title='Delete Awards/Honors section'>
-                <IconButton onClick={deleteAwardSection}>
-                  <HighlightOffOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Box>
-          <AwardHonorsTimeLine sortAwardHistory={sortAwardHistory} awards_honors={cvdata.awards_honors} deleteAward={deleteAward} openFormForAwardHonorEdit={openFormForAwardHonorEdit}/>
-        </>
-        }
-
-        {cvdata.hasOwnProperty('conferences') && <>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%',
-          }}>
-            <Typography variant="h6">
-              Conferences
-            </Typography>
-            <Box>
-              <Tooltip title='Add Conference Details'>
-                <IconButton onClick={() => setOpenNewConferenceForm(true)}>
-                  <LibraryAddOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title='Delete Conference section'>
-                <IconButton onClick={deleteConferencesSection}>
-                  <HighlightOffOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Box>
-          <ConferencesList sortConferenceHistory={sortConferenceHistory} conferences={cvdata.conferences} deleteConference={deleteConference}  openFormForConferenceEdit={openFormForConferenceEdit} />
-        </>
-        }
-
-        {cvdata.hasOwnProperty('journals') && <>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%',
-          }}>
-            <Typography variant="h6">
-              Journals
-            </Typography>
-            <Box>
-              <Tooltip title='Add journal Details'>
-                <IconButton onClick={() => setOpenNewJournalForm(true)}>
-                  <LibraryAddOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title='Delete journals section'>
-                <IconButton onClick={deleteJournalsSection}>
-                  <HighlightOffOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Box>
-          <JournalsList  journals={cvdata.journals} deleteJournal={deleteJournal} openFormForJournalEdit={openFormForJournalEdit}/>
-        </>
-        }
+            <JournalsList journals={cvdata.journals} deleteJournal={deleteJournal} openFormForJournalEdit={openFormForJournalEdit} />
+          </>
+          }
 
 
-        <CVSectionButtons cvdata={cvdata} CVMenuButtonHandlers={CVMenuButtonHandlers} />
+          <CVSectionButtons cvdata={cvdata} CVMenuButtonHandlers={CVMenuButtonHandlers} />
 
-        <NewEducationDegreeForm open={openNewEducationForm} setOpen={setOpenNewEducationForm} addNewDegree={addNewDegree} />
-        <NewWorkExperienceForm open={openNewExperienceForm} setOpen={setOpenNewExperienceForm} addNewWorkExperience={addNewWorkExperience} />
-        <NewAccreditionExperienceForm open={openNewAccreditionExperienceForm} setOpen={setOpenNewAccreditionExperienceForm} addNewAccreditionExperience={addNewAccreditionExperience} />
-        <NewProjectForm open={openNewProjectForm} setOpen={setOpenNewProjectForm} addNewProject={addNewProject} />
-        <NewEditorialExperienceForm open={openNewEditorialExperienceForm} setOpen={setOpenNewEditorialExperienceForm} addNewEditorialExperience={addNewEditorialExperience} />
-        <NewPublicationForm open={openNewPublicationForm} setOpen={setOpenNewPublicationForm} addNewPublication={addNewPublication} />
-        <NewCommitteeForm open={openNewCommitteeForm} setOpen={setOpenNewCommitteeForm} addNewCommittee={addNewCommittee} />
-        <NewCouncilForm open={openNewCouncilForm} setOpen={setOpenNewCouncilForm} addNewCouncil={addNewCouncil} />
-        <NewMembershipForm open={openNewMembershipForm} setOpen={setOpenNewMembershipForm} addNewMembership={addNewMembership} />
-        <NewAwardHonorForm open={openNewAwardHonorForm} setOpen={setOpenNewAwardHonorForm} addNewAwardHonor={addNewAwardHonor} />
-        <NewConferenceForm open={openNewConferenceForm} setOpen={setOpenNewConferenceForm} addNewConference={addNewConference} />
-        <NewJournalForm open={openNewJournalForm} setOpen={setOpenNewJournalForm} addNewJournal={addNewJournal} />
+          <NewEducationDegreeForm open={openNewEducationForm} setOpen={setOpenNewEducationForm} addNewDegree={addNewDegree} />
+          <NewWorkExperienceForm open={openNewExperienceForm} setOpen={setOpenNewExperienceForm} addNewWorkExperience={addNewWorkExperience} />
+          <NewAccreditionExperienceForm open={openNewAccreditionExperienceForm} setOpen={setOpenNewAccreditionExperienceForm} addNewAccreditionExperience={addNewAccreditionExperience} />
+          <NewProjectForm open={openNewProjectForm} setOpen={setOpenNewProjectForm} addNewProject={addNewProject} />
+          <NewEditorialExperienceForm open={openNewEditorialExperienceForm} setOpen={setOpenNewEditorialExperienceForm} addNewEditorialExperience={addNewEditorialExperience} />
+          <NewPublicationForm open={openNewPublicationForm} setOpen={setOpenNewPublicationForm} addNewPublication={addNewPublication} />
+          <NewCommitteeForm open={openNewCommitteeForm} setOpen={setOpenNewCommitteeForm} addNewCommittee={addNewCommittee} />
+          <NewCouncilForm open={openNewCouncilForm} setOpen={setOpenNewCouncilForm} addNewCouncil={addNewCouncil} />
+          <NewMembershipForm open={openNewMembershipForm} setOpen={setOpenNewMembershipForm} addNewMembership={addNewMembership} />
+          <NewAwardHonorForm open={openNewAwardHonorForm} setOpen={setOpenNewAwardHonorForm} addNewAwardHonor={addNewAwardHonor} />
+          <NewConferenceForm open={openNewConferenceForm} setOpen={setOpenNewConferenceForm} addNewConference={addNewConference} />
+          <NewJournalForm open={openNewJournalForm} setOpen={setOpenNewJournalForm} addNewJournal={addNewJournal} />
 
-        {openEditEducationForm && <EditEducationDegreeForm open={openEditEducationForm} setOpen={setOpenEditEducationForm} qualification={tempStore} editEducationDegree={editEducationDegree} />}
-        {openEditExperienceForm && <EditWorkExperienceForm open={openEditExperienceForm} setOpen={setOpenEditExperienceForm} work_experience={tempStore} editWorkExperience={editWorkExperience} />}
-        {openEditProjectForm && <EditProjectForm open={openEditProjectForm} setOpen={setOpenEditProjectForm} project={tempStore} editProject={editProject} />}
-        {openEditPublicationForm && <EditPublicationForm open={openEditPublicationForm} setOpen={setOpenEditPublicationForm} publication={tempStore} editPublication={editPublication} />}
-        {openEditEditorialExperienceForm && <EditEditorialExperienceForm open={openEditEditorialExperienceForm} setOpen={setOpenEditEditorialExperienceForm} experience={tempStore} editEditorialExperience={editEditorialExperience}/>}
-        {openEditCommitteeForm && <EditCommitteeForm open={openEditCommitteeForm} setOpen={setOpenEditCommitteeForm} committee={tempStore} editCommittee={editCommittee} />}
-        {openEditCouncilForm && <EditCouncilForm open={openEditCouncilForm} setOpen={setOpenEditCouncilForm} council={tempStore} editCouncil={editCouncil}/>}
-        {openEditMembershipForm && <EditMembershipForm open={openEditMembershipForm} setOpen={setOpenEditMembershipForm} membership={tempStore} editMembership={editMembership}/>}
-        {openEditAwardHonorForm && <EditAwardHonorForm open={openEditAwardHonorForm} setOpen={setOpenEditAwardHonorForm} award={tempStore} editAwardHonor={editAwardHonor} />}
-        {openEditConferenceForm && <EditConferenceForm open={openEditConferenceForm} setOpen={setOpenEditConferenceForm} conference={tempStore} editConference={editConference}/>}
-        {openEditJournalForm && <EditJournalForm open={openEditJournalForm} setOpen={setOpenEditJournalForm} jrnl={tempStore} editJournal={editJournal}/>}
+          {openEditEducationForm && <EditEducationDegreeForm open={openEditEducationForm} setOpen={setOpenEditEducationForm} qualification={tempStore} editEducationDegree={editEducationDegree} />}
+          {openEditExperienceForm && <EditWorkExperienceForm open={openEditExperienceForm} setOpen={setOpenEditExperienceForm} work_experience={tempStore} editWorkExperience={editWorkExperience} />}
+          {openEditProjectForm && <EditProjectForm open={openEditProjectForm} setOpen={setOpenEditProjectForm} project={tempStore} editProject={editProject} />}
+          {openEditPublicationForm && <EditPublicationForm open={openEditPublicationForm} setOpen={setOpenEditPublicationForm} publication={tempStore} editPublication={editPublication} />}
+          {openEditEditorialExperienceForm && <EditEditorialExperienceForm open={openEditEditorialExperienceForm} setOpen={setOpenEditEditorialExperienceForm} experience={tempStore} editEditorialExperience={editEditorialExperience} />}
+          {openEditCommitteeForm && <EditCommitteeForm open={openEditCommitteeForm} setOpen={setOpenEditCommitteeForm} committee={tempStore} editCommittee={editCommittee} />}
+          {openEditCouncilForm && <EditCouncilForm open={openEditCouncilForm} setOpen={setOpenEditCouncilForm} council={tempStore} editCouncil={editCouncil} />}
+          {openEditMembershipForm && <EditMembershipForm open={openEditMembershipForm} setOpen={setOpenEditMembershipForm} membership={tempStore} editMembership={editMembership} />}
+          {openEditAwardHonorForm && <EditAwardHonorForm open={openEditAwardHonorForm} setOpen={setOpenEditAwardHonorForm} award={tempStore} editAwardHonor={editAwardHonor} />}
+          {openEditConferenceForm && <EditConferenceForm open={openEditConferenceForm} setOpen={setOpenEditConferenceForm} conference={tempStore} editConference={editConference} />}
+          {openEditJournalForm && <EditJournalForm open={openEditJournalForm} setOpen={setOpenEditJournalForm} jrnl={tempStore} editJournal={editJournal} />}
+        </Box>
       </Box>
-    </Box>
-    </DragDropContext>
   )
 }
 

@@ -10,9 +10,10 @@ import { BiLogoGitlab } from 'react-icons/bi';
 import { DiBitbucket } from 'react-icons/di';
 import _ from 'lodash';
 import { capitalizeWords } from '@/assets/utilityFunctions';
+import { IconButton, Tooltip } from '@mui/material';
+import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 
-
-export default function BasicInformationSection({ basic_information }) {
+export default function BasicInformationSection({ basic_information, setEditBasicInfoMode }) {
 
 
   return <Box sx={{
@@ -22,7 +23,7 @@ export default function BasicInformationSection({ basic_information }) {
       sm: 'row'
     },
     width: '100%'
-  }}>
+  }} >
 
     {
       /* this will be uncommented later on 
@@ -39,10 +40,16 @@ export default function BasicInformationSection({ basic_information }) {
     */
     }
 
-    <Card sx={{ flexGrow: 1 }} variant="outlined">
+    <Card sx={{ flexGrow: 1 }} variant="outlined" >
       <CardContent >
-
-        <Typography variant="h5" gutterBottom sx={{fontWeight:'bold'}}>
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
+          <Tooltip sx={{padding:0,margin:0}} title='Update Personal Information'>
+            <IconButton  onClick={() => setEditBasicInfoMode(true)} >
+              <EditNoteOutlinedIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
           {capitalizeWords(basic_information.first_name + ' ' + basic_information.last_name)}
         </Typography>
 
@@ -81,17 +88,17 @@ export default function BasicInformationSection({ basic_information }) {
             &&
             <Typography variant="subtitle2" gutterBottom>
               <AiOutlineHome size={17} />  {capitalizeWords(basic_information.street)}
-              {_.isEmpty(basic_information.postal_zip_code)?' ':' , ' + basic_information.postal_zip_code.toUpperCase()}
-              {_.isEmpty(basic_information.state_province_region)?' ':' , ' + capitalizeWords(basic_information.state_province_region)}
-              {_.isEmpty(basic_information.city)?' ':' , ' + capitalizeWords(basic_information.city)}
-              {basic_information.country == null ? ' ' : ' , '+basic_information.country.label}
+              {_.isEmpty(basic_information.postal_zip_code) ? ' ' : ' , ' + basic_information.postal_zip_code.toUpperCase()}
+              {_.isEmpty(basic_information.state_province_region) ? ' ' : ' , ' + capitalizeWords(basic_information.state_province_region)}
+              {_.isEmpty(basic_information.city) ? ' ' : ' , ' + capitalizeWords(basic_information.city)}
+              {basic_information.country == null ? ' ' : ' , ' + basic_information.country.label}
             </Typography>
           }
 
 
 
         </Box>
-        <Typography variant='body1' sx={{fontWeight:'bold',padding:2}}>Media Information</Typography>
+        <Typography variant='body1' sx={{ fontWeight: 'bold', padding: 2 }}>Media Information</Typography>
         <Box sx={{
           display: 'flex',
           flexDirection: 'row',
@@ -102,7 +109,7 @@ export default function BasicInformationSection({ basic_information }) {
           {
             !_.isEmpty(basic_information.linkedIn) &&
             <Typography variant="subtitle2" gutterBottom>
-              <BsLinkedin  /> {basic_information.linkedIn}
+              <BsLinkedin /> {basic_information.linkedIn}
             </Typography>
           }
 
