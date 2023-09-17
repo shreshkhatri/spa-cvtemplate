@@ -53,6 +53,7 @@ import EditAwardHonorForm from '@/components/forms/FormsForEdit/EditAwardHonorFo
 import EditConferenceForm from '@/components/forms/FormsForEdit/EditConferenceForm';
 import EditJournalForm from '@/components/forms/FormsForEdit/EditJournalForm';
 import QuickLiinks from '@/components/QuickLiinks';
+import FloatingButton from '@/components/FloatingButton';
 
 export default function Home() {
   const [cvdata, updateCVData] = useState(CVDATA)
@@ -1273,7 +1274,9 @@ export default function Home() {
           {openEditAwardHonorForm && <EditAwardHonorForm open={openEditAwardHonorForm} setOpen={setOpenEditAwardHonorForm} award={tempStore} editAwardHonor={editAwardHonor} />}
           {openEditConferenceForm && <EditConferenceForm open={openEditConferenceForm} setOpen={setOpenEditConferenceForm} conference={tempStore} editConference={editConference} />}
           {openEditJournalForm && <EditJournalForm open={openEditJournalForm} setOpen={setOpenEditJournalForm} jrnl={tempStore} editJournal={editJournal} />}
+          <FloatingButton />
         </Box>
+        
       </Box>
   )
 }
