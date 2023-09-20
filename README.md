@@ -32,4 +32,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 The application has been deployed on Vercel infrasctructure and the application is accessible on the link below.
 
-<a href="https://spa-cvtemplate-ndvx-shreshkhatri.vercel.app">CV Template App</a>
+<a href="https://spa-cvtemplate-ndvx-shreshkhatri.vercel.app" target="_blank">CV Template App</a>
