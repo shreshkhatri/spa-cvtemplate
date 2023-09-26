@@ -1,3 +1,4 @@
+// types for publication
 export const PUBLICATION_TYPES =[
     'RESEARCHES',
     'THESES',
@@ -6,6 +7,8 @@ export const PUBLICATION_TYPES =[
     'CHAPTERS'
 ];
 
+
+// string IDs for Droppables 
 export const DROPPABLE_TYPE_IDS = {
     mainContainer : 'main container',
     educationTimeline:'education timeline',
@@ -20,6 +23,7 @@ export const DROPPABLE_TYPE_IDS = {
     journamTimeline : 'journal timeline'
 }
 
+//string as Types for items droppable items
 export const DROPPABLE_TYPES ={
     Main:'main',
     Education:'education',
@@ -32,4 +36,41 @@ export const DROPPABLE_TYPES ={
     Award:'award',
     Conference : 'conference',
     Journal :'journal'
+}
+
+//this array is used for rendering the buttons
+export const CV_SECTIONS=[
+    'personal_statement',
+    'career_summary',
+    'education_history',
+    'work_history',
+    'projects',
+    'publications',
+    'technical_skills',
+    'editorial_experience',
+    'committees',
+    'councils',
+    'memberships',
+    'awards_honors',
+    'conferences',
+    'journals'
+]
+
+//this array is used for rendering the buttons and for printing sections into PDF file
+export const CV_SECTIONS_PDF={
+    basic_information:'basic_information',
+    personal_statement:'personal_statement',
+    career_summary:'career_summary',
+    education_history:'education_history',
+    work_history:'work_history',
+    projects:'projects',
+    publications:'publications',
+    technical_skills:'technical_skills',
+    editorial_experience:'editorial_experience',
+    committees:'committees',
+    councils:'councils',
+    memberships:'memberships',
+    awards_honors:'awards_honors',
+    conferences:'conferences',
+    journals:'journals'
 }

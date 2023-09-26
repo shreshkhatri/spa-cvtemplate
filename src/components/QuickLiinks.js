@@ -17,7 +17,7 @@ export default function QuickLiinks(props) {
     }
 
     return (
-        <Box>
+        <Box sx={{paddingX:5,paddingY:2}}>
 
             <ButtonGroup sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }} variant="text" aria-label="text button group">
                 {targets.map(target => <Button sx={{color:'text.secondary'}} key={target} onClick={() => scrollToTarget(target)}>{target.replace(/_/g, ' ')}</Button>)}

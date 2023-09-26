@@ -133,7 +133,7 @@ export default function EditCouncilForm({ open, setOpen, council, editCouncil })
                                 <TextField
                                     autoComplete='off'
                                     name="council-designation"
-                                    
+                                    required
                                     fullWidth
                                     id="council-designation"
                                     label="Designation"
