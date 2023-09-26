@@ -8,12 +8,25 @@ import { IconButton, Tooltip } from '@mui/material';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+
+
 export default function TechnicalSkillsList({ addNewTechnicalSkill, openNewTechnicalSkillForm, deleteTechnicallSection, setOpenNewTechnicalSkillForm, technical_skills, deleteTechnicalSkill }) {
     
     const [isMouseOver, setIsMouseOver] = useState(false);
+    const [expanded, setExpanded] = useState(true);
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
+            <Accordion expanded={expanded}>
+                <AccordionSummary
+                    aria-controls="technical-skills-content"
+                    id="technical-skills-header"
+                >
             <Box id='technical_skills' sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -33,8 +46,28 @@ export default function TechnicalSkillsList({ addNewTechnicalSkill, openNewTechn
                             <HighlightOffOutlinedIcon />
                         </IconButton>
                     </Tooltip>
+
+                    {!expanded &&
+                                <Tooltip title='expand technical skills list'>
+                                    <IconButton onClick={() => setExpanded(true)}>
+                                        <KeyboardDoubleArrowDownIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            }
+
+                            {expanded &&
+                                <Tooltip title='collapse technical skills list'>
+                                    <IconButton onClick={() => setExpanded(false)}>
+                                        <KeyboardDoubleArrowUpIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            }
                 </Box>
             </Box>
+            </AccordionSummary>
+
+            <AccordionDetails>
+            
             <NewTechnicalSkillForm open={openNewTechnicalSkillForm} setOpen={setOpenNewTechnicalSkillForm} addNewTechnicalSkill={addNewTechnicalSkill} />
             <Box sx={{
                 display: 'flex',
@@ -47,7 +80,7 @@ export default function TechnicalSkillsList({ addNewTechnicalSkill, openNewTechn
 
                 {technical_skills.length !== 0 &&
 
-                    <List dense='true' >
+                    <List dense>
                         {
                             technical_skills.map(skill => <ItemTechnicalSkill key={skill.skillID} skill={skill} deleteTechnicalSkill={deleteTechnicalSkill} />)
                         }
@@ -55,7 +88,8 @@ export default function TechnicalSkillsList({ addNewTechnicalSkill, openNewTechn
                     </List>
                 }
             </Box>
-
+            </AccordionDetails>
+            </Accordion>
         </Box>
 
 

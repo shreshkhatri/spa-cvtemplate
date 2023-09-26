@@ -12,6 +12,18 @@ export function onDragEndHndler(result,cvdata,updateCVData) {
 
     console.log(result)
 
+    if (source.droppableId === DROPPABLE_TYPE_IDS.mainContainer &&  destination.droppableId === DROPPABLE_TYPE_IDS.mainContainer){
+      const arrayKeyValuePair=  Object.entries(cvdata);
+      console.log('before',arrayKeyValuePair)
+      const deletedItem = arrayKeyValuePair.splice(source.index, 1);
+      console.log(deletedItem)
+      arrayKeyValuePair.splice(destination.index, 0, ...deletedItem);
+      console.log('after',arrayKeyValuePair)
+      const objectForm = Object.fromEntries(arrayKeyValuePair)
+
+        updateCVData(objectForm);
+
+    }
 
     //case to update education history after drag and drop
 

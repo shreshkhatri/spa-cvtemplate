@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import _ from 'lodash';
 
-export default function PersonalStatementForm({ personal_statement,updatePersonalStatement,setIsPersonalStatementEditModeOn }) {
+export default function PersonalStatementForm({ isPersonalStatementEditModeOn, personal_statement,updatePersonalStatement,setIsPersonalStatementEditModeOn }) {
 
     const [personalStatement, setPersonalStatement] = useState(personal_statement);
     
@@ -23,7 +23,7 @@ export default function PersonalStatementForm({ personal_statement,updatePersona
 
     return (
         <Box sx={{
-            display: 'flex',
+            display: isPersonalStatementEditModeOn?'flex':'none',
             flexDirection: 'column',
             width: '100%',
             gap:2

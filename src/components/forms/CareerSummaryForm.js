@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import _ from 'lodash';
 
-export default function CareerSummaryForm({ career_summary, updateCareerSummary, setIsCareerSummaryEditMode }) {
+export default function CareerSummaryForm({ isCareerSummaryEditMode, career_summary, updateCareerSummary, setIsCareerSummaryEditMode }) {
 
     const [careerSummary, setCareerSummary] = useState(career_summary);
 
@@ -23,7 +23,7 @@ export default function CareerSummaryForm({ career_summary, updateCareerSummary,
 
     return (
         <Box sx={{
-            display: 'flex',
+            display: isCareerSummaryEditMode?'flex':'none',
             flexDirection: 'column',
             width: '100%',
             gap:2

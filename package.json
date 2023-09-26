@@ -19,13 +19,20 @@
     "dayjs": "^1.11.9",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
+    "express-session": "^1.17.3",
+    "html2pdf.js": "^0.10.1",
+    "jspdf": "^2.5.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "next": "13.4.19",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "pdfmake": "^0.2.7",
     "react": "18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
+    "react-loading-icons": "^1.1.0",
     "uniqid": "^5.4.0"
   }
 }
