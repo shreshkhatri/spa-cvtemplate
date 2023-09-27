@@ -809,7 +809,7 @@ export default function Home() {
               display: 'flex',
               flexDirection: 'column',
               paddingTop: 2,
-              width: '100%'
+              width: '100%',
             }}>
 
 
@@ -825,8 +825,12 @@ export default function Home() {
                     <Box ref={provided.innerRef} {...provided.droppableProps} sx={{
                       display: 'flex',
                       flexDirection: 'column',
-                      paddingTop: 2,
-                      width: '100%'
+                      padding: 2,
+                      width: '100%',
+                      border: snapshot.isDraggingOver ? 1 : 0,
+                      borderColor: snapshot.isDraggingOver ? '#f9f6ee' : null,
+                      boxShadow: snapshot.isDraggingOver ? 1 : 0,
+                      borderRadius: snapshot.isDraggingOver ? 2 : 0,
                     }}>
 
                       {!_.isNull(cvdata) &&

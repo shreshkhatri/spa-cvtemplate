@@ -183,7 +183,7 @@ export const downloadCV = (cvdata) => {
         styles: styles
     };
 
-    pdfMake.createPdf(documentDefinition).download('cv.pdf');
+    pdfMake.createPdf(documentDefinition).download(`${!_.isEmpty(cvdata.basic_information.first_name)?capitalizeWords(cvdata.basic_information.first_name)+'-CV':'my-CV'}.pdf`);
 }
 
 //function for formatting committees
