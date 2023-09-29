@@ -14,7 +14,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import Link from 'next/link';
-
+import { ENDPOINT } from '@/data/endpoints';
 
 function Copyright(props) {
     return (
@@ -46,7 +46,7 @@ export default function LoginPage() {
     //function to login
     async function login() {
 
-        return await fetch('/login', {
+        return await fetch(ENDPOINT.LOGIN, {
             method: "POST",
             redirect: 'follow',
             headers: {
@@ -54,7 +54,10 @@ export default function LoginPage() {
                 'Content-Type': 'application/json',
                 'charset': 'UTF-8'
             },
-            body: JSON.stringify({ useremail, password, rememberMe }),
+            body: JSON.stringify({
+                 useremail, 
+                 password, 
+                 rememberMe }),
             credentials: 'include'
         }).then(async (response) => {
             var json = await response.json()
