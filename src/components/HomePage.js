@@ -43,7 +43,7 @@ export default function Home() {
                         Build CV with us
                     </Typography>
                     <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                        Welcome to theCV.org App, where you can effortlessly create, save, and download your professional CV in PDF format.<br></br><br></br> Sign up today and take the first step towards a brighter tomorrow. Your dream career awaits – let's make it happen together!
+                        Welcome to theCV.org App, where you can effortlessly create, save, and download your professional CV in PDF format.<br></br><br></br> Sign up today and take the first step towards a brighter tomorrow. Your dream career awaits – lets make it happen together!
                     </Typography>
                     <Stack
                         sx={{ pt: 4 }}
