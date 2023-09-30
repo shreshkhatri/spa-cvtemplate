@@ -1,11 +1,11 @@
 'use client';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import BasicInformationSection from '@/components/BasicInformationSection';
 import CVSectionButtons from '@/components/CVSectionButtons';
-import { CVDATA } from '@/assets/cvdata';
 import WorkExperienceTimeLine from '@/components/WorkExperienceTimeLine';
 import PublicationsTimeLine from '@/components/PublicationsTimeLine';
 import PersonalStatement from '@/components/PersonalStatement';
@@ -50,15 +50,19 @@ import EditConferenceForm from '@/components/forms/FormsForEdit/EditConferenceFo
 import EditJournalForm from '@/components/forms/FormsForEdit/EditJournalForm';
 import QuickLiinks from '@/components/QuickLiinks';
 import FloatingButton from '@/components/FloatingButton';
+import LoadingUI from '@/components/LoadingUI';
 import AppTheme from '@/assets/AppTheme';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { onDragEndHndler } from '@/assets/dndHandlers';
 import { downloadCV } from '@/assets/cvDownloadScript';
-import { DROPPABLE_TYPE_IDS,DROPPABLE_TYPES } from '@/data/data';
+import { DROPPABLE_TYPE_IDS, DROPPABLE_TYPES ,RESPONSE_SEVERITY} from '@/data/data';
+import { ENDPOINT } from '@/data/endpoints';
+import { API_CALLS } from '@/assets/apicalls';
+import Toast from './Toast';
 
 
-export default function Home() {
-  const [cvdata, updateCVData] = useState(CVDATA)
+export default function MyCV() {
+  const [cvdata, updateCVData] = useState({})
   const [isBasicInfoEditModeOn, setEditBasicInfoMode] = useState(false);
   const [isPersonalStatementEditModeOn, setIsPersonalStatementEditModeOn] = useState(false);
   const [isCareerSummaryEditMode, setIsCareerSummaryEditMode] = useState(false);
@@ -91,19 +95,67 @@ export default function Home() {
   const [openEditAwardHonorForm, setOpenEditAwardHonorForm] = useState(false);
   const [openEditConferenceForm, setOpenEditConferenceForm] = useState(false);
   const [openEditJournalForm, setOpenEditJournalForm] = useState(false);
-
+  const router = useRouter();
+  const [pageLoading, setIsPageLoading] = useState(true)
   const [tempStore, setTempStore] = useState(null);
+  const [toastPayLoad, setToastPayLoad] = useState({ show:true, severity:'success', message:''})
 
+  useEffect(() => {
+    
+    async function fetchData() {
+      await fetchCVData();
+    }
+    fetchData();
+  }, []);
+
+  //function for calling a function for converting document into pdf format
   const saveCVObject = () => {
     downloadCV(cvdata)
   };
 
 
+  // function for getting CV data
+  async function fetchCVData() {
+    const authToken = localStorage.getItem('auth-token')
+    fetch(ENDPOINT.GETCV, {
+      method: "GET",
+      redirect: 'follow',
+      headers: {
+        'Accept': 'application/json',
+        'charset': 'UTF-8',
+        'auth-token': authToken
+      }
+    }).then(async (response) => {
+      var json = await response.json()
+      return { status: response.status, ...json }
+    })
+      .then(response => {
+        if (response.status == 200) {
+          console.log(response.data)
+          updateCVData(response.data)
+          setIsPageLoading(false)
+        }
+        else {
+          const { error } = response
+          console.log(error)
+          setIsPageLoading(false)
+          router.push('/error')
+        }
+      })
+      .catch(error => {
+        console.log(error)
+        setIsPageLoading(false)
+        router.push('/error')
+      });
+
+
+  }
   /*************************************  FUNCTION FOR OPENING FORM FOR EDITING DATA  **************************************************/
 
 
   // function for setting the form up for editing journal details
   function openFormForJournalEdit(journalID) {
+
     setTempStore(cvdata.journals.find(journal => journal.journalID == journalID));
     setOpenEditJournalForm(true);
   }
@@ -197,12 +249,19 @@ export default function Home() {
   }
 
   // function to update BasicInformation
-  function updateBasicInformation(updatedData) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      basic_information: updatedData
-    }));
+  async function updateBasicInformation(updatedData) {
+    const authToken = localStorage.getItem('auth-token')
 
+    const response = await API_CALLS.updateSection(authToken,'basic_information',updatedData,'6516ee36eec80f04abf1faa3')
+    console.log(response)
+
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS){
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        basic_information: updatedData
+      }));
+    }
+    setToastPayLoad({show:true,severity:response.severity,message:response.message})
   }
 
 
@@ -768,8 +827,7 @@ export default function Home() {
   }
 
 
-
-  return (
+  return pageLoading ? <LoadingUI /> :
     <AppTheme>
       <DragDropContext onDragEnd={result => onDragEndHndler(result, cvdata, updateCVData)}>
         <Box sx={{
@@ -813,9 +871,9 @@ export default function Home() {
             }}>
 
 
-              {!isBasicInfoEditModeOn && <BasicInformationSection basic_information={cvdata.basic_information} setEditBasicInfoMode={setEditBasicInfoMode} />}
+              {cvdata.hasOwnProperty('basic_information') && !isBasicInfoEditModeOn && <BasicInformationSection basic_information={cvdata.basic_information} setEditBasicInfoMode={setEditBasicInfoMode} />}
 
-              {isBasicInfoEditModeOn && <BasicInformationForm basic_information={cvdata.basic_information} updateBasicInformation={updateBasicInformation} setEditBasicInfoMode={setEditBasicInfoMode} />}
+              {cvdata.hasOwnProperty('basic_information') && isBasicInfoEditModeOn && <BasicInformationForm basic_information={cvdata.basic_information} updateBasicInformation={updateBasicInformation} setEditBasicInfoMode={setEditBasicInfoMode} />}
 
               {!_.isNull(cvdata) && <QuickLiinks targets={Object.keys(cvdata)} />}
 
@@ -1097,11 +1155,11 @@ export default function Home() {
               {openEditJournalForm && <EditJournalForm open={openEditJournalForm} setOpen={setOpenEditJournalForm} jrnl={tempStore} editJournal={editJournal} />}
             </Box>
             <CVSectionButtons keys={Object.keys(cvdata)} CVMenuButtonHandlers={CVMenuButtonHandlers} />
+            <Toast message={toastPayLoad.message} show={toastPayLoad.show} severity={toastPayLoad.severity}/>
             <FloatingButton />
           </Box>
         </Box>
       </DragDropContext>
     </AppTheme>
-  )
 }
 

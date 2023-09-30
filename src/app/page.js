@@ -1,29 +1,31 @@
 'use client';
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Link from 'next/link'
-
-import AppTheme from '@/assets/AppTheme';
-
-export default function Home() {
+import { useEffect, useState } from "react";
+import Home from "@/components/HomePage";
+import MyCV from "@/components/MyCV";
+import LoadingUI from "@/components/LoadingUI";
+import _ from 'lodash'
 
 
-  return (
-    <AppTheme>
-      <Box sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-        width: '100%',
-      }}>
-        <Link href="/my-cv" style={{textDecoration:'underline'}}>Click here to build your CV</Link>
 
-      </Box>
-    </AppTheme>
-  )
+export default function DefaultPage() {
+
+    const [authToken, setAuthToken] = useState(null);
+    const [busy, setBusy] = useState(true)
+
+    //we need to use locaStorage inside useEffect as this code does not run on server and
+    //no reference error is seen
+    useEffect(() => {
+        const token = localStorage.getItem('auth-token')
+        setAuthToken(token)
+        setBusy(false)
+    }, [])
+
+    if (busy) {
+        return <LoadingUI />
+    }
+    else if (_.isNull(authToken) || _.isEmpty(authToken)) {
+        return <Home />
+    }
+    else
+        return <MyCV />
 }
-

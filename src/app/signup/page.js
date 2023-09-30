@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from 'next/link';
+import { ThreeDots } from 'react-loading-icons'
 import _ from 'lodash';
 import { useRouter } from 'next/navigation';
 import PasswordStrengthBar from 'react-password-strength-bar';
@@ -37,7 +38,8 @@ export default function SignUp() {
   const [userName, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState('');
+  const [signingUp, setSighiningUp] = useState(false)
 
   function confirmPasswordMatch() {
     setNotification('')
@@ -53,10 +55,10 @@ export default function SignUp() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    setSighiningUp(true)
     if (!confirmPasswordMatch()) return;
 
-    await fetch(ENDPOINT.SIGNUP, {
+    const response = await fetch(ENDPOINT.SIGNUP, {
       method: "POST",
       redirect: 'follow',
       headers: {
@@ -65,28 +67,31 @@ export default function SignUp() {
         'charset': 'UTF-8'
       },
       body: JSON.stringify({
-        first_name:firstName,
-        last_name:lastName,
-        username:userName,
-        email:email,
-        password:password
-    }),
-      credentials: 'include'
+        first_name: firstName,
+        last_name: lastName,
+        username: userName,
+        email: email,
+        password: password
+      })
     }).then(async (response) => {
-        var json = await response.json()
-        return { status: response.status, ...json }
+      var json = await response.json()
+      return { status: response.status, ...json }
     })
       .then(response => {
-        if (response.status==200){
+        if (response.status == 200) {
+          const { data } = response
+          localStorage.setItem('auth-token', data.token);
+          setSighiningUp(false)
           router.push('/')
         }
-        else{
-          const {error} = response
+        else {
+          const { error } = response
+          setSighiningUp(false)
           setNotification(JSON.stringify(error))
         }
-        
       })
       .catch(error => {
+        setSighiningUp(false)
         setNotification('Connection error occured, Please check your connection')
       });
   };
@@ -107,7 +112,7 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Sign Up
           </Typography>
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -182,7 +187,7 @@ export default function SignUp() {
 
               <Grid item xs={12}>
                 {
-                  password.length !== 0 && <PasswordStrengthBar password={password} style={{ width: '100%' ,paddingLeft:50,paddingRight:50}} />
+                  password.length !== 0 && <PasswordStrengthBar password={password} style={{ width: '100%', paddingLeft: 50, paddingRight: 50 }} />
                 }
               </Grid>
               <Grid item xs={12}>
@@ -193,7 +198,6 @@ export default function SignUp() {
                   label="Confirm Password"
                   type="password"
                   id="confirm-password"
-                  autoComplete='off'
                   size="small"
                   value={confirmPassword}
                   onChange={e => setConfirmPassword(e.target.value)}
@@ -210,7 +214,8 @@ export default function SignUp() {
               sx={{ mt: 3, mb: 2 }}
               size="small"
             >
-              Sign Up
+              {signingUp && <ThreeDots speed={.5} style={{ padding: '.60rem' }} />}
+              {!signingUp && "Sign Up"}
             </Button>
             <Grid container justifyContent="center">
               <Grid item>

@@ -74,3 +74,8 @@ export const CV_SECTIONS_PDF={
     conferences:'conferences',
     journals:'journals'
 }
+
+export const RESPONSE_SEVERITY={
+    SUCCESS:'success',
+    ERROR:'error'
+}
