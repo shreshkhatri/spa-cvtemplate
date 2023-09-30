@@ -13,9 +13,8 @@ function Copyright(props) {
             {'Copyright © '}
             <Link href="https://theCV.org/">
                 CV Org
-            </Link>{' '}
+            </Link>
             {new Date().getFullYear()}
-            {'.'}
         </Typography>
     );
 }
