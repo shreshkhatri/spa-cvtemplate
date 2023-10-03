@@ -80,7 +80,7 @@ export default function EditProjectForm({ open, setOpen, project, editProject })
             return
         }
         editProject({
-            projectID: project.projectID,
+            _id: project._id,
             project_title: projectTitle,
             designation: designation,
             country: projectCountry,

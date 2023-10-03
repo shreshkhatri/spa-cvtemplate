@@ -7,14 +7,16 @@ const Alert = forwardRef(function Alert(props, ref) {
 });
 
 
-export default function Toast({ show, severity, message }) {
+export default function Toast({ show, severity, message ,setToastPayLoad}) {
     const [open, setOpen] = useState(show);
 
+    
     const handleClose = (event, reason) => {
+        setToastPayLoad({ show:false, severity:'success', message:''});
         if (reason === 'clickaway') {
             return;
         }
-        setOpen(false);
+        
     };
 
     return (

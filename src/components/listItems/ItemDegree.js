@@ -42,8 +42,8 @@ export default function ItemDegree({ degree, deleteEducationDegree, openFormForD
 
             </Box>
             <Box sx={{ display:'flex', flexDirection:'row', visibility: isMouseOver ? 'visible' : 'hidden' }}>
-                <Button variant='text' sx={{ fontWeight: '780', color: 'success.main',textDecoration:'underline' }} size='small' onClick={() => openFormForDegreeEdit(degree.degreeID)}>Edit</Button>
-                <Button variant='text' sx={{ fontWeight: '780', color: 'error.main',textDecoration:'underline' }} size='small' onClick={() => deleteEducationDegree(degree.degreeID)}>Delete</Button>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'success.main',textDecoration:'underline' }} size='small' onClick={() => openFormForDegreeEdit(degree._id)}>Edit</Button>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'error.main',textDecoration:'underline' }} size='small' onClick={() => deleteEducationDegree(degree._id)}>Delete</Button>
             </Box>
         </Box>
 

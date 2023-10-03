@@ -11,7 +11,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { FormGroup, FormControlLabel } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import CountrySelector from '../../CountrySelector';
-import uniqid from 'uniqid';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
@@ -53,7 +52,6 @@ export default function NewEditorialExperienceForm({ open, setOpen, addNewEditor
     const handleSubmit = (event) => {
         event.preventDefault();
         addNewEditorialExperience({
-            experienceID: uniqid(),
             role: role,
             association: association,
             country: associationCountry,

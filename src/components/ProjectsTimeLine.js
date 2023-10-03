@@ -102,10 +102,10 @@ export default function ProjectsTimeline({ setOpenNewProjectForm, deleteProjects
                                             {
                                                 projects.map((project, index) => {
                                                     return (
-                                                        <Draggable draggableId={project.projectID} key={project.projectID} index={index}>
+                                                        <Draggable draggableId={project._id} key={project._id} index={index}>
                                                             {
                                                                 (provided, snapshot) => (
-                                                                    <TimelineItem ref={provided.innerRef} key={project.projectID}  {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                                    <TimelineItem ref={provided.innerRef} key={project._id}  {...provided.draggableProps} {...provided.dragHandleProps}>
 
                                                                         <TimelineSeparator>
                                                                             <TimelineDot color='success' />

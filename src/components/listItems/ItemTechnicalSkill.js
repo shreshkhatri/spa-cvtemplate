@@ -12,7 +12,7 @@ export default function ItemTechnicalSkill({ skill, deleteTechnicalSkill }) {
 
     return (<ListItem
         secondaryAction={
-            <IconButton sx={{ visibility: isMouseOver ? 'visible' : 'hidden' }} edge="end" aria-label="delete" onClick={() => deleteTechnicalSkill(skill.skillID)}>
+            <IconButton sx={{ visibility: isMouseOver ? 'visible' : 'hidden' }} edge="end" aria-label="delete" onClick={() => deleteTechnicalSkill(skill._id)}>
                 <ClearIcon />
             </IconButton>
         }

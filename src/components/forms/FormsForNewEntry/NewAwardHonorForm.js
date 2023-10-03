@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import uniqid from 'uniqid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -43,7 +42,6 @@ export default function NewAwardHonorForm({ open, setOpen, addNewAwardHonor }) {
     const handleSubmit = (event) => {
         event.preventDefault()
         addNewAwardHonor({
-            award_honor_ID: uniqid(),
             name: awardName,
             awarding_body: organization,
             award_date: awardDate ? awardDate.format('YYYY-MM-DD') : null,

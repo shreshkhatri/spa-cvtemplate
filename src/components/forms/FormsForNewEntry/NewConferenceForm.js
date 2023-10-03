@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import uniqid from 'uniqid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -13,6 +12,7 @@ import CountrySelector from '../../CountrySelector';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
+import  uniqid from 'uniqid';
 
 const style = {
     position: 'absolute',
@@ -55,14 +55,14 @@ export default function NewConferenceForm({ open, setOpen, addNewConference }) {
 
     // a function to remove the author from the list
     function removeAuthor(authorID) {
-        const tempAuthList = authors.filter(author => author.id != authorID)
+        const tempAuthList = authors.filter(author => author._id != authorID)
         setAuthors(tempAuthList);
     }
 
     // a function to add the author to the list of authors
     function addAuthor() {
         if (firstName.trim().length != 0 && lastName.trim().length != 0) {
-            setAuthors(prevList => ([...prevList, { id: uniqid(), first_name: firstName, last_name: lastName }]))
+            setAuthors(prevList => ([...prevList, { _id: uniqid(), first_name: firstName, last_name: lastName }]))
             setFirstName('');
             setLastName('');
         }
@@ -75,7 +75,6 @@ export default function NewConferenceForm({ open, setOpen, addNewConference }) {
             return;
         }
         addNewConference({
-            conferenceID: uniqid(),
             title: title,
             name: conference,
             summary : conferenceSummary,
@@ -232,10 +231,10 @@ export default function NewConferenceForm({ open, setOpen, addNewConference }) {
                                             flexDirection: 'row',
                                             flexWrap: 'wrap',
                                             gap: 1
-                                        }} key={author.id}>
+                                        }} key={author._id}>
                                             <Typography variant='body2'> {author.first_name}</Typography>
                                             <Typography sx={{ flexGrow: 1 }} variant='body2'>{author.last_name}</Typography>
-                                            <Button variant='outlined' color='error' size='small' onClick={() => removeAuthor(author.id)}>Remove Author</Button>
+                                            <Button variant='outlined' color='error' size='small' onClick={() => removeAuthor(author._id)}>Remove Author</Button>
                                         </Box>
                                         )
 

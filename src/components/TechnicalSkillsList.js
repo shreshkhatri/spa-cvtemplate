@@ -82,7 +82,7 @@ export default function TechnicalSkillsList({ addNewTechnicalSkill, openNewTechn
 
                     <List dense>
                         {
-                            technical_skills.map(skill => <ItemTechnicalSkill key={skill.skillID} skill={skill} deleteTechnicalSkill={deleteTechnicalSkill} />)
+                            technical_skills.map(skill => <ItemTechnicalSkill key={skill._id} skill={skill} deleteTechnicalSkill={deleteTechnicalSkill} />)
                         }
 
                     </List>

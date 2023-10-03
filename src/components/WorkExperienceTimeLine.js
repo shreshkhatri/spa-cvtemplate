@@ -99,9 +99,9 @@ export default function WorkExperienceTimeLine({ deleteWorkHistory, setOpenNewEx
 
                       {
                         work_history.map((work_experience, index) => {
-                          return <Draggable draggableId={work_experience.employmentID} key={work_experience.employmentID} index={index}>
+                          return <Draggable draggableId={work_experience._id} key={work_experience._id} index={index}>
                             {(provided, snapshot) => (
-                              <TimelineItem ref={provided.innerRef} key={work_experience.employmentID} {...provided.draggableProps} {...provided.dragHandleProps}>
+                              <TimelineItem ref={provided.innerRef} key={work_experience._id} {...provided.draggableProps} {...provided.dragHandleProps}>
 
                                 <TimelineSeparator>
                                   <TimelineDot color='success' />

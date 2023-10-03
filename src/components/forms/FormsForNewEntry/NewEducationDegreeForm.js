@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import uniqid from 'uniqid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -71,7 +70,6 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
             return
         }
         addNewDegree({
-            degreeID: uniqid(),
             institution: institution,
             degree: degree,
             country: institutionCountry,

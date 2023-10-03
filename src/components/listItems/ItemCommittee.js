@@ -37,8 +37,8 @@ export default function ItemCommittee({ committee, deleteCommittee, openFormForC
 
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', visibility: isMouseOver ? 'visible' : 'hidden' }}>
-                <Button variant='text' sx={{ fontWeight: '780', color: 'success.main', textDecoration: 'underline' }} size='small' onClick={() => openFormForCommitteeEdit(committee.committeeID)}>Edit</Button>
-                <Button variant='text' sx={{ fontWeight: '780', color: 'error.main', textDecoration: 'underline' }} size='small' onClick={() => deleteCommittee(committee.committeeID)}>Delete</Button>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'success.main', textDecoration: 'underline' }} size='small' onClick={() => openFormForCommitteeEdit(committee._id)}>Edit</Button>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'error.main', textDecoration: 'underline' }} size='small' onClick={() => deleteCommittee(committee._id)}>Delete</Button>
             </Box>
         </Box>
     )

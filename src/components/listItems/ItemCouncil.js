@@ -36,8 +36,8 @@ export default function ItemCouncil({ council, deleteCouncil, openFormForCouncil
                 {!_.isNull(council.country) ? <Typography display='inline' sx={{ fontWeight: 'bold' }}>, {capitalizeWords(council.country.label)} </Typography> : null}
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', visibility: isMouseOver ? 'visible' : 'hidden' }}>
-                <Button variant='text' sx={{ fontWeight: '780', color: 'success.main', textDecoration: 'underline' }} size='small' onClick={() => openFormForCouncilEdit(council.councilID)}>Edit</Button>
-                <Button variant='text' sx={{ fontWeight: '780', color: 'error.main', textDecoration: 'underline' }} size='small' onClick={() => deleteCouncil(council.councilID)}>Delete</Button>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'success.main', textDecoration: 'underline' }} size='small' onClick={() => openFormForCouncilEdit(council._id)}>Edit</Button>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'error.main', textDecoration: 'underline' }} size='small' onClick={() => deleteCouncil(council._id)}>Delete</Button>
             </Box>
         </Box>
 

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import uniqid from 'uniqid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -51,7 +50,6 @@ export default function NewMembershipForm({ open, setOpen, addNewMembership }) {
     const handleSubmit = (event) => {
         event.preventDefault();
         addNewMembership({
-            membershipID: uniqid(),
             organization: organizationName,
             membership_type: membershipType,
             country: organizationCountry,

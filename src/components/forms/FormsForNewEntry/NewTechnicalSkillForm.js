@@ -1,5 +1,4 @@
 import {  useState } from 'react';
-import uniqid from 'uniqid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -12,7 +11,6 @@ export default function NewTechnicalSkillForm({ open, setOpen, addNewTechnicalSk
     const handleSubmit = (event) => {
         event.preventDefault();
         addNewTechnicalSkill({
-            skillID: uniqid(),
             skill: skill
         })
         setSkill('')

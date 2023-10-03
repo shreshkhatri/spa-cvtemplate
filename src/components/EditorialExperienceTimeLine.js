@@ -100,9 +100,9 @@ export default function EditorialExperienceTimeLine({ setOpenNewEditorialExperie
                                             {
                                                 editorial_experience.map((experience, index) => {
                                                     return (
-                                                        <Draggable draggableId={experience.experienceID} key={experience.experienceID} index={index}>
+                                                        <Draggable draggableId={experience._id} key={experience._id} index={index}>
                                                             {(provided, snapshot) => (
-                                                                <TimelineItem ref={provided.innerRef} key={experience.experienceID}  {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                                <TimelineItem ref={provided.innerRef} key={experience._id}  {...provided.draggableProps} {...provided.dragHandleProps}>
 
                                                                     <TimelineSeparator>
                                                                         <TimelineDot color='success' />

@@ -55,7 +55,7 @@ import AppTheme from '@/assets/AppTheme';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { onDragEndHndler } from '@/assets/dndHandlers';
 import { downloadCV } from '@/assets/cvDownloadScript';
-import { DROPPABLE_TYPE_IDS, DROPPABLE_TYPES ,RESPONSE_SEVERITY} from '@/data/data';
+import { DROPPABLE_TYPE_IDS, DROPPABLE_TYPES, RESPONSE_SEVERITY } from '@/data/data';
 import { ENDPOINT } from '@/data/endpoints';
 import { API_CALLS } from '@/assets/apicalls';
 import Toast from './Toast';
@@ -98,15 +98,18 @@ export default function MyCV() {
   const router = useRouter();
   const [pageLoading, setIsPageLoading] = useState(true)
   const [tempStore, setTempStore] = useState(null);
-  const [toastPayLoad, setToastPayLoad] = useState({ show:true, severity:'success', message:''})
+  const [toastPayLoad, setToastPayLoad] = useState({ show: false, severity: 'success', message: '' })
+  const [authToken, setAuthToken] = useState(null)
 
   useEffect(() => {
-    
+    const token = localStorage.getItem('auth-token')
+    setAuthToken(token)
+    if (!authToken) return
     async function fetchData() {
       await fetchCVData();
     }
     fetchData();
-  }, []);
+  }, [authToken]);
 
   //function for calling a function for converting document into pdf format
   const saveCVObject = () => {
@@ -116,7 +119,7 @@ export default function MyCV() {
 
   // function for getting CV data
   async function fetchCVData() {
-    const authToken = localStorage.getItem('auth-token')
+
     fetch(ENDPOINT.GETCV, {
       method: "GET",
       redirect: 'follow',
@@ -131,7 +134,7 @@ export default function MyCV() {
     })
       .then(response => {
         if (response.status == 200) {
-          console.log(response.data)
+          console.log(response)
           updateCVData(response.data)
           setIsPageLoading(false)
         }
@@ -154,226 +157,294 @@ export default function MyCV() {
 
 
   // function for setting the form up for editing journal details
-  function openFormForJournalEdit(journalID) {
+  function openFormForJournalEdit(_id) {
 
-    setTempStore(cvdata.journals.find(journal => journal.journalID == journalID));
+    setTempStore(cvdata.journals.find(journal => journal._id == _id));
     setOpenEditJournalForm(true);
   }
 
 
 
   // function for setting the form up for editing conference details
-  function openFormForConferenceEdit(conferenceID) {
-    setTempStore(cvdata.conferences.find(conference => conference.conferenceID == conferenceID));
+  function openFormForConferenceEdit(_id) {
+    setTempStore(cvdata.conferences.find(conference => conference._id == _id));
     setOpenEditConferenceForm(true);
   }
 
 
   // function for setting the form up for editing award and honor details
-  function openFormForAwardHonorEdit(award_honor_ID) {
-    setTempStore(cvdata.awards_honors.find(award => award.award_honor_ID == award_honor_ID));
+  function openFormForAwardHonorEdit(_id) {
+    setTempStore(cvdata.awards_honors.find(award => award._id == _id));
     setOpenEditAwardHonorForm(true);
   }
 
   // function for setting the form up for editing membership details
-  function openFormForMembershipEdit(membershipID) {
-    setTempStore(cvdata.memberships.find(membership => membership.membershipID == membershipID));
+  function openFormForMembershipEdit(_id) {
+    setTempStore(cvdata.memberships.find(membership => membership._id == _id));
     setOpenEditMembershipForm(true);
   }
 
 
   // function for setting the form up for editing council details
-  function openFormForCouncilEdit(councilID) {
-    setTempStore(cvdata.councils.find(council => council.councilID == councilID));
+  function openFormForCouncilEdit(_id) {
+    setTempStore(cvdata.councils.find(council => council._id == _id));
     setOpenEditCouncilForm(true);
   }
 
   // function for setting the form up for editing editorial experience
-  function openFormForCommitteeEdit(committeeID) {
-    setTempStore(cvdata.committees.find(committee => committee.committeeID == committeeID));
+  function openFormForCommitteeEdit(_id) {
+    setTempStore(cvdata.committees.find(committee => committee._id == _id));
     setOpenEditCommitteeForm(true);
   }
 
   // function for setting the form up for editing editorial experience
-  function openFormForEditorialExperienceEdit(experienceID) {
-    setTempStore(cvdata.editorial_experience.find(experience => experience.experienceID == experienceID));
+  function openFormForEditorialExperienceEdit(_id) {
+    setTempStore(cvdata.editorial_experience.find(experience => experience._id == _id));
     setOpenEditEditorialExperienceForm(true);
   }
 
 
 
   // function for setting the form up for editing publication information 
-  function openFormForPublicationEdit(publicationID) {
-    setTempStore(cvdata.publications.find(publication => publication.publicationID == publicationID));
+  function openFormForPublicationEdit(_id) {
+    setTempStore(cvdata.publications.find(publication => publication._id == _id));
     setOpenEditPublicationForm(true);
   }
 
 
   // function for setting the form up for editing project information 
-  function openFormForProjectEdit(projectID) {
-    setTempStore(cvdata.projects.find(project => project.projectID == projectID));
+  function openFormForProjectEdit(_id) {
+    setTempStore(cvdata.projects.find(project => project._id == _id));
     setOpenEditProjectForm(true);
   }
 
 
   // function for setting the form for editing degree information and loading the data into tempstorage
-  function openFormForDegreeEdit(degreeID) {
-    setTempStore(cvdata.education_history.find(degree => degree.degreeID == degreeID));
+  function openFormForDegreeEdit(_id) {
+    setTempStore(cvdata.education_history.find(degree => degree._id == _id));
     setOpenEditEducationForm(true);
   }
 
 
   // function for opening th form for dediting employment details 
-  function openFormForWorkExperienceEdit(employmentID) {
-    setTempStore(cvdata.work_history.find(work_experience => work_experience.employmentID == employmentID));
+  function openFormForWorkExperienceEdit(_id) {
+    setTempStore(cvdata.work_history.find(work_experience => work_experience._id == _id));
     setOpenEditExperienceForm(true);
   }
 
 
 
   // function to update Career summary
-  function updateCareerSummary(updatedCareerSummary) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      career_summary: updatedCareerSummary
-    }));
+  async function updateCareerSummary(updatedCareerSummary) {
+
+    const response = await API_CALLS.addRecord(authToken, 'career_summary', { career_summary: updatedCareerSummary })
+
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        career_summary: updatedCareerSummary
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   // function to update Personal Statement
-  function updatePersonalStatement(updatedStatement) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      personal_statement: updatedStatement
-    }));
+  async function updatePersonalStatement(updatedStatement) {
+    const response = await API_CALLS.addRecord(authToken, 'personal_statement', { personal_statement: updatedStatement })
+
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        personal_statement: updatedStatement
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
 
   }
 
   // function to update BasicInformation
   async function updateBasicInformation(updatedData) {
-    const authToken = localStorage.getItem('auth-token')
 
-    const response = await API_CALLS.updateSection(authToken,'basic_information',updatedData,'6516ee36eec80f04abf1faa3')
-    console.log(response)
+    const response = await API_CALLS.addRecord(authToken, 'basic_information', updatedData)
 
-    if (response.severity === RESPONSE_SEVERITY.SUCCESS){
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       updateCVData(prevCVData => ({
         ...prevCVData,
         basic_information: updatedData
       }));
     }
-    setToastPayLoad({show:true,severity:response.severity,message:response.message})
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
 
   /******************************************* FUNCTION FOR APPENDING NEW ITEMS TO THE LIST ************************************************ */
 
   //function to add new editorial experience to the exisiting list
-  function addNewEditorialExperience(editorialExperienceDetails) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      editorial_experience: [editorialExperienceDetails, ...prevCVData.editorial_experience]
-    }));
+  async function addNewEditorialExperience(editorialExperienceDetails) {
+    const response = await API_CALLS.addRecord(authToken, 'editorial_experience', editorialExperienceDetails)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        editorial_experience: [response.data, ...prevCVData.editorial_experience]
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
 
   //function to add new accreditation to the exisiting list
-  function addNewAccreditionExperience(accreditationDetails) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      accreditations: [accreditationDetails, ...prevCVData.accreditations]
-    }));
+  async function addNewAccreditionExperience(accreditationDetails) {
+    const response = await API_CALLS.addRecord(authToken, 'accreditations', accreditationDetails)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        accreditations: [response.data, ...prevCVData.accreditations]
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
 
   //function to add new technical skill to the exisiting list
-  function addNewTechnicalSkill(skillDetails) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      technical_skills: [skillDetails, ...prevCVData.technical_skills]
-    }));
+  async function addNewTechnicalSkill(skillDetails) {
+    const response = await API_CALLS.addRecord(authToken, 'technical_skills', skillDetails)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        technical_skills: [response.data, ...prevCVData.technical_skills]
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   //function to add new conference entry to the exisiting list
-  function addNewJournal(journalDetails) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      journals: [journalDetails, ...prevCVData.journals]
-    }));
+  async function addNewJournal(journalDetails) {
+    console.log(journalDetails)
+    const response = await API_CALLS.addRecord(authToken, 'journals', journalDetails)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        journals: [response.data, ...prevCVData.journals]
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   //function to add new conference entry to the exisiting list
-  function addNewConference(conferenceDetails) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      conferences: [conferenceDetails, ...prevCVData.conferences]
-    }));
+  async function addNewConference(conferenceDetails) {
+    const response = await API_CALLS.addRecord(authToken, 'conferences', conferenceDetails)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        conferences: [response.data, ...prevCVData.conferences]
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   //function to add new award ifnromation to the exisiting list
-  function addNewAwardHonor(awardDetails) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      awards_honors: [awardDetails, ...prevCVData.awards_honors]
-    }));
+  async function addNewAwardHonor(awardDetails) {
+    const response = await API_CALLS.addRecord(authToken, 'awards_honors', awardDetails)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        awards_honors: [response.data, ...prevCVData.awards_honors]
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
 
   //function to add new membership details to the exisiting list
-  function addNewMembership(membershipDetails) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      memberships: [membershipDetails, ...prevCVData.memberships]
-    }));
+  async function addNewMembership(membershipDetails) {
+    const response = await API_CALLS.addRecord(authToken, 'memberships', membershipDetails)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        memberships: [response.data, ...prevCVData.memberships]
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   //function to add new committee to the exisiting list
-  function addNewCommittee(newCommitteeDetails) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      committees: [newCommitteeDetails, ...prevCVData.committees]
-    }));
+  async function addNewCommittee(newCommitteeDetails) {
+    const response = await API_CALLS.addRecord(authToken, 'committees', newCommitteeDetails)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        committees: [response.data, ...prevCVData.committees]
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   //function to add new publication to the exisiting list
-  function addNewCouncil(newCouncilData) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      councils: [newCouncilData, ...prevCVData.councils]
-    }));
+  async function addNewCouncil(newCouncilData) {
+    const response = await API_CALLS.addRecord(authToken, 'councils', newCouncilData)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        councils: [response.data, ...prevCVData.councils]
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
 
   //function to add new publication to the exisiting list
-  function addNewPublication(newPublicationData) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      publications: [newPublicationData, ...prevCVData.publications]
-    }));
+  async function addNewPublication(newPublicationData) {
+    const response = await API_CALLS.addRecord(authToken, 'publications', newPublicationData)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        publications: [response.data, ...prevCVData.publications]
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   //function to add new work experience
-  function addNewWorkExperience(newWorkExperience) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      work_history: [newWorkExperience, ...prevCVData.work_history]
-    }));
+  async function addNewWorkExperience(newWorkExperience) {
+    const response = await API_CALLS.addRecord(authToken, 'work_history', newWorkExperience)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        work_history: [response.data, ...prevCVData.work_history]
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
 
   //function to add new project Information
-  function addNewProject(newProjectDetails) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      projects: [newProjectDetails, ...prevCVData.projects]
-    }));
+  async function addNewProject(newProjectDetails) {
+
+    const response = await API_CALLS.addRecord(authToken, 'projects', newProjectDetails)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        projects: [response.data, ...prevCVData.projects]
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   //function to add new degree Information
-  function addNewDegree(newDegreeDetails) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      education_history: [newDegreeDetails, ...prevCVData.education_history]
-    }));
+  async function addNewDegree(newDegreeDetails) {
+
+    const response = await API_CALLS.addRecord(authToken, 'education_history', newDegreeDetails)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      console.log(response)
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        education_history: [response.data, ...prevCVData.education_history]
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+
   }
 
 
@@ -381,100 +452,174 @@ export default function MyCV() {
   /********************************** FUNCTION FOR DELEING THE PROPERTY FROM THE OBJECT *************************************************** */
 
   // function to delete editorial experience property from the object
-  function deleteEditorialExperienceSection() {
-    const { editorial_experience, ...rest } = cvdata;
-    updateCVData({ ...rest });
+  async function deleteEditorialExperienceSection() {
+    const response = await API_CALLS.deleteSection(authToken, 'editorial_experience')
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      const { editorial_experience, ...rest } = cvdata;
+      updateCVData({ ...rest });
+    }
+
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
 
   // function to delte accreditations property from the object
-  function deleteAccreditationsSection() {
-    const { accreditations, ...rest } = cvdata;
-    updateCVData({ ...rest });
+  async function deleteAccreditationsSection() {
+    const response = await API_CALLS.deleteSection(authToken, 'accreditations')
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      const { accreditations, ...rest } = cvdata;
+      updateCVData({ ...rest });
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
 
   // function to delete technicalSkills property from the object
-  function deleteTechnicallSection() {
-    const { technical_skills, ...rest } = cvdata;
-    updateCVData({ ...rest });
+  async function deleteTechnicallSection() {
+
+    const response = await API_CALLS.deleteSection(authToken, 'technical_skills')
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+
+      const { technical_skills, ...rest } = cvdata;
+      updateCVData({ ...rest });
+    }
+
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   // function to delete journals property from the object
-  function deleteJournalsSection() {
-    const { journals, ...rest } = cvdata;
-    updateCVData({ ...rest });
+  async function deleteJournalsSection() {
+
+    const response = await API_CALLS.deleteSection(authToken, 'journals')
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+
+      const { journals, ...rest } = cvdata;
+      updateCVData({ ...rest });
+    }
+
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
 
   // function to delete conferences property from the object
-  function deleteConferencesSection() {
-    const { conferences, ...rest } = cvdata;
-    updateCVData({ ...rest });
+  async function deleteConferencesSection() {
+
+    const response = await API_CALLS.deleteSection(authToken, 'conferences')
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+
+      const { conferences, ...rest } = cvdata;
+      updateCVData({ ...rest });
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
 
   // function to delete awards property from the object
-  function deleteAwardSection() {
-    const { awards_honors, ...rest } = cvdata;
-    updateCVData({ ...rest });
+  async function deleteAwardSection() {
+
+    const response = await API_CALLS.deleteSection(authToken, 'awards_honors')
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      const { awards_honors, ...rest } = cvdata;
+      updateCVData({ ...rest });
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
 
   // function to delete memberships property from the object
-  function deleteMembershipSection() {
-    const { memberships, ...rest } = cvdata;
-    updateCVData({ ...rest });
+  async function deleteMembershipSection() {
+    const response = await API_CALLS.deleteSection(authToken, 'memberships')
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      const { memberships, ...rest } = cvdata;
+      updateCVData({ ...rest });
+    }
+
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
 
   // function to delete committees property from the object
-  function deleteCommitteeSection() {
-    const { committees, ...rest } = cvdata;
-    updateCVData({ ...rest });
+  async function deleteCommitteeSection() {
+    const response = await API_CALLS.deleteSection(authToken, 'committees')
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      const { committees, ...rest } = cvdata;
+      updateCVData({ ...rest });
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   // function to delete councils property from the object
-  function deleteCouncilsSection() {
-    const { councils, ...rest } = cvdata;
-    updateCVData({ ...rest });
+  async function deleteCouncilsSection() {
+
+    const response = await API_CALLS.deleteSection(authToken, 'councils')
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      const { councils, ...rest } = cvdata;
+      updateCVData({ ...rest });
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
 
   // function to delete personal statement
-  function deletePersonalStatement() {
-    const { personal_statement, ...rest } = cvdata;
-    updateCVData({ ...rest });
+  async function deletePersonalStatement() {
+    const response = await API_CALLS.deleteSection(authToken, 'personal_statement')
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      const { personal_statement, ...rest } = cvdata;
+      updateCVData({ ...rest });
+    }
+
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   // function to delete career summary
-  function deleteCareerSummary() {
-    const { career_summary, ...rest } = cvdata;
-    updateCVData({ ...rest });
+  async function deleteCareerSummary() {
+    const response = await API_CALLS.deleteSection(authToken, 'career_summary')
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      const { career_summary, ...rest } = cvdata;
+      updateCVData({ ...rest });
+    }
+
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   // function to delete education history
-  function deleteEducationHistory() {
-    const { education_history, ...rest } = cvdata;
-    updateCVData({ ...rest });
+  async function deleteEducationHistory() {
+    const response = await API_CALLS.deleteSection(authToken, 'education_history')
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      const { education_history, ...rest } = cvdata;
+      updateCVData({ ...rest });
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   // function to delete work history
-  function deleteWorkHistory() {
-    const { work_history, ...rest } = cvdata;
-    updateCVData({ ...rest });
+  async function deleteWorkHistory() {
+    const response = await API_CALLS.deleteSection(authToken, 'work_history')
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      const { work_history, ...rest } = cvdata;
+      updateCVData({ ...rest });
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   // function to delete Publications
-  function deletePublications() {
-    const { publications, ...rest } = cvdata;
-    updateCVData({ ...rest });
+  async function deletePublications() {
+    const response = await API_CALLS.deleteSection(authToken, 'publications')
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      const { publications, ...rest } = cvdata;
+      updateCVData({ ...rest });
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   // function to delete Projects Section
-  function deleteProjects() {
-    const { projects, ...rest } = cvdata;
-    updateCVData({ ...rest });
+  async function deleteProjects() {
+    const response = await API_CALLS.deleteSection(authToken, 'projects')
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      const { projects, ...rest } = cvdata;
+      updateCVData({ ...rest });
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
 
@@ -505,6 +650,7 @@ export default function MyCV() {
         ...prevCVData,
         technical_skills: []
       }));
+
     },
 
     //function for adding journals property to the list 
@@ -529,7 +675,7 @@ export default function MyCV() {
       updateCVData(prevCVData => ({
         ...prevCVData,
         awards_honors: []
-      }));
+      }))
     },
 
     //function for adding memberships property to the list 
@@ -611,219 +757,319 @@ export default function MyCV() {
   /*************************************** FUNCTION TO EDIT INDIVIDUAL ITEMS FROM THE LIST *****************************************/
 
   //function to edit journal from  the existing list
-  function editJournal(updatedData) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      journals: prevCVData.journals.map(journal => journal.journalID == updatedData.journalID ? updatedData : journal)
-    }));
+  async function editJournal(updatedData) {
+    const response = await API_CALLS.updateSection(authToken, 'journals', updatedData, updatedData._id)
+
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        journals: prevCVData.journals.map(journal => journal._id == updatedData._id ? updatedData : journal)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
     setTempStore(null);
   }
 
 
   //function to edit conference from  the existing list
-  function editConference(updatedData) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      conferences: prevCVData.conferences.map(conference => conference.conferenceID == updatedData.conferenceID ? updatedData : conference)
-    }));
+  async function editConference(updatedData) {
+    const response = await API_CALLS.updateSection(authToken, 'conferences', updatedData, updatedData._id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        conferences: prevCVData.conferences.map(conference => conference._id == updatedData._id ? updatedData : conference)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
     setTempStore(null);
   }
 
 
   //function to edit awardHonor details from the existing list
-  function editAwardHonor(updatedData) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      awards_honors: prevCVData.awards_honors.map(award => award.award_honor_ID == updatedData.award_honor_ID ? updatedData : award)
-    }));
+  async function editAwardHonor(updatedData) {
+    const response = await API_CALLS.updateSection(authToken, 'awards_honors', updatedData, updatedData._id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        awards_honors: prevCVData.awards_honors.map(award => award._id == updatedData._id ? updatedData : award)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
     setTempStore(null);
   }
 
 
   //function to edit membership details from the existing list
-  function editMembership(updatedData) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      memberships: prevCVData.memberships.map(membership => membership.membershipID == updatedData.membershipID ? updatedData : membership)
-    }));
+  async function editMembership(updatedData) {
+    const response = await API_CALLS.updateSection(authToken, 'memberships', updatedData, updatedData._id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        memberships: prevCVData.memberships.map(membership => membership._id == updatedData._id ? updatedData : membership)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
     setTempStore(null);
   }
 
 
   //function to edit council details from the existing list
-  function editCouncil(updatedData) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      councils: prevCVData.councils.map(council => council.councilID == updatedData.councilID ? updatedData : council)
-    }));
+  async function editCouncil(updatedData) {
+    const response = await API_CALLS.updateSection(authToken, 'councils', updatedData, updatedData._id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        councils: prevCVData.councils.map(council => council._id == updatedData._id ? updatedData : council)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
     setTempStore(null);
   }
 
   //function to edit committee details from the existing list
-  function editCommittee(updatedData) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      committees: prevCVData.committees.map(committee => committee.committeeID == updatedData.committeeID ? updatedData : committee)
-    }));
+  async function editCommittee(updatedData) {
+    const response = await API_CALLS.updateSection(authToken, 'committees', updatedData, updatedData._id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        committees: prevCVData.committees.map(committee => committee._id == updatedData._id ? updatedData : committee)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
     setTempStore(null);
   }
 
 
   //function to edit editorial experience from the existing list
-  function editEditorialExperience(updatedData) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      editorial_experience: prevCVData.editorial_experience.map(experience => experience.experienceID == updatedData.experienceID ? updatedData : experience)
-    }));
+  async function editEditorialExperience(updatedData) {
+    const response = await API_CALLS.updateSection(authToken, 'editorial_experience', updatedData, updatedData._id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        editorial_experience: prevCVData.editorial_experience.map(experience => experience._id == updatedData._id ? updatedData : experience)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
     setTempStore(null);
   }
 
 
 
   //function to edit publication detail from the existing list
-  function editPublication(updatedData) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      publications: prevCVData.publications.map(publication => publication.publicationID == updatedData.publicationID ? updatedData : publication)
-    }));
+  async function editPublication(updatedData) {
+    const response = await API_CALLS.updateSection(authToken, 'publications', updatedData, updatedData._id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        publications: prevCVData.publications.map(publication => publication._id == updatedData._id ? updatedData : publication)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
     setTempStore(null);
   }
 
 
   //function to edit project detail from the existing list
-  function editProject(updatedData) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      projects: prevCVData.projects.map(project => project.projectID == updatedData.projectID ? updatedData : project)
-    }));
+  async function editProject(updatedData) {
+    const response = await API_CALLS.updateSection(authToken, 'projects', updatedData, updatedData._id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        projects: prevCVData.projects.map(project => project._id == updatedData._id ? updatedData : project)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
     setTempStore(null);
   }
 
   //function to edit education degree item from the exisiting list
-  function editEducationDegree(updatedData) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      education_history: prevCVData.education_history.map(degree => degree.degreeID == updatedData.degreeID ? updatedData : degree)
-    }));
+  async function editEducationDegree(updatedData) {
+
+    console.log(updatedData)
+
+    const response = await API_CALLS.updateSection(authToken, 'education_history', updatedData, updatedData._id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        education_history: prevCVData.education_history.map(degree => degree._id == updatedData._id ? updatedData : degree)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
     setTempStore(null);
   }
 
-
   //function to edit work experience item from the exisiting list
-  function editWorkExperience(updatedData) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      work_history: prevCVData.work_history.map(work_experience => work_experience.employmentID == updatedData.employmentID ? updatedData : work_experience)
-    }));
+  async function editWorkExperience(updatedData) {
+    const response = await API_CALLS.updateSection(authToken, 'work_history', updatedData, updatedData._id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        work_history: prevCVData.work_history.map(work_experience => work_experience._id == updatedData._id ? updatedData : work_experience)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
     setTempStore(null);
   }
 
   /*************************************** FUNCTION TO DELETE INDIVIDUAL ITEMS FROM THE LIST ***************************************/
 
   //function to delete editorialExperience item from the exisiting list
-  function deleteEditorialExperience(experienceID) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      editorial_experience: prevCVData.editorial_experience.filter(experience => experience.experienceID !== experienceID)
-    }));
+  async function deleteEditorialExperience(_id) {
+    const response = await API_CALLS.deleteRecord(authToken, 'editorial_experience', _id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        editorial_experience: prevCVData.editorial_experience.filter(experience => experience._id !== _id)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   //function to delete accreditation details from the exisiting list
-  function deleteAccreditation(experienceID) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      accreditations: prevCVData.accreditations.filter(accreditation => accreditation.experienceID !== experienceID)
-    }));
+  async function deleteAccreditation(_id) {
+    const response = await API_CALLS.deleteRecord(authToken, 'accreditations', _id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        accreditations: prevCVData.accreditations.filter(accreditation => accreditation._id !== _id)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
 
   //function to delete technical skills details from the exisiting list
-  function deleteTechnicalSkill(skillID) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      technical_skills: prevCVData.technical_skills.filter(skill => skill.skillID !== skillID)
-    }));
+  async function deleteTechnicalSkill(_id) {
+    const response = await API_CALLS.deleteRecord(authToken, 'technical_skills', _id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        technical_skills: prevCVData.technical_skills.filter(skill => skill._id !== _id)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   //function to delete journal details from the exisiting list
-  function deleteJournal(journalID) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      journals: prevCVData.journals.filter(journal => journal.journalID !== journalID)
-    }));
+  async function deleteJournal(_id) {
+    const response = await API_CALLS.deleteRecord(authToken, 'journals', _id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        journals: prevCVData.journals.filter(journal => journal._id !== _id)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   //function to delete conference details from the exisiting list
-  function deleteConference(conferenceID) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      conferences: prevCVData.conferences.filter(conference => conference.conferenceID !== conferenceID)
-    }));
+  async function deleteConference(_id) {
+    const response = await API_CALLS.deleteRecord(authToken, 'conferences', _id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        conferences: prevCVData.conferences.filter(conference => conference._id !== _id)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   //function to delete award details from the exisiting list
-  function deleteAward(award_honor_ID) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      awards_honors: prevCVData.awards_honors.filter(award => award.award_honor_ID !== award_honor_ID)
-    }));
+  async function deleteAward(_id) {
+    const response = await API_CALLS.deleteRecord(authToken, 'awards_honors', _id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        awards_honors: prevCVData.awards_honors.filter(award => award._id !== _id)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   //function to delete membership details from the exisiting list
-  function deleteMembership(membershipID) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      memberships: prevCVData.memberships.filter(membership => membership.membershipID !== membershipID)
-    }));
+  async function deleteMembership(_id) {
+    const response = await API_CALLS.deleteRecord(authToken, 'memberships', _id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        memberships: prevCVData.memberships.filter(membership => membership._id !== _id)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   //function to delete committee from the exisiting list
-  function deleteCommittee(committeeID) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      committees: prevCVData.committees.filter(committee => committee.committeeID !== committeeID)
-    }));
+  async function deleteCommittee(_id) {
+    const response = await API_CALLS.deleteRecord(authToken, 'committees', _id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        committees: prevCVData.committees.filter(committee => committee._id !== _id)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   //function to delete council from the exisiting list
-  function deleteCouncil(councilID) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      councils: prevCVData.councils.filter(council => council.councilID !== councilID)
-    }));
+  async function deleteCouncil(_id) {
+    const response = await API_CALLS.deleteRecord(authToken, 'councils', _id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        councils: prevCVData.councils.filter(council => council._id !== _id)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   //function to delete publication from the exisiting list
-  function deletePublication(publicationID) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      publications: prevCVData.publications.filter(publication => publication.publicationID !== publicationID)
-    }));
+  async function deletePublication(_id) {
+    const response = await API_CALLS.deleteRecord(authToken, 'publications', _id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        publications: prevCVData.publications.filter(publication => publication._id !== _id)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   //function to delete existing work experience
-  function deleteWorkExperience(employmentID) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      work_history: prevCVData.work_history.filter(experience => experience.employmentID !== employmentID)
-    }));
+  async function deleteWorkExperience(_id) {
+    const response = await API_CALLS.deleteRecord(authToken, 'work_history', _id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        work_history: prevCVData.work_history.filter(experience => experience._id !== _id)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
 
   //function to delete project from the list
-  function deleteProject(projectID) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      projects: prevCVData.projects.filter(project => project.projectID !== projectID)
-    }));
+  async function deleteProject(_id) {
+    const response = await API_CALLS.deleteRecord(authToken, 'projects', _id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        projects: prevCVData.projects.filter(project => project._id !== _id)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
   //function to delete degree from the education degree list
-  function deleteEducationDegree(degreeID) {
-    updateCVData(prevCVData => ({
-      ...prevCVData,
-      education_history: prevCVData.education_history.filter(degree => degree.degreeID !== degreeID)
-    }));
+  async function deleteEducationDegree(_id) {
+
+    const response = await API_CALLS.deleteRecord(authToken, 'education_history', _id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        education_history: prevCVData.education_history.filter(degree => degree._id !== _id)
+      }));
+    }
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
 
@@ -1155,7 +1401,7 @@ export default function MyCV() {
               {openEditJournalForm && <EditJournalForm open={openEditJournalForm} setOpen={setOpenEditJournalForm} jrnl={tempStore} editJournal={editJournal} />}
             </Box>
             <CVSectionButtons keys={Object.keys(cvdata)} CVMenuButtonHandlers={CVMenuButtonHandlers} />
-            <Toast message={toastPayLoad.message} show={toastPayLoad.show} severity={toastPayLoad.severity}/>
+            {toastPayLoad.show && <Toast message={toastPayLoad.message} show={toastPayLoad.show} severity={toastPayLoad.severity} setToastPayLoad={setToastPayLoad} />}
             <FloatingButton />
           </Box>
         </Box>

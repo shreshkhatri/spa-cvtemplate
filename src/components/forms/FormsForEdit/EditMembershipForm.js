@@ -63,7 +63,7 @@ export default function EditMembershipForm({ open, setOpen, membership, editMemb
     const handleSubmit = (event) => {
         event.preventDefault();
         editMembership({
-            membershipID: membership.membershipID,
+            _id: membership._id,
             organization: organizationName,
             membership_type: membershipType,
             country: organizationCountry,

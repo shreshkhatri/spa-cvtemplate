@@ -97,9 +97,9 @@ export default function CouncilTimeLine({ deleteCouncilsSection, setOpenNewCounc
 
                                         {
                                             councils.map((council, index) => {
-                                                return <Draggable draggableId={council.councilID} key={council.councilID} index={index}>
+                                                return <Draggable draggableId={council._id} key={council._id} index={index}>
                                                     {(provided, snapshot) => (
-                                                        <TimelineItem ref={provided.innerRef} key={council.councilID} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                        <TimelineItem ref={provided.innerRef} key={council._id} {...provided.draggableProps} {...provided.dragHandleProps}>
 
                                                             <TimelineSeparator>
                                                                 <TimelineDot color='success' />

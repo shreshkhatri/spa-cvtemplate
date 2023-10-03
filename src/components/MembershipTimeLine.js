@@ -84,7 +84,7 @@ export default function MembershipTimeLine({ deleteMembershipSection, setOpenNew
                             >
                                 {
                                     memberships.map((membership) => {
-                                        return <TimelineItem key={membership.membershipID} >
+                                        return <TimelineItem key={membership._id} >
 
                                             <TimelineSeparator>
                                                 <TimelineDot color='success' />

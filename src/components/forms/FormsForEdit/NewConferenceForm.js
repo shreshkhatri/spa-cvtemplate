@@ -13,6 +13,7 @@ import CountrySelector from '../../CountrySelector';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
+import  uniqid from 'uniqid';
 
 const style = {
     position: 'absolute',
@@ -55,7 +56,7 @@ export default function NewConferenceForm({ open, setOpen, addNewConference }) {
 
     // a function to remove the author from the list
     function removeAuthor(authorID) {
-        const tempAuthList = authors.filter(author => author.id != authorID)
+        const tempAuthList = authors.filter(author => author._id != authorID)
         setAuthors(tempAuthList);
     }
 
@@ -232,10 +233,10 @@ export default function NewConferenceForm({ open, setOpen, addNewConference }) {
                                             flexDirection: 'row',
                                             flexWrap: 'wrap',
                                             gap: 1
-                                        }} key={author.id}>
+                                        }} key={author._id}>
                                             <Typography variant='body2'> {author.first_name}</Typography>
                                             <Typography sx={{ flexGrow: 1 }} variant='body2'>{author.last_name}</Typography>
-                                            <Button variant='outlined' color='error' size='small' onClick={() => removeAuthor(author.id)}>Remove Author</Button>
+                                            <Button variant='outlined' color='error' size='small' onClick={() => removeAuthor(author._id)}>Remove Author</Button>
                                         </Box>
                                         )
 

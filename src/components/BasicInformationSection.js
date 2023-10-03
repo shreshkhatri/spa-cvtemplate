@@ -93,7 +93,7 @@ export default function BasicInformationSection({ basic_information, setEditBasi
               {_.isEmpty(basic_information.postal_zip_code) ? ' ' : ' , ' + basic_information.postal_zip_code.toUpperCase()}
               {_.isEmpty(basic_information.state_province_region) ? ' ' : ' , ' + capitalizeWords(basic_information.state_province_region)}
               {_.isEmpty(basic_information.city) ? ' ' : ' , ' + capitalizeWords(basic_information.city)}
-              {basic_information.country == null ? ' ' : ' , ' + basic_information.country.label}
+              {!basic_information.country.hasOwnProperty('label') ? '[ country ]' : ' , ' + basic_information.country.label}
             </Typography>
           }
 

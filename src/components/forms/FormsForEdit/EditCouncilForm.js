@@ -62,7 +62,7 @@ export default function EditCouncilForm({ open, setOpen, council, editCouncil })
     const handleSubmit = (event) => {
         event.preventDefault();
         editCouncil({
-            councilID: council.councilID,
+            _id: council._id,
             name: name,
             designation:designation,
             country: councilCountry,

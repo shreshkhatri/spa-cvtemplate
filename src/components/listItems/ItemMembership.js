@@ -36,8 +36,8 @@ export default function ItemMembership({ membership, deleteMembership, openFormF
 
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', visibility: isMouseOver ? 'visible' : 'hidden' }}>
-                <Button variant='text' sx={{ fontWeight: '780', color: 'success.main', textDecoration: 'underline' }} size='small' onClick={() => openFormForMembershipEdit(membership.membershipID)}>Edit</Button>
-                <Button variant='text' sx={{ fontWeight: '780', color: 'error.main', textDecoration: 'underline' }} size='small' onClick={() => deleteMembership(membership.membershipID)}>Delete</Button>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'success.main', textDecoration: 'underline' }} size='small' onClick={() => openFormForMembershipEdit(membership._id)}>Edit</Button>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'error.main', textDecoration: 'underline' }} size='small' onClick={() => deleteMembership(membership._id)}>Delete</Button>
             </Box>
         </Box>
     )

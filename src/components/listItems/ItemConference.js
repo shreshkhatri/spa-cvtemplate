@@ -38,8 +38,8 @@ export default function ItemConference({ conference, deleteConference ,openFormF
                         
                 </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', visibility: isMouseOver ? 'visible' : 'hidden' }}>
-                <Button variant='text' sx={{ fontWeight: '780', color: 'success.main', textDecoration: 'underline' }} size='small' onClick={()=>openFormForConferenceEdit(conference.conferenceID)}>Edit</Button>
-                <Button variant='text' sx={{ fontWeight: '780', color: 'error.main', textDecoration: 'underline' }} size='small' onClick={() => deleteConference(conference.conferenceID)}>Delete</Button>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'success.main', textDecoration: 'underline' }} size='small' onClick={()=>openFormForConferenceEdit(conference._id)}>Edit</Button>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'error.main', textDecoration: 'underline' }} size='small' onClick={() => deleteConference(conference._id)}>Delete</Button>
             </Box>
 
         </Box>

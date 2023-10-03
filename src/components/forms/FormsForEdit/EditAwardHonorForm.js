@@ -49,7 +49,7 @@ export default function EditAwardHonorForm({ open, setOpen, award ,editAwardHono
     const handleSubmit = (event) => {
         event.preventDefault()
         editAwardHonor({
-            award_honor_ID: award.award_honor_ID,
+            _id: award._id,
             name: awardName,
             awarding_body: organization,
             award_date: awardDate ? awardDate.format('YYYY-MM-DD') : null,

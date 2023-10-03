@@ -98,10 +98,10 @@ export default function AwardHonorsTimeLine({ deleteAwardSection, setOpenNewAwar
                                             awards_honors.map((award, index) => {
                                                 return (
 
-                                                    <Draggable draggableId={award.award_honor_ID} key={award.award_honor_ID} index={index}>
+                                                    <Draggable draggableId={award._id} key={award._id} index={index}>
                                                         {
                                                             (provided, snapshot) => (
-                                                                <TimelineItem ref={provided.innerRef} key={award.award_honor_ID} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                                <TimelineItem ref={provided.innerRef} key={award._id} {...provided.draggableProps} {...provided.dragHandleProps}>
 
                                                                     <TimelineSeparator>
                                                                         <TimelineDot color='success' />

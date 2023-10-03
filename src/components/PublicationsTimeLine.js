@@ -100,7 +100,7 @@ export default function PublicationsTimeLine({ deletePublications, setOpenNewPub
                         publications.filter(publication => publication.type == type)
                           .map(publication => {
                             return (
-                              <TimelineItem key={publication.publicationID}>
+                              <TimelineItem key={publication._id}>
 
                                 <TimelineSeparator>
                                   <TimelineDot color='success' />

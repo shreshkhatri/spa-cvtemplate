@@ -60,7 +60,7 @@ export default function CareerSummary({ isCareerSummaryEditMode, career_summary,
                     </Box>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography sx={{ padding: 2 }} variant='subtitle2' ><p onDoubleClick={() => setIsCareerSummaryEditMode(true)}>{career_summary}</p></Typography>
+                    <Typography sx={{ padding: 2 }} variant='subtitle2' ><p onDoubleClick={() => setIsCareerSummaryEditMode(true)}>{career_summary || ""}</p></Typography>
                 </AccordionDetails>
                 </Accordion>
         </Box>

@@ -41,8 +41,8 @@ export default function ItemEditorial({ experience, deleteEditorialExperience, o
 
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', visibility: isMouseOver ? 'visible' : 'hidden' }}>
-                <Button variant='text' sx={{ fontWeight: '780', color: 'success.main', textDecoration: 'underline' }} size='small' onClick={() => openFormForEditorialExperienceEdit(experience.experienceID)}>Edit</Button>
-                <Button variant='text' sx={{ fontWeight: '780', color: 'error.main', textDecoration: 'underline' }} size='small' onClick={() => deleteEditorialExperience(experience.experienceID)}>Delete</Button>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'success.main', textDecoration: 'underline' }} size='small' onClick={() => openFormForEditorialExperienceEdit(experience._id)}>Edit</Button>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'error.main', textDecoration: 'underline' }} size='small' onClick={() => deleteEditorialExperience(experience._id)}>Delete</Button>
             </Box>
         </Box>
 

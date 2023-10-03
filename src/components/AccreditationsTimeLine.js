@@ -45,7 +45,7 @@ export default function AccreditationsTimeLine({ accreditations, deleteAccredita
 
           {
             accreditations.map((accreditation) => {
-              return <TimelineItem key={accreditation.experienceID} >
+              return <TimelineItem key={accreditation._id} >
 
                 <TimelineSeparator>
                   <TimelineDot color='success' />
@@ -67,7 +67,7 @@ export default function AccreditationsTimeLine({ accreditations, deleteAccredita
 
                 
 
-                  <Button variant='outlined' color='error' size='small' onClick={()=> deleteAccreditation(accreditation.experienceID)}>Delete</Button>
+                  <Button variant='outlined' color='error' size='small' onClick={()=> deleteAccreditation(accreditation._id)}>Delete</Button>
                 </TimelineContent>
               </TimelineItem>
 

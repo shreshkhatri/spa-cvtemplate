@@ -67,7 +67,7 @@ export default function EditCommitteeForm({ open, setOpen, committee, editCommit
     const handleSubmit = (event) => {
         event.preventDefault();
         editCommittee({
-            committeeID: committee.committeeID,
+            _id: committee._id,
             name: committeeName,
             designation: designation,
             country: committeeCountry,

@@ -1,5 +1,4 @@
 import {  useState } from 'react';
-import uniqid from 'uniqid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -52,7 +51,6 @@ export default function NewCommitteeForm({ open, setOpen, addNewCommittee }) {
     const handleSubmit = (event) => {
         event.preventDefault();
         addNewCommittee({
-            committeeID: uniqid(),
             name: committeeName,
             designation: designation,
             country: committeeCountry,

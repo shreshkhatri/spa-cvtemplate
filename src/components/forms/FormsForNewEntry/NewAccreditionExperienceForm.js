@@ -9,7 +9,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import CountrySelector from '../../CountrySelector';
-import uniqid from 'uniqid';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
@@ -50,7 +49,6 @@ export default function NewAccreditionExperienceForm({  open, setOpen, addNewAcc
     const handleSubmit = (event) => {
         event.preventDefault();
         addNewAccreditionExperience({
-            experienceID: uniqid(),
             role: roleRef.current,
             organization: organizationRef.current,
             country: organizationCountry,

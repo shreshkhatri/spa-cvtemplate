@@ -86,7 +86,7 @@ export default function JournalsList({ deleteJournalsSection, setOpenNewJournalF
 
                                 {
                                     journals.map((journal) => {
-                                        return <TimelineItem key={journal.journalID}>
+                                        return <TimelineItem key={journal._id}>
 
                                             <TimelineSeparator>
                                                 <TimelineDot color='success' />

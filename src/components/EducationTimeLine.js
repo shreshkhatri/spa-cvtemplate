@@ -103,9 +103,9 @@ export default function EducationTimeLine({ education_history, deleteEducationDe
                                             {
                                                 education_history.map((degree, index) => {
                                                     return (
-                                                        <Draggable draggableId={degree.degreeID} key={degree.degreeID} index={index} >
+                                                        <Draggable draggableId={degree._id} key={degree._id} index={index} >
                                                             {(provided, snapshot) => {
-                                                                return (<TimelineItem ref={provided.innerRef} key={degree.degreeID} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                                return (<TimelineItem ref={provided.innerRef} key={degree._id} {...provided.draggableProps} {...provided.dragHandleProps}>
 
                                                                     <TimelineSeparator>
                                                                         <TimelineDot color='success' />

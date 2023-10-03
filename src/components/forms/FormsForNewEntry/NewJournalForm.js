@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import uniqid from 'uniqid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -12,6 +11,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
+import  uniqid from 'uniqid';
 
 const style = {
     position: 'absolute',
@@ -54,14 +54,14 @@ export default function NewJournalForm({ open, setOpen, addNewJournal }) {
 
     // a function to remove the author from the list
     function removeAuthor(authorID) {
-        const tempAuthList = authors.filter(author => author.id != authorID)
+        const tempAuthList = authors.filter(author => author._id != authorID)
         updateAuthors(tempAuthList);
     }
 
     // a function to add the author to the list of authors
     function addAuthor() {
         if (firstName.trim().length != 0 && lastName.trim().length != 0) {
-            updateAuthors(prevList => ([...prevList, { id: uniqid(), first_name: firstName, last_name: lastName }]))
+            updateAuthors(prevList => ([...prevList, { _id: uniqid(), first_name: firstName, last_name: lastName }]))
             setFirstName('');
             setLastName('');
         }
@@ -77,7 +77,6 @@ export default function NewJournalForm({ open, setOpen, addNewJournal }) {
         }
 
         addNewJournal({
-            journalID: uniqid(),
             title: title,
             journal: journal,
             vol: vol,
@@ -245,10 +244,10 @@ export default function NewJournalForm({ open, setOpen, addNewJournal }) {
                                             flexDirection: 'row',
                                             flexWrap: 'wrap',
                                             gap: 1
-                                        }} key={author.id}>
+                                        }} key={author._id}>
                                             <Typography variant='body2'> {author.first_name}</Typography>
                                             <Typography sx={{ flexGrow: 1 }} variant='body2'>{author.last_name}</Typography>
-                                            <Button variant='outlined' color='error' size='small' onClick={() => removeAuthor(author.id)}>Remove Author</Button>
+                                            <Button variant='outlined' color='error' size='small' onClick={() => removeAuthor(author._id)}>Remove Author</Button>
                                         </Box>
                                         )
 

@@ -62,14 +62,14 @@ export default function EditPublicationForm({ open, setOpen, publication, editPu
 
     // a function to remove the author from the list
     function removeAuthor(authorID) {
-        const tempAuthList = authors.filter(author => author.id != authorID)
+        const tempAuthList = authors.filter(author => author._id != authorID)
         updateAuthors(tempAuthList);
     }
 
     // a function to add the author to the list of authors
     function addAuthor() {
         if (firstName.trim().length != 0 && lastName.trim().length != 0) {
-            updateAuthors(prevList => ([...prevList, { id: uniqid(), first_name: firstName, last_name: lastName }]))
+            updateAuthors(prevList => ([...prevList, { _id: uniqid(), first_name: firstName, last_name: lastName }]))
             setFirstName('');
             setLastName('');
         }
@@ -97,7 +97,7 @@ export default function EditPublicationForm({ open, setOpen, publication, editPu
             return;
         }
         editPublication({
-            publicationID: publication.publicationID,
+            _id: publication._id,
             title: title,
             type: publicationType,
             page_range: pageRange,
@@ -285,10 +285,10 @@ export default function EditPublicationForm({ open, setOpen, publication, editPu
                                             flexDirection: 'row',
                                             flexWrap: 'wrap',
                                             gap: 1
-                                        }} key={author.id}>
+                                        }} key={author._id}>
                                             <Typography variant='body2'> {author.first_name}</Typography>
                                             <Typography sx={{ flexGrow: 1 }} variant='body2'>{author.last_name}</Typography>
-                                            <Button variant='outlined' color='error' size='small' onClick={() => removeAuthor(author.id)}>Remove Author</Button>
+                                            <Button variant='outlined' color='error' size='small' onClick={() => removeAuthor(author._id)}>Remove Author</Button>
                                         </Box>
                                         )
 

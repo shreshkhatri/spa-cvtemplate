@@ -36,8 +36,8 @@ export default function ItemPublication({ publication, deletePublication,openFor
                 {!_.isEmpty(publication.abstract) ? <Typography variant="body2"> <span style={{paddingTop:2, fontStyle:'italic'}}>Abstract</span> <br></br>{publication.abstract}</Typography> : ''}
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', visibility: isMouseOver ? 'visible' : 'hidden' }}>
-                <Button variant='text' sx={{ fontWeight: '780', color: 'success.main', textDecoration: 'underline' }} size='small' onClick={() => openFormForPublicationEdit(publication.publicationID)}>Edit</Button>
-                <Button variant='text' sx={{ fontWeight: '780', color: 'error.main', textDecoration: 'underline' }} size='small' onClick={() => deletePublication(publication.publicationID)}>Delete</Button>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'success.main', textDecoration: 'underline' }} size='small' onClick={() => openFormForPublicationEdit(publication._id)}>Edit</Button>
+                <Button variant='text' sx={{ fontWeight: '780', color: 'error.main', textDecoration: 'underline' }} size='small' onClick={() => deletePublication(publication._id)}>Delete</Button>
             </Box>
         </Box >
     )

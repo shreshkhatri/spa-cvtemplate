@@ -85,7 +85,7 @@ export default function EditEducationDegreeForm({ open, setOpen, qualification, 
         }
 
         editEducationDegree({
-            degreeID: qualification.degreeID,
+            _id: qualification._id,
             institution: institution,
             degree: degree,
             country: institutionCountry,

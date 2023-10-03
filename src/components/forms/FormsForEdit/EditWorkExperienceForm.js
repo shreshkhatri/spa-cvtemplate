@@ -84,7 +84,7 @@ export default function EditWorkExperienceForm({ open, setOpen, work_experience,
             return
         }
         editWorkExperience({
-            employmentID: work_experience.employmentID,
+            _id: work_experience._id,
             position_designation: positionDesignation,
             employer: employer,
             country: employerCountry,

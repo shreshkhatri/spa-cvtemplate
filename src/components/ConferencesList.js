@@ -90,7 +90,7 @@ export default function ConferencesList({ setOpenNewConferenceForm, deleteConfer
 
                                 {
                                     conferences.map((conference, index) => {
-                                        return <TimelineItem key={conference.conferenceID} >
+                                        return <TimelineItem key={conference._id} >
 
                                             <TimelineSeparator>
                                                 <TimelineDot color='success' />

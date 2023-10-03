@@ -95,10 +95,10 @@ export default function CommitteeTimeLine({ deleteCommitteeSection, setOpenNewCo
 
                                         {
                                             committees.map((committee, index) => {
-                                                return <Draggable draggableId={committee.committeeID} key={committee.committeeID} index={index}>
+                                                return <Draggable draggableId={committee._id} key={committee._id} index={index}>
                                                     {
                                                         (provided, snapshot) => (
-                                                            <TimelineItem ref={provided.innerRef} key={committee.committeeID} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                            <TimelineItem ref={provided.innerRef} key={committee._id} {...provided.draggableProps} {...provided.dragHandleProps}>
 
                                                                 <TimelineSeparator>
                                                                     <TimelineDot color='success' />

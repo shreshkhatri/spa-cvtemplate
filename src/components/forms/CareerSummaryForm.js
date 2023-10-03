@@ -7,7 +7,7 @@ import _ from 'lodash';
 
 export default function CareerSummaryForm({ isCareerSummaryEditMode, career_summary, updateCareerSummary, setIsCareerSummaryEditMode }) {
 
-    const [careerSummary, setCareerSummary] = useState(career_summary);
+    const [careerSummary, setCareerSummary] = useState(career_summary || "");
 
     const handleSubmit = (event) => {
         event.preventDefault();
