@@ -58,7 +58,9 @@ import { downloadCV } from '@/assets/cvDownloadScript';
 import { DROPPABLE_TYPE_IDS, DROPPABLE_TYPES, RESPONSE_SEVERITY } from '@/data/data';
 import { ENDPOINT } from '@/data/endpoints';
 import { API_CALLS } from '@/assets/apicalls';
+import { CVDATA_TEMPLATE } from '@/assets/cvdata';
 import Toast from './Toast';
+import AppTopBar from './TopMenuBar';
 
 
 export default function MyCV() {
@@ -135,7 +137,7 @@ export default function MyCV() {
       .then(response => {
         if (response.status == 200) {
           console.log(response)
-          updateCVData(response.data)
+          updateCVData(_.isEmpty(response.data)?CVDATA_TEMPLATE:response.data)
           setIsPageLoading(false)
         }
         else {
@@ -266,8 +268,9 @@ export default function MyCV() {
 
   // function to update BasicInformation
   async function updateBasicInformation(updatedData) {
-
+    console.log(updatedData)
     const response = await API_CALLS.addRecord(authToken, 'basic_information', updatedData)
+    console.log(response)
 
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       updateCVData(prevCVData => ({
@@ -309,6 +312,7 @@ export default function MyCV() {
 
   //function to add new technical skill to the exisiting list
   async function addNewTechnicalSkill(skillDetails) {
+    console.log(skillDetails)
     const response = await API_CALLS.addRecord(authToken, 'technical_skills', skillDetails)
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       updateCVData(prevCVData => ({
@@ -383,6 +387,7 @@ export default function MyCV() {
 
   //function to add new publication to the exisiting list
   async function addNewCouncil(newCouncilData) {
+    console.log(newCouncilData)
     const response = await API_CALLS.addRecord(authToken, 'councils', newCouncilData)
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       updateCVData(prevCVData => ({
@@ -396,6 +401,7 @@ export default function MyCV() {
 
   //function to add new publication to the exisiting list
   async function addNewPublication(newPublicationData) {
+    console.log(newPublicationData)
     const response = await API_CALLS.addRecord(authToken, 'publications', newPublicationData)
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       updateCVData(prevCVData => ({
@@ -432,6 +438,7 @@ export default function MyCV() {
     setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
+  
   //function to add new degree Information
   async function addNewDegree(newDegreeDetails) {
 
@@ -750,6 +757,14 @@ export default function MyCV() {
       updateCVData(prevCVData => ({
         ...prevCVData,
         projects: []
+      }));
+    },
+
+    // function to add  Projects Section
+    addBasicInformation: () => {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        basic_information: CVDATA_TEMPLATE
       }));
     }
   }
@@ -1075,7 +1090,7 @@ export default function MyCV() {
 
   return pageLoading ? <LoadingUI /> :
     <AppTheme>
-      <DragDropContext onDragEnd={result => onDragEndHndler(result, cvdata, updateCVData)}>
+      <DragDropContext onDragEnd={result => onDragEndHndler(result, cvdata, updateCVData,authToken)}>
         <Box sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -1084,6 +1099,7 @@ export default function MyCV() {
           minHeight: '100vh',
           width: '100%'
         }}>
+          <AppTopBar />
           <Box sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -1099,14 +1115,11 @@ export default function MyCV() {
           }}>
             <Box sx={{
               display: 'flex',
-              justifyContent: 'space-between',
+              justifyContent: 'flex-end',
               paddingTop: 2,
               width: '100%'
             }}>
-              <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                Personal Information
-              </Typography>
-              <Button variant='contained' onClick={saveCVObject}>Download CV</Button>
+              <Button size='small' variant='contained' onClick={saveCVObject}>Download CV</Button>
             </Box>
 
             <Box id='cv-content' sx={{

@@ -103,7 +103,7 @@ export default function EditJournalForm({ open, setOpen, jrnl, editJournal }) {
             issue: issue,
             published_on: startDate ? startDate.format('YYYY-MM-DD') : null,
             page_range: pageRange,
-            authors: authors,
+            authors: authors.map(author=>({first_name: author.first_name, last_name: author.last_name })),
             summary: summary
         })
 

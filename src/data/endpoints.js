@@ -10,6 +10,7 @@ export const ENDPOINT ={
     UPDATE_RECORD:'https://startupden.org:5000/api/cv',
     DELETE_RECORD:'https://startupden.org:5000/api/cv',
     DELETE_SECTION:'https://startupden.org:5000/api/cv',
-    COUNTRIES_LIST:'https://startupden.org:5000/country'
+    COUNTRIES_LIST:'https://startupden.org:5000/country',
+    REORDER_SECTION:'https://startupden.org:5000/api/cv/reorder'
 
 }

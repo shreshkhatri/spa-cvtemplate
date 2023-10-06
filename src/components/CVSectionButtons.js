@@ -27,8 +27,10 @@ export default function CVSectionButtons({ keys, CVMenuButtonHandlers }) {
         {
           keysToAdd.map((key, index) => {
             switch (key) {
+              case 'basic_information':
+                return <Button key={index} sx={{ backgroundColor: 'warning.main', flexGrow: 1, padding: 1 }} variant="contained" size="small" onClick={() => CVMenuButtonHandlers.addBasicInformation()} >Add Basic Information</Button>
               case 'personal_statement':
-                return <Button key={index} sx={{ backgroundColor: 'secondary.main', flexGrow: 1, padding: 1 }} variant="contained" size="small" onClick={() => CVMenuButtonHandlers.addPersonalStatement()} on>Add Personal Statement</Button>
+                return <Button key={index} sx={{ backgroundColor: 'secondary.main', flexGrow: 1, padding: 1 }} variant="contained" size="small" onClick={() => CVMenuButtonHandlers.addPersonalStatement()} >Add Personal Statement</Button>
               case 'career_summary':
                 return <Button key={index} sx={{ backgroundColor: 'error.main', flexGrow: 1, padding: 1 }} variant="contained" size="small" onClick={() => CVMenuButtonHandlers.addCareerSummary()}>Add Career Summary</Button>
               case 'education_history':

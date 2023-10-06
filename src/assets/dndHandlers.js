@@ -1,8 +1,10 @@
-import { DROPPABLE_TYPE_IDS } from "@/data/data";
+import { DROPPABLE_TYPE_IDS, RESPONSE_SEVERITY } from "@/data/data";
+import { ENDPOINT } from "@/data/endpoints";
+import { API_CALLS } from "./apicalls";
 
 /*************************************** IMPLMENTATION FOR onDragEnd OPERATION ***********************************/
 
-export function onDragEndHndler(result,cvdata,updateCVData) {
+export async function onDragEndHndler(result,cvdata,updateCVData,authToken) {
 
     const { destination, source, draggableId } = result;
 
@@ -13,15 +15,15 @@ export function onDragEndHndler(result,cvdata,updateCVData) {
     console.log(result)
 
     if (source.droppableId === DROPPABLE_TYPE_IDS.mainContainer &&  destination.droppableId === DROPPABLE_TYPE_IDS.mainContainer){
-      const arrayKeyValuePair=  Object.entries(cvdata);
-      console.log('before',arrayKeyValuePair)
-      const deletedItem = arrayKeyValuePair.splice(source.index, 1);
-      console.log(deletedItem)
-      arrayKeyValuePair.splice(destination.index, 0, ...deletedItem);
-      console.log('after',arrayKeyValuePair)
-      const objectForm = Object.fromEntries(arrayKeyValuePair)
 
-        updateCVData(objectForm);
+      const response = await API_CALLS.reorderSection(authToken, result.draggableId, result.destination.index)
+      if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+        const arrayKeyValuePair=  Object.entries(cvdata);
+        const deletedItem = arrayKeyValuePair.splice(source.index, 1);
+        arrayKeyValuePair.splice(destination.index, 0, ...deletedItem);
+        const objectForm = Object.fromEntries(arrayKeyValuePair)
+          updateCVData(objectForm); 
+      }
 
     }
 

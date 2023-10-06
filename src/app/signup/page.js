@@ -58,7 +58,7 @@ export default function SignUp() {
     setSighiningUp(true)
     if (!confirmPasswordMatch()) return;
 
-    const response = await fetch(ENDPOINT.SIGNUP, {
+    await fetch(ENDPOINT.SIGNUP, {
       method: "POST",
       redirect: 'follow',
       headers: {

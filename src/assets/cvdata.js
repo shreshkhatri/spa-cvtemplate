@@ -12,7 +12,7 @@ export const CVDATA_TEMPLATE =
       "city": "[ city ]",
       "state_province_region": "[ state / province / region ]",
       "postal_zip_code": "[ zip code / post code ]",
-      "country": "[ country ]",
+      "country": null,
       "linkedIn": "[ linkedin ]",
       "gitHub": "[ gitHub ]",
       "bitBucket": "[ bitBucket ]",

@@ -46,7 +46,7 @@ export const API_CALLS = {
             return { status: response.status, ...json }
         }).then(response => {
             console.log(response)
-            return response.status == 200 ? { severity: 'success', message: response.message,data:response.data } : { severity: 'error', message: response.error }
+            return response.status == 200 ? { severity: 'success', message: response.message, data: response.data } : { severity: 'error', message: response.error }
         }).catch(error => {
             console.log(error)
             return { severity: 'error', message: error }
@@ -111,6 +111,30 @@ export const API_CALLS = {
 
         const response = await fetch(`${ENDPOINT.ADD_SECTION}/${sectionName}`, {
             method: "POST",
+            redirect: 'follow',
+            headers: {
+                'Accept': 'application/json',
+                'auth-token': authToken
+            },
+        }).then(async (response) => {
+            console.log(response)
+            var json = await response.json()
+            return { status: response.status, ...json }
+        }).then(response => {
+            console.log(response)
+            return response.status == 200 ? { severity: 'success', message: response.message } : { severity: 'error', message: response.error }
+        }).catch(error => {
+            console.log(error)
+            return { severity: 'error', message: error }
+        });
+
+        return response
+    },
+    // function for adding new section
+    reorderSection: async (authToken, sectionName, destinationIndex) => {
+
+        const response = await fetch(`${ENDPOINT.REORDER_SECTION}/${sectionName}/${destinationIndex}`, {
+            method: "GET",
             redirect: 'follow',
             headers: {
                 'Accept': 'application/json',

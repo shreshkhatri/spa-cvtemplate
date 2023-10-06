@@ -101,7 +101,7 @@ export default function EditPublicationForm({ open, setOpen, publication, editPu
             title: title,
             type: publicationType,
             page_range: pageRange,
-            authors: authors,
+            authors: authors.map(author=>({first_name: author.first_name, last_name: author.last_name })),
             publication_date: publicationDate ? publicationDate.format('YYYY-MM-DD') : null,
             publication_event: publicationEvent,
             publication_venue: publicationVenue,

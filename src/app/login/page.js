@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import Link from 'next/link';
 import { ENDPOINT } from '@/data/endpoints';
+import _ from 'lodash'
 
 function Copyright(props) {
     return (
@@ -74,7 +75,7 @@ export default function LoginPage() {
             })
             .catch(error => {
                 setSigninIn(false)
-                setLoginResponse(JSON.stringify(error))
+                setLoginResponse('Connection Error, Please check your connection')
             });
     }
 
@@ -83,7 +84,7 @@ export default function LoginPage() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setSigninIn(true)
-        const loginResponse = await login()
+        await login()
 
     };
 
@@ -149,9 +150,9 @@ export default function LoginPage() {
                                 control={<Checkbox value="remember" color="primary" onChange={() => setRememberMe(!rememberMe)} />}
                                 label="Remember me"
                             />
-                            {loginResponse &&
-                                <Alert severity={loginResponse.code}>
-                                    {loginResponse.message}
+                            {!_.isEmpty(loginResponse) &&
+                                <Alert severity='error'>
+                                    {loginResponse}
                                 </Alert>
                             }
                             <Button

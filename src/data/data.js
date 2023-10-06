@@ -53,7 +53,8 @@ export const CV_SECTIONS=[
     'memberships',
     'awards_honors',
     'conferences',
-    'journals'
+    'journals',
+    'basic_information'
 ]
 
 //this array is used for rendering the buttons and for printing sections into PDF file

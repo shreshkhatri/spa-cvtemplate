@@ -82,7 +82,7 @@ export default function NewConferenceForm({ open, setOpen, addNewConference }) {
             city: conferenceCity,
             start_date: startDate ? startDate.format('YYYY-MM-DD') : null,
             page_range: pageRange,
-            authors: authors
+            authors: authors.map(author=>({first_name: author.first_name, last_name: author.last_name })),
         });
 
         resetFields()
