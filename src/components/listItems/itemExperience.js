@@ -34,7 +34,7 @@ export default function ItemExperience({ work_experience, deleteWorkExperience, 
                 </Typography>
 
                 <Typography display='inline' sx={{ fontWeight: 'bold' }}>
-                    {capitalizeWords(work_experience.position_designation)} , {capitalizeWords(work_experience.employer)} ,{capitalizeWords(work_experience.city)} , {work_experience.country.label}
+                    {capitalizeWords(work_experience.position_designation)} , {capitalizeWords(work_experience.employer)} ,{capitalizeWords(work_experience.city)} {work_experience.country?`, ${work_experience.country.label}`:null}
                 </Typography>
 
                 {!_.isEmpty(work_experience.duties_responsibilities) && <Typography variant="body2" gutterBottom><i><b>Duties & Responsibilities</b></i><br></br>

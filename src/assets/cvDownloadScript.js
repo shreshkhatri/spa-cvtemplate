@@ -80,25 +80,25 @@ const styles = {
     },
     publication: {
         fontSize: 10,
-        
+
         margin: [5, 5, 0, 15],
         alignment: 'justify'
     },
     journal: {
         fontSize: 10,
-        
+
         margin: [5, 5, 0, 15],
         alignment: 'justify'
     },
     conference: {
         fontSize: 10,
-        
+
         margin: [5, 5, 0, 15],
         alignment: 'justify'
     },
     award: {
         fontSize: 10,
-        
+
         margin: [5, 5, 0, 15],
         alignment: 'justify'
     },
@@ -124,10 +124,14 @@ const styles = {
 export const downloadCV = (cvdata) => {
     //emptying array in between function calls
     data.length = 0;
+    console.log(cvdata)
 
     Object.entries(cvdata).forEach((entry) => {
 
         switch (entry[0]) {
+            case CV_SECTIONS_PDF.accreditations_experience:
+                formatAccreditationExperience(entry[0],entry[1]);
+                break;
             case CV_SECTIONS_PDF.basic_information:
                 formatBasicInformation(entry[1]);
                 break;
@@ -183,7 +187,7 @@ export const downloadCV = (cvdata) => {
         styles: styles
     };
 
-    pdfMake.createPdf(documentDefinition).download(`${!_.isEmpty(cvdata.basic_information.first_name)?capitalizeWords(cvdata.basic_information.first_name)+'-CV':'my-CV'}.pdf`);
+    pdfMake.createPdf(documentDefinition).download(`${!_.isEmpty(cvdata.basic_information.first_name) ? capitalizeWords(cvdata.basic_information.first_name) + '-CV' : 'my-CV'}.pdf`);
 }
 
 //function for formatting committees
@@ -205,7 +209,7 @@ function formatCommittees(title, committees) {
                 style: 'committee',
                 text: [
                     !_.isEmpty(committee.designation) ? capitalizeWords(committee.designation) : '',
-                    ' at '+capitalizeWords(committee.name),
+                    ' at ' + capitalizeWords(committee.name),
                     !_.isEmpty(committee.city) ? ', ' + capitalizeWords(committee.city) : '',
                     committee.country ? ', ' + committee.country.label : ''
                 ]
@@ -234,7 +238,7 @@ function formatCouncils(title, councils) {
                 style: 'council',
                 text: [
                     !_.isEmpty(council.designation) ? capitalizeWords(council.designation) : '',
-                    ' at '+capitalizeWords(council.name),
+                    ' at ' + capitalizeWords(council.name),
                     !_.isEmpty(council.city) ? ', ' + capitalizeWords(council.city) : '',
                     council.country ? ', ' + council.country.label : ''
                 ]
@@ -265,7 +269,7 @@ function formatMemberships(title, memberships) {
                 style: 'membership',
                 text: [
                     !_.isEmpty(membership.membership_type) ? capitalizeWords(membership.membership_type) : '',
-                    ' at '+capitalizeWords(membership.organization),
+                    ' at ' + capitalizeWords(membership.organization),
                     !_.isEmpty(membership.city) ? ', ' + capitalizeWords(membership.city) : '',
                     membership.country ? ', ' + membership.country.label : ''
                 ]
@@ -459,6 +463,40 @@ function formatEditorialExperience(title, editorial_experience) {
 
 
 
+// function for formatting accreditation experience
+function formatAccreditationExperience(title, accreditations_experience) {
+
+    if (!_.isEmpty(accreditations_experience)) {
+        console.log('non empty')
+
+        data.push(
+            {
+                text: capitalizeWords(title.replace(/_/g, ' ')),
+                style: 'header'
+            })
+
+        accreditations_experience.forEach((accreditation, index) => {
+
+            data.push(...[
+                {
+                    text: `${accreditation.role} , ${accreditation.organization} ${!_.isEmpty(accreditation.city) ? ', ' + accreditation.city : ''} ${accreditation.country ? ', ' + accreditation.country.label : ''}`,
+                    style: index == 0 ? 'firstEntryTitle' : 'entryTitle'
+                },
+                {
+                    text: `${accreditation.start_date ? formatDate(accreditation.start_date) : ' N/A '} - ${accreditation.isContinue ? "continue" : accreditation.end_date ? formatDate(accreditation.end_date) : ' N/A '}`,
+                    style: 'dates'
+                },
+                !_.isEmpty(accreditation.description) ? { text: 'Summary ', style: 'subTitle' } : {},
+                !_.isEmpty(accreditation.description) ? { text: accreditation.description, style: 'subTitleBodyText' } : {}
+            ])
+
+        })
+
+    }
+
+}
+
+
 
 
 // function for formatting technical skills
@@ -506,7 +544,7 @@ function formatProjects(title, project_history) {
 
         data.push(...[
             {
-                text: `${project.designation} , ${project.project_title} , ${project.city} , ${project.country.label}`,
+                text: `${project.designation} , ${project.project_title} , ${project.city} ${project.country?','+project.country.label:null}`,
                 style: index == 0 ? 'firstEntryTitle' : 'entryTitle'
             },
             {
@@ -536,7 +574,7 @@ function formatExperience(title, work_history) {
 
             data.push(...[
                 {
-                    text: `${experience.position_designation} , ${experience.employer} , ${experience.city} , ${experience.country.label}`,
+                    text: `${experience.position_designation} , ${experience.employer} , ${experience.city} ${experience.country?','+experience.country.label:null}`,
                     style: index == 0 ? 'firstEntryTitle' : 'entryTitle'
                 },
                 {
@@ -570,7 +608,7 @@ function formatEducationHistory(title, education_history) {
 
             data.push(...[
                 {
-                    text: `${degree.degree} , ${degree.institution} , ${degree.city} , ${degree.country.label}`,
+                    text: `${degree.degree} , ${degree.institution} , ${degree.city} ${degree.country?', '+degree.country.label:null}`,
                     style: index == 0 ? 'firstEntryTitle' : 'entryTitle'
                 },
                 {
@@ -633,7 +671,7 @@ function formatPersonalStatement(title, personal_statement) {
 function formatBasicInformation(basic_information) {
     const formattedData = [
         {
-            text: capitalizeWords(`${basic_information.title?basic_information.title:null} ${basic_information.first_name} ${basic_information.last_name}`),
+            text: capitalizeWords(`${basic_information.title ? basic_information.title : null} ${basic_information.first_name} ${basic_information.last_name}`),
             style: 'name'
         },
         {

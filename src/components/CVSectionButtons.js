@@ -57,6 +57,8 @@ export default function CVSectionButtons({ keys, CVMenuButtonHandlers }) {
                 return <Button key={index}  sx={{ backgroundColor: 'text.primary', flexGrow: 1, padding: 1 }} variant="contained" size="small" onClick={() => CVMenuButtonHandlers.addConferencesSection()}>Add Conferences</Button>
               case 'journals':
                 return <Button key={index}  sx={{ backgroundColor: 'info.main', flexGrow: 1, padding: 1 }} variant="contained" size="small" onClick={() => CVMenuButtonHandlers.addJournalsSection()}>Add Journals</Button>
+                case 'accreditations_experience':
+                  return <Button key={index} sx={{ backgroundColor: 'success.main', flexGrow: 1, padding: 1 }} variant="contained" size="small" onClick={() => CVMenuButtonHandlers.addAccreditionsSection()}>Add Accreditation Experience </Button>
               default:
                 return null
             }

@@ -20,7 +20,8 @@ export const DROPPABLE_TYPE_IDS = {
     membershipsTimeline :'memberships timeline',
     awawardTimeline : 'award timeline',
     conferenceTimeline : 'conference timeline',
-    journamTimeline : 'journal timeline'
+    journamTimeline : 'journal timeline',
+    accreditationsExperienceTimeline:'accreditations experience timeline'
 }
 
 //string as Types for items droppable items
@@ -35,7 +36,8 @@ export const DROPPABLE_TYPES ={
     Membership :'membership',
     Award:'award',
     Conference : 'conference',
-    Journal :'journal'
+    Journal :'journal',
+    Accreditation:'accreditation'
 }
 
 //this array is used for rendering the buttons
@@ -54,7 +56,8 @@ export const CV_SECTIONS=[
     'awards_honors',
     'conferences',
     'journals',
-    'basic_information'
+    'basic_information',
+    'accreditations_experience'
 ]
 
 //this array is used for rendering the buttons and for printing sections into PDF file
@@ -73,7 +76,8 @@ export const CV_SECTIONS_PDF={
     memberships:'memberships',
     awards_honors:'awards_honors',
     conferences:'conferences',
-    journals:'journals'
+    journals:'journals',
+    accreditations_experience:'accreditations_experience'
 }
 
 export const RESPONSE_SEVERITY={

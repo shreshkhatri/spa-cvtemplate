@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Timeline from '@mui/lab/Timeline';
@@ -7,79 +8,133 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Button from '@mui/material/Button';
 
-export default function AccreditationsTimeLine({ accreditations, deleteAccreditation  }) {
+import { Draggable, Droppable } from 'react-beautiful-dnd'
+import { DROPPABLE_TYPE_IDS, DROPPABLE_TYPES } from '@/data/data';
+import { IconButton, Tooltip } from '@mui/material';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 
-  const onDragEnd = (result) => {
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import ItemAccreditation from './listItems/ItemAccreditation';
 
-    const {destination, source, draggableId} = result;
-
-    if (!destination) return;
-
-    if (destination.droppableId === source.droppableId && destination.index === source.index ) return;
-
-    const tempArray = [...accreditations];
-    const deletedItem = tempArray.splice(source.index,1);
-    tempArray.splice(destination.index,0,...deletedItem);
-    sortEducationHistory(tempArray);
-}
+export default function AccreditationsTimeLine({ deleteAccreditation, setOpenNewAccreditionExperienceForm, accreditations_experience, deleteAccreditationsSection, openFormForAccreditationExperienceEdit }) {
+  const [isMouseOver, setIsMouseOver] = useState(false);
+  const [expanded, setExpanded] = useState(true);
 
 
   return (
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
-      minHeight:'20vh'
-    }}>
-      
-      {
-        accreditations.length != 0 &&
-        <Timeline
-          sx={{
-            [`& .${timelineItemClasses.root}:before`]: {
-              flex: 0,
-              padding: 2,
-            },
-          }}
+    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
+      <Accordion expanded={expanded}>
+        <AccordionSummary
+          aria-controls="accreditations-history-header-content"
+          id="accreditations-history-header"
         >
+          <Box id='accreditations_experience' sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '100%'
+          }} >
+            <Typography variant="h6">
+              Accreditations Experience
+            </Typography>
+            <Box sx={{ visibility: isMouseOver ? 'visible' : 'hidden' }}>
+              <Tooltip title='Add  Accreditation Experience'>
+                <IconButton onClick={() => setOpenNewAccreditionExperienceForm(true)}>
+                  <LibraryAddOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title='delete Accreditations history'>
+                <IconButton onClick={deleteAccreditationsSection}>
+                  <HighlightOffOutlinedIcon />
+                </IconButton>
+              </Tooltip>
 
-          {
-            accreditations.map((accreditation) => {
-              return <TimelineItem key={accreditation._id} >
+              {!expanded &&
+                <Tooltip title='expand education history'>
+                  <IconButton onClick={() => setExpanded(true)}>
+                    <KeyboardDoubleArrowDownIcon />
+                  </IconButton>
+                </Tooltip>
+              }
 
-                <TimelineSeparator>
-                  <TimelineDot color='success' />
-                  
-                </TimelineSeparator>
-                <TimelineContent sx={{ paddingBottom: 3 }}>
-                  
+              {expanded &&
+                <Tooltip title='collapse education history'>
+                  <IconButton onClick={() => setExpanded(false)}>
+                    <KeyboardDoubleArrowUpIcon />
+                  </IconButton>
+                </Tooltip>
+              }
 
-                  <Typography variant="h6" gutterBottom>
-                    {accreditation.role} | {accreditation.organization } | {accreditation.date.substring(0, 4)}
-                  </Typography>
-                  <Typography variant="body2" gutterBottom>
-                    {accreditation.city} , {accreditation.country.label}
-                  </Typography>
+            </Box>
+          </Box>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            minHeight: '20vh'
+          }}>
 
-                  <Typography variant="body2" gutterBottom>Duties & Responsibilities <br></br>
-                    {accreditation.description}
-                  </Typography>
+            {
+              accreditations_experience.length !== 0 &&
 
-                
+              <Droppable droppableId={DROPPABLE_TYPE_IDS.accreditationsExperienceTimeline} type={DROPPABLE_TYPES.Accreditation}>
+                {
+                  (provided, snapshot) => (
+                    <Timeline ref={provided.innerRef} {...provided.droppableProps}
+                      sx={{
+                        [`& .${timelineItemClasses.root}:before`]: {
+                          flex: 0,
+                          padding: 2,
+                        },
+                        border: snapshot.isDraggingOver ? 1 : 0,
+                        borderColor: snapshot.isDraggingOver ? '#f9f6ee' : null,
+                        boxShadow: snapshot.isDraggingOver ? 1 : 0,
+                        borderRadius: snapshot.isDraggingOver ? 2 : 0,
 
-                  <Button variant='outlined' color='error' size='small' onClick={()=> deleteAccreditation(accreditation._id)}>Delete</Button>
-                </TimelineContent>
-              </TimelineItem>
+                      }}
+                    >
+
+                      {
+                        accreditations_experience.map((accreditation, index) => {
+                          return (
+                            <Draggable draggableId={accreditation._id} key={accreditation._id} index={index} >
+                              {(provided, snapshot) => {
+                                return (<TimelineItem ref={provided.innerRef} key={accreditation._id} {...provided.draggableProps} {...provided.dragHandleProps}>
 
 
-            })
-          }
-        </Timeline>
-      }
-      {
-        accreditations.length == 0 && <Typography align='center'>No Accreditations added yet. <br></br> Start adding new accreditation by clicking link above.</Typography>
-      }
+                                  <TimelineContent sx={{ paddingBottom: 1 }}>
+                                    <ItemAccreditation accreditation={accreditation} deleteAccreditation={deleteAccreditation} openFormForAccreditationExperienceEdit={openFormForAccreditationExperienceEdit} isDragging={snapshot.isDragging} />
+                                  </TimelineContent>
+                                </TimelineItem>)
+                              }
+                              }
+                            </Draggable>
+                          )
+                        }
+
+                        )}
+                      {provided.placeholder}
+                    </Timeline>
+                  )
+                }
+
+              </Droppable>
+
+            }
+            {
+              accreditations_experience.length == 0 && <Typography align='center'>No Accreditations added yet. <br></br> Start adding new Accreditation by clicking button above.</Typography>
+            }
+          </Box>
+        </AccordionDetails>
+      </Accordion>
     </Box>
+
 
   );
 }

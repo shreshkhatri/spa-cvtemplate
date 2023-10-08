@@ -67,7 +67,7 @@ export default function EditEditorialExperienceForm({ open, setOpen, experience,
     const handleSubmit = (event) => {
         event.preventDefault();
         editEditorialExperience({
-            _id: experience._id,
+            experienceID: experience.experienceID,
             role: role,
             association: association,
             country: associationCountry,

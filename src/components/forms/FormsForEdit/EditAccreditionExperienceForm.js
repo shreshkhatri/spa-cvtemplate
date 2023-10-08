@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -14,6 +14,7 @@ import CountrySelector from '../../CountrySelector';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
+import dayjs from 'dayjs';
 
 const style = {
     position: 'absolute',
@@ -26,16 +27,29 @@ const style = {
     boxShadow: 24,
 };
 
-export default function NewAccreditionExperienceForm({ open, setOpen, addNewAccreditionExperience }) {
-    const [role, setRole] = useState('');
-    const [organization, setOrganization] = useState('');
-    const [organizationCountry, setOrganizationCountry] = useState(null);
-    const [organizationCity, setOrganizationCity] = useState('');
-    const [endDate, setEndDate] = useState(null);
-    const [isContinue, setIsContinue] = useState(false);
-    const [startDate, setStartDate] = useState(null);
+export default function EditAccreditionExperienceForm({ open, setOpen, accreditation, editAccreditionExperience }) {
+    const [role, setRole] = useState(accreditation.role);
+    const [organization, setOrganization] = useState(accreditation.organization);
+    const [organizationCountry, setOrganizationCountry] = useState(accreditation.country);
+    const [organizationCity, setOrganizationCity] = useState(accreditation.city);
+    const [endDate, setEndDate] = useState(dayjs(accreditation.end_date));
+    const [isContinue, setIsContinue] = useState(accreditation.isContinue);
+    const [startDate, setStartDate] = useState(dayjs(accreditation.start_date));
+    const [description, setDescription] = useState(accreditation.description);
 
-    const [description, setDescription] = useState('');
+    // useeffect to work with all accreditation data under edit mode
+    useEffect(() => {
+        if (accreditation) {
+            setRole(accreditation.role);
+            setOrganization(accreditation.organization);
+            setOrganizationCountry(accreditation.country);
+            setOrganizationCity(accreditation.city);
+            setStartDate(dayjs(accreditation.start_date));
+            setEndDate(dayjs(accreditation.end_date));
+            setIsContinue(accreditation.isContinue);
+            setDescription(accreditation.description);
+        }
+    }, [accreditation]);
 
     function resetFields() {
         setRole('');
@@ -50,7 +64,8 @@ export default function NewAccreditionExperienceForm({ open, setOpen, addNewAccr
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        addNewAccreditionExperience({
+        editAccreditionExperience({
+            _id: accreditation._id,
             role,
             organization,
             country: organizationCountry,
@@ -134,7 +149,7 @@ export default function NewAccreditionExperienceForm({ open, setOpen, addNewAccr
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    
+
                                     fullWidth
                                     id="org-city"
                                     label="City"

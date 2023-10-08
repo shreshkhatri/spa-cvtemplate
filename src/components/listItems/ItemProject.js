@@ -30,7 +30,7 @@ export default function ItemProject({ project, deleteProject, openFormForProject
                 </Typography>
 
                 <Typography display='inline' sx={{ fontWeight: 'bold' }}>
-                    {capitalizeWords(project.project_title)} , {capitalizeWords(project.designation)} ,{capitalizeWords(project.city)} , {project.country.label}
+                    {capitalizeWords(project.project_title)} , {capitalizeWords(project.designation)} ,{capitalizeWords(project.city)} {project.country?`, ${project.country.label}`:null}
                 </Typography>
                 {!_.isEmpty(project.description) && <Typography variant="body2" sx={{ paddingTop: 1 }} gutterBottom> <i> <b>Project Description</b> </i><br></br> {project.description}</Typography>}
 

@@ -60,10 +60,11 @@ import { API_CALLS } from '@/assets/apicalls';
 import { CVDATA_TEMPLATE } from '@/assets/cvdata';
 import Toast from './Toast';
 import AppTopBar from './TopMenuBar';
+import EditAccreditionExperienceForm from './forms/FormsForEdit/EditAccreditionExperienceForm';
 
 
 export default function MyCV({userData, authToken}) {
-  console.log(userData)
+  
   const [cvdata, updateCVData] = useState({})
   const [isBasicInfoEditModeOn, setEditBasicInfoMode] = useState(false);
   const [isPersonalStatementEditModeOn, setIsPersonalStatementEditModeOn] = useState(false);
@@ -161,6 +162,11 @@ export default function MyCV({userData, authToken}) {
     setOpenEditJournalForm(true);
   }
 
+  // function for setting the form up for editing accreditations experience
+  function openFormForAccreditationExperienceEdit(_id) {
+    setTempStore(cvdata.accreditations_experience.find(accreditation => accreditation._id == _id));
+    setOpenEditAccreditionExperienceForm(true);
+  }
 
 
   // function for setting the form up for editing conference details
@@ -295,13 +301,15 @@ export default function MyCV({userData, authToken}) {
 
   //function to add new accreditation to the exisiting list
   async function addNewAccreditionExperience(accreditationDetails) {
-    const response = await API_CALLS.addRecord(authToken, 'accreditations', accreditationDetails)
+    const response = await API_CALLS.addRecord(authToken, 'accreditations_experience', accreditationDetails)
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+
       updateCVData(prevCVData => ({
         ...prevCVData,
-        accreditations: [response.data, ...prevCVData.accreditations]
+        accreditations_experience: [response.data, ...prevCVData.accreditations_experience]
       }));
-    }
+    
+    } 
     setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
@@ -468,9 +476,9 @@ export default function MyCV({userData, authToken}) {
 
   // function to delte accreditations property from the object
   async function deleteAccreditationsSection() {
-    const response = await API_CALLS.deleteSection(authToken, 'accreditations')
+    const response = await API_CALLS.deleteSection(authToken, 'accreditations_experience')
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      const { accreditations, ...rest } = cvdata;
+      const { accreditations_experience, ...rest } = cvdata;
       updateCVData({ ...rest });
     }
     setToastPayLoad({ show: true, severity: response.severity, message: response.message })
@@ -642,7 +650,7 @@ export default function MyCV({userData, authToken}) {
     addAccreditionsSection: () => {
       updateCVData(prevCVData => ({
         ...prevCVData,
-        accreditations: []
+        accreditations_experience: []
       }));
     },
 
@@ -865,6 +873,20 @@ export default function MyCV({userData, authToken}) {
   }
 
 
+    //function to edit accredition experience from the existing list
+    async function editAccreditionExperience(updatedData) {
+      const response = await API_CALLS.updateSection(authToken, 'accreditations_experience', updatedData, updatedData._id)
+      if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+        updateCVData(prevCVData => ({
+          ...prevCVData,
+          accreditations_experience: prevCVData.accreditations_experience.map(accreditation => accreditation._id == updatedData._id ? updatedData : accreditation)
+        }));
+      }
+      setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+      setTempStore(null);
+    }
+  
+
 
   //function to edit publication detail from the existing list
   async function editPublication(updatedData) {
@@ -938,11 +960,11 @@ export default function MyCV({userData, authToken}) {
 
   //function to delete accreditation details from the exisiting list
   async function deleteAccreditation(_id) {
-    const response = await API_CALLS.deleteRecord(authToken, 'accreditations', _id)
+    const response = await API_CALLS.deleteRecord(authToken, 'accreditations_experience', _id)
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       updateCVData(prevCVData => ({
         ...prevCVData,
-        accreditations: prevCVData.accreditations.filter(accreditation => accreditation._id !== _id)
+        accreditations_experience: prevCVData.accreditations_experience.filter(accreditation => accreditation._id !== _id)
       }));
     }
     setToastPayLoad({ show: true, severity: response.severity, message: response.message })
@@ -1208,7 +1230,7 @@ export default function MyCV({userData, authToken}) {
                                   }
                                 </Draggable>
                               )
-                            case 'accreditations':
+                            case 'accreditations_experience':
 
                               return (
                                 <Draggable draggableId={key} key={key} index={index}>
@@ -1216,7 +1238,7 @@ export default function MyCV({userData, authToken}) {
                                     (provided, snapshot) => {
                                       return (
                                         <Box ref={provided.innerRef} key={key} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                          <AccreditationsTimeLine key={index} accreditations={cvdata.accreditations} deleteAccreditation={deleteAccreditation} />
+                                          <AccreditationsTimeLine key={index} deleteAccreditationsSection={deleteAccreditationsSection} setOpenNewAccreditionExperienceForm={setOpenNewAccreditionExperienceForm} accreditations_experience={cvdata.accreditations_experience} deleteAccreditation={deleteAccreditation} openFormForAccreditationExperienceEdit={openFormForAccreditationExperienceEdit}/>
                                         </Box>
                                       )
                                     }
@@ -1408,6 +1430,8 @@ export default function MyCV({userData, authToken}) {
               {openEditAwardHonorForm && <EditAwardHonorForm open={openEditAwardHonorForm} setOpen={setOpenEditAwardHonorForm} award={tempStore} editAwardHonor={editAwardHonor} />}
               {openEditConferenceForm && <EditConferenceForm open={openEditConferenceForm} setOpen={setOpenEditConferenceForm} conference={tempStore} editConference={editConference} />}
               {openEditJournalForm && <EditJournalForm open={openEditJournalForm} setOpen={setOpenEditJournalForm} jrnl={tempStore} editJournal={editJournal} />}
+              {openEditAccreditionExperienceForm && <EditAccreditionExperienceForm open={openEditAccreditionExperienceForm} setOpen={setOpenEditAccreditionExperienceForm} editAccreditionExperience={editAccreditionExperience} accreditation={tempStore} />}
+              
             </Box>
             <CVSectionButtons keys={Object.keys(cvdata)} CVMenuButtonHandlers={CVMenuButtonHandlers} />
             {toastPayLoad.show && <Toast message={toastPayLoad.message} show={toastPayLoad.show} severity={toastPayLoad.severity} setToastPayLoad={setToastPayLoad} />}
