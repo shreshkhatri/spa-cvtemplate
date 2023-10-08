@@ -63,6 +63,7 @@ export default function LoginPage() {
                 if (response.status == 200) {
                     const { data } = response
                     localStorage.setItem('auth-token', data.token);
+                    localStorage.setItem('user-data', JSON.stringify(data.user));
                     setSigninIn(false)
                     router.push('/')
                 }
@@ -127,6 +128,7 @@ export default function LoginPage() {
                                 margin="normal"
                                 required
                                 fullWidth
+                                autoComplete='username'
                                 id="email"
                                 label="Email / Username"
                                 name="email"
@@ -144,6 +146,7 @@ export default function LoginPage() {
                                 type="password"
                                 id="password"
                                 value={password}
+                                autoComplete='current-password'
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             <FormControlLabel

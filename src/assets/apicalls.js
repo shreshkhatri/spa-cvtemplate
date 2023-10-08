@@ -153,6 +153,31 @@ export const API_CALLS = {
         });
 
         return response
+    },
+
+    // function for adding new section
+    reorderRecord: async (authToken, sectionName,recordID, destinationIndex) => {
+
+        const response = await fetch(`${ENDPOINT.REORDER_SECTION}/${sectionName}/${recordID}/${destinationIndex}`, {
+            method: "GET",
+            redirect: 'follow',
+            headers: {
+                'Accept': 'application/json',
+                'auth-token': authToken
+            },
+        }).then(async (response) => {
+            console.log(response)
+            var json = await response.json()
+            return { status: response.status, ...json }
+        }).then(response => {
+            console.log(response)
+            return response.status == 200 ? { severity: 'success', message: response.message } : { severity: 'error', message: response.error }
+        }).catch(error => {
+            console.log(error)
+            return { severity: 'error', message: error }
+        });
+
+        return response
     }
 }
 

@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation';
 
 const pages = ['Home', 'My CV', 'About Us'];
 
-function AppTopBar({userInfo}) {
+function AppTopBar({userData}) {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const router = useRouter()
@@ -23,6 +23,7 @@ function AppTopBar({userInfo}) {
   //function for navigating the current page to homepage after logout is done
   const logout = () => {
     localStorage.removeItem('auth-token');
+    localStorage.removeItem('user-data');
     router.push('/login')
   }
 
@@ -134,7 +135,7 @@ function AppTopBar({userInfo}) {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar>{`${userData.first_name.charAt(0).toUpperCase()}${userData.last_name.charAt(0).toUpperCase()}`}</Avatar>
               </IconButton>
             </Tooltip>
             <Menu

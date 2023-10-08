@@ -80,3 +80,28 @@ export const RESPONSE_SEVERITY={
     SUCCESS:'success',
     ERROR:'error'
 }
+
+
+export const TITLES = [
+    "Prof.",         // Professor
+    "Dr.",           // Doctor
+    "Researcher",
+    "Lecturer",
+    "Postdoc",       //Postdoctoral Fellow
+    "Visiting Prof.", //Visiting Professor
+    "Adjunct Prof.",   //Adjunct Professor
+    "Emeritus",      // Professor Emeritus/Professor Emerita
+    "Dean",
+    "Chair",         // Department Chair/Department Head
+    "Provost",
+    "Chancellor",
+    "President",
+    "Librarian",
+    "Curator",
+    "Fellow",
+    "Research Assoc.", //Research Associate
+    "Consultant",
+    "Editor",        // Editor/Editor-in-Chief
+    "Author",
+    "Analyst"
+]

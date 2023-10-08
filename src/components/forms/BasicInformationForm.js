@@ -10,10 +10,12 @@ import { AiOutlineHome, AiOutlineYoutube, AiFillGithub } from 'react-icons/ai';
 import { BiSolidCity, BiLogoGitlab } from 'react-icons/bi';
 import { DiBitbucket } from 'react-icons/di';
 import CountrySelector from '../CountrySelector';
+import TitleSelector from '../TitleSelector';
 
-export default function BasicInformationForm({ basic_information, updateBasicInformation, setEditBasicInfoMode }) {
-    const [firstName, setFirstName] = useState(basic_information.first_name);
-    const [lastName, setLastName] = useState(basic_information.last_name);
+export default function BasicInformationForm({ userData, basic_information, updateBasicInformation, setEditBasicInfoMode }) {
+    const [title, setTitle] = useState(basic_information.title);
+    const [firstName, setFirstName] = useState(basic_information.first_name==='[ first name ]'?userData.first_name:basic_information.first_name);
+    const [lastName, setLastName] = useState(basic_information.last_name==='[ last name ]'?userData.last_name:basic_information.last_name);
     const [tagline, setTagline] = useState(basic_information.tagline);
     const [isProfilePictureSet, setIsProfilePictureSet] = useState(basic_information.isProfilePictureSet);
     const [url, setURL] = useState(basic_information.url);
@@ -29,10 +31,12 @@ export default function BasicInformationForm({ basic_information, updateBasicInf
     const [bitBucket, setBitBucket] = useState(basic_information.bitBucket);
     const [youTube, setYouTube] = useState(basic_information.youTube);
     const [gitLab, setGitLab] = useState(basic_information.gitLab);
+    console.log(title)
 
     const handleSubmit = (event) => {
         event.preventDefault();
         updateBasicInformation({
+            title,
             first_name: firstName,
             last_name: lastName,
             tagline,
@@ -67,6 +71,7 @@ export default function BasicInformationForm({ basic_information, updateBasicInf
                 width: '100%',
                 gap:2
             }}>
+                <TitleSelector title={title} setTitle={setTitle} />
                 <TextField
                     autoComplete="off"
                     name="userFirstName"

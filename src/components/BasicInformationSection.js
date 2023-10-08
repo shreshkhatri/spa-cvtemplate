@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -13,7 +13,7 @@ import { capitalizeWords } from '@/assets/utilityFunctions';
 import { IconButton, Tooltip } from '@mui/material';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 
-export default function BasicInformationSection({ basic_information, setEditBasicInfoMode }) {
+export default function BasicInformationSection({ userData, basic_information, setEditBasicInfoMode }) {
 
   const [isMouseOver, setIsMouseOver] = useState(false);
 
@@ -44,15 +44,15 @@ export default function BasicInformationSection({ basic_information, setEditBasi
 
     <Card sx={{ flexGrow: 1 }} variant="outlined" >
       <CardContent >
-        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
-          <Tooltip sx={{padding:0,margin:0, visibility:isMouseOver?'visible':'hidden'}} title='Update Personal Information'>
-            <IconButton  onClick={() => setEditBasicInfoMode(true)} >
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+          <Tooltip sx={{ padding: 0, margin: 0, visibility: isMouseOver ? 'visible' : 'hidden' }} title='Update Personal Information'>
+            <IconButton onClick={() => setEditBasicInfoMode(true)} >
               <EditNoteOutlinedIcon />
             </IconButton>
           </Tooltip>
         </Box>
         <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
-          {capitalizeWords(basic_information.first_name + ' ' + basic_information.last_name)}
+          {capitalizeWords(`${basic_information.title ? basic_information.title : '[ Title ] '} ${basic_information.first_name==='[ first name ]'? userData.first_name:basic_information.first_name} ${basic_information.last_name==='[ last name ]'?userData.last_name:basic_information.last_name}`)}
         </Typography>
 
         {
@@ -93,7 +93,7 @@ export default function BasicInformationSection({ basic_information, setEditBasi
               {_.isEmpty(basic_information.postal_zip_code) ? ' ' : ' , ' + basic_information.postal_zip_code.toUpperCase()}
               {_.isEmpty(basic_information.state_province_region) ? ' ' : ' , ' + capitalizeWords(basic_information.state_province_region)}
               {_.isEmpty(basic_information.city) ? ' ' : ' , ' + capitalizeWords(basic_information.city)}
-              {!basic_information.country ? '[ country]' : ' , ' + basic_information.country.label}
+              {!basic_information.country ? '[ country ]' : ' , ' + basic_information.country.label}
             </Typography>
           }
 

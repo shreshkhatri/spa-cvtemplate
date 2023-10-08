@@ -8,13 +8,12 @@ export default function NewTechnicalSkillForm({ open, setOpen, addNewTechnicalSk
 
     const [skill, setSkill] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        addNewTechnicalSkill({
+        await addNewTechnicalSkill({
             skill: skill
         })
         setSkill('')
-
     };
 
     return (
@@ -53,18 +52,18 @@ export default function NewTechnicalSkillForm({ open, setOpen, addNewTechnicalSk
                 <Button
                     fullWidth
                     size='small'
-                    color='success'
-                    variant='outlined'
+                    color='error'
+                    variant='contained'
                     onClick={() => setOpen(false)}
                 >
                     Cancel
                 </Button>
                 <Button
-                    type="submit"
+                    type='submit'
                     fullWidth
                     size='small'
                     color='success'
-                    variant='outlined'
+                    variant='contained'
                 >
                     Add
                 </Button>

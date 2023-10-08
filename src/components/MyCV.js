@@ -1,5 +1,4 @@
 'use client';
-import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -63,7 +62,8 @@ import Toast from './Toast';
 import AppTopBar from './TopMenuBar';
 
 
-export default function MyCV() {
+export default function MyCV({userData, authToken}) {
+  console.log(userData)
   const [cvdata, updateCVData] = useState({})
   const [isBasicInfoEditModeOn, setEditBasicInfoMode] = useState(false);
   const [isPersonalStatementEditModeOn, setIsPersonalStatementEditModeOn] = useState(false);
@@ -101,17 +101,13 @@ export default function MyCV() {
   const [pageLoading, setIsPageLoading] = useState(true)
   const [tempStore, setTempStore] = useState(null);
   const [toastPayLoad, setToastPayLoad] = useState({ show: false, severity: 'success', message: '' })
-  const [authToken, setAuthToken] = useState(null)
 
   useEffect(() => {
-    const token = localStorage.getItem('auth-token')
-    setAuthToken(token)
-    if (!authToken) return
     async function fetchData() {
       await fetchCVData();
     }
     fetchData();
-  }, [authToken]);
+  }, []);
 
   //function for calling a function for converting document into pdf format
   const saveCVObject = () => {
@@ -137,7 +133,7 @@ export default function MyCV() {
       .then(response => {
         if (response.status == 200) {
           console.log(response)
-          updateCVData(_.isEmpty(response.data)?CVDATA_TEMPLATE:response.data)
+          updateCVData(response.data)
           setIsPageLoading(false)
         }
         else {
@@ -1099,7 +1095,7 @@ export default function MyCV() {
           minHeight: '100vh',
           width: '100%'
         }}>
-          <AppTopBar />
+          <AppTopBar userData={userData}/>
           <Box sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -1130,9 +1126,9 @@ export default function MyCV() {
             }}>
 
 
-              {cvdata.hasOwnProperty('basic_information') && !isBasicInfoEditModeOn && <BasicInformationSection basic_information={cvdata.basic_information} setEditBasicInfoMode={setEditBasicInfoMode} />}
+              {cvdata.hasOwnProperty('basic_information') && !isBasicInfoEditModeOn && <BasicInformationSection userData={userData} basic_information={cvdata.basic_information} setEditBasicInfoMode={setEditBasicInfoMode} />}
 
-              {cvdata.hasOwnProperty('basic_information') && isBasicInfoEditModeOn && <BasicInformationForm basic_information={cvdata.basic_information} updateBasicInformation={updateBasicInformation} setEditBasicInfoMode={setEditBasicInfoMode} />}
+              {cvdata.hasOwnProperty('basic_information') && isBasicInfoEditModeOn && <BasicInformationForm userData={userData} basic_information={cvdata.basic_information} updateBasicInformation={updateBasicInformation} setEditBasicInfoMode={setEditBasicInfoMode} />}
 
               {!_.isNull(cvdata) && <QuickLiinks targets={Object.keys(cvdata)} />}
 

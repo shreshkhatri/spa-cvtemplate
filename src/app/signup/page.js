@@ -81,6 +81,7 @@ export default function SignUp() {
         if (response.status == 200) {
           const { data } = response
           localStorage.setItem('auth-token', data.token);
+          localStorage.setItem('user-data', JSON.stringify(data.user));
           setSighiningUp(false)
           router.push('/')
         }

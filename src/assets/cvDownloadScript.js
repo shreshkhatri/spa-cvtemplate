@@ -633,7 +633,7 @@ function formatPersonalStatement(title, personal_statement) {
 function formatBasicInformation(basic_information) {
     const formattedData = [
         {
-            text: capitalizeWords(basic_information.first_name) + ' ' + capitalizeWords(basic_information.last_name),
+            text: capitalizeWords(`${basic_information.title?basic_information.title:null} ${basic_information.first_name} ${basic_information.last_name}`),
             style: 'name'
         },
         {
