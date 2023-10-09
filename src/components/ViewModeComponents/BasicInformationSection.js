@@ -10,10 +10,8 @@ import { BiLogoGitlab } from 'react-icons/bi';
 import { DiBitbucket } from 'react-icons/di';
 import _ from 'lodash';
 import { capitalizeWords } from '@/assets/utilityFunctions';
-import { IconButton, Tooltip } from '@mui/material';
-import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 
-export default function BasicInformationSection({ userData, basic_information, setEditBasicInfoMode }) {
+export default function BasicInformationSection({ basic_information }) {
 
   const [isMouseOver, setIsMouseOver] = useState(false);
 
@@ -44,15 +42,8 @@ export default function BasicInformationSection({ userData, basic_information, s
 
     <Card sx={{ flexGrow: 1 }} variant="outlined" >
       <CardContent >
-        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-          <Tooltip sx={{ padding: 0, margin: 0, visibility: isMouseOver ? 'visible' : 'hidden' }} title='Update Personal Information'>
-            <IconButton onClick={() => setEditBasicInfoMode(true)} >
-              <EditNoteOutlinedIcon />
-            </IconButton>
-          </Tooltip>
-        </Box>
         <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
-          {capitalizeWords(`${basic_information.title ? basic_information.title : '[ Title ] '} ${basic_information.first_name==='[ first name ]'? userData.first_name:basic_information.first_name} ${basic_information.last_name==='[ last name ]'?userData.last_name:basic_information.last_name}`)}
+          {capitalizeWords(`${basic_information.title ? basic_information.title : '[ Title ] '} ${basic_information.first_name} ${basic_information.last_name}`)}
         </Typography>
 
         {
@@ -78,7 +69,7 @@ export default function BasicInformationSection({ userData, basic_information, s
           }
           {
             !_.isEmpty(basic_information.email) && <Typography variant="subtitle2" gutterBottom>
-              <HiOutlineMail size={17} /> {basic_information.email==='[Email]'?userData.email:basic_information.email}
+              <HiOutlineMail size={17} /> {basic_information.email}
             </Typography>
           }
           {

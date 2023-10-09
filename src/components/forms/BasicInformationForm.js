@@ -20,7 +20,7 @@ export default function BasicInformationForm({ userData, basic_information, upda
     const [isProfilePictureSet, setIsProfilePictureSet] = useState(basic_information.isProfilePictureSet);
     const [url, setURL] = useState(basic_information.url);
     const [mobileNumber, setMobileNumber] = useState(basic_information.mobile_number);
-    const [email, setEmail] = useState(basic_information.email);
+    const [email, setEmail] = useState(basic_information.email==='[Email]'?userData.email:basic_information.email);
     const [street, setStreet] = useState(basic_information.street);
     const [city, setCity] = useState(basic_information.city);
     const [state, setState] = useState(basic_information.state_province_region);

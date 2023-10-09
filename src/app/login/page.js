@@ -39,6 +39,10 @@ export default function LoginPage() {
     const [rememberMe, setRememberMe] = useState(false);
     const [loginResponse, setLoginResponse] = useState('');
     const router = useRouter();
+    
+    useEffect(()=>{
+        document.title='LogIn - CV Building'
+    })
 
     //function to login
     async function login() {

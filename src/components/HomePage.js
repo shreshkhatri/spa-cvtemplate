@@ -1,4 +1,5 @@
 'use client';
+import { useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
@@ -8,6 +9,7 @@ import Link from 'next/link';
 import _ from 'lodash'
 
 function Copyright(props) {
+    
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
@@ -23,6 +25,7 @@ function Copyright(props) {
 // TODO remove, this demo shouldn't need to reset the theme.
 
 export default function Home() {
+    document.title='Home - CV Building'
 
     return (
         <Box>

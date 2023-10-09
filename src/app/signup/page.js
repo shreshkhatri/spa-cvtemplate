@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -40,6 +40,12 @@ export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [notification, setNotification] = useState('');
   const [signingUp, setSighiningUp] = useState(false)
+  
+
+  
+  useEffect(()=>{
+    document.title='SignUp - CV Building'
+})
 
   function confirmPasswordMatch() {
     setNotification('')

@@ -18,6 +18,7 @@ export default function DefaultPage() {
     useEffect(() => {
         const token = localStorage.getItem('auth-token')
         const usrData = localStorage.getItem('user-data')
+        document.title='Loading...'
 
         if (_.isNull(token) && _.isNull(usrData)){
             setRedirctToHome(true)

@@ -104,6 +104,7 @@ export default function MyCV({userData, authToken}) {
   const [toastPayLoad, setToastPayLoad] = useState({ show: false, severity: 'success', message: '' })
 
   useEffect(() => {
+    document.title=`Welcome @${userData.username}`
     async function fetchData() {
       await fetchCVData();
     }

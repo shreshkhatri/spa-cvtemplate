@@ -12,6 +12,7 @@ export const ENDPOINT ={
     DELETE_SECTION:'https://startupden.org:5000/api/cv',
     COUNTRIES_LIST:'https://startupden.org:5000/country',
     REORDER_SECTION:'https://startupden.org:5000/api/cv/reorder',
-    REORDER_RECORD:'https://startupden.org:5000/api/cv/reorder'
+    REORDER_RECORD:'https://startupden.org:5000/api/cv/reorder',
+    VIEWCV:'https://startupden.org:5000/api/user'
 
 }

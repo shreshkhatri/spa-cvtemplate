@@ -1,0 +1,45 @@
+import { useState } from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import _ from 'lodash';
+import { formatDate, capitalizeWords } from '@/assets/utilityFunctions';
+
+export default function ItemEditorial({ experience }) {
+    const [isMouseOver, setIsMouseOver] = useState(false);
+    return (
+        <Box sx={{
+            display: 'flex',
+            flexDirection: {
+                xs: 'column',
+                sm: 'row'
+            },
+            alignItems: 'center',
+            width: '100%',
+            boxShadow:isMouseOver   ?1:0,
+            borderRadius:isMouseOver   ?1:0,
+            p: 1
+        }} onMouseEnter={() => { setIsMouseOver(true) }} onMouseLeave={() => setIsMouseOver(false)}>
+            <Box sx={{ flexGrow: 1 }} >
+
+                <Typography
+                    sx={{ m: 'auto 0' }}
+                    variant="body2"
+                    color="text.secondary"
+                >
+                    {experience.start_date ? formatDate(experience.start_date) : ' N/A '} - {experience.isContinue ? "continue" : experience.end_date ? formatDate(experience.end_date) : ' N/A '}
+                </Typography>
+
+                <Typography display='inline' sx={{ fontWeight: 'bold' }}>
+                    {capitalizeWords(experience.role)} , {capitalizeWords(experience.association)}
+                    {!_.isEmpty(experience.city) ? ' ,' + capitalizeWords(experience.city) : null}
+                    {!_.isNull(experience.country) ? ' ,' + experience.country.label : null}
+
+                </Typography>
+
+                {!_.isEmpty(experience.description) && <Typography variant="body2" sx={{ paddingTop: 1 }} gutterBottom> <em> <strong> Summary</strong> </em><br></br>{experience.description}</Typography>}
+
+            </Box>
+        </Box>
+
+    )
+}
