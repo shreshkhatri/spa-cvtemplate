@@ -29,7 +29,7 @@ const style = {
 
 export default function EditEditorialExperienceForm({ open, setOpen, experience, editEditorialExperience }) {
     const [role, setRole] = useState(experience.role);
-    const [association, setAssociation] = useState(experience.association);
+    const [association, setAssociation] = useState(experience.organization);
     const [associationCountry, setAssociationCountry] = useState(experience.country);
     const [associationCity, setAssociationCity] = useState(experience.city);
     const [startDate, setStartDate] = useState(dayjs(experience.start_date));
@@ -69,7 +69,7 @@ export default function EditEditorialExperienceForm({ open, setOpen, experience,
         editEditorialExperience({
             experienceID: experience.experienceID,
             role: role,
-            association: association,
+            organization: association,
             country: associationCountry,
             city: associationCity,
             start_date: startDate ? startDate.format('YYYY-MM-DD') : null,

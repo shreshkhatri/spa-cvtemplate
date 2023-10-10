@@ -444,7 +444,7 @@ function formatEditorialExperience(title, editorial_experience) {
 
             data.push(...[
                 {
-                    text: `${experience.role} , ${experience.association} ${!_.isEmpty(experience.city) ? ', ' + experience.city : ''} ${experience.country ? ', ' + experience.country.label : ''}`,
+                    text: `${experience.role} , ${experience.organization} ${!_.isEmpty(experience.city) ? ', ' + experience.city : ''} ${experience.country ? ', ' + experience.country.label : ''}`,
                     style: index == 0 ? 'firstEntryTitle' : 'entryTitle'
                 },
                 {

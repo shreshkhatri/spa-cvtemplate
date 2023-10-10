@@ -53,7 +53,7 @@ export default function NewEditorialExperienceForm({ open, setOpen, addNewEditor
         event.preventDefault();
         addNewEditorialExperience({
             role: role,
-            association: association,
+            organization: association,
             country: associationCountry,
             city: associationCity,
             start_date: startDate ? startDate.format('YYYY-MM-DD') : null,

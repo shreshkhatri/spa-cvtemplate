@@ -30,7 +30,7 @@ export default function ItemEditorial({ experience }) {
                 </Typography>
 
                 <Typography display='inline' sx={{ fontWeight: 'bold' }}>
-                    {capitalizeWords(experience.role)} , {capitalizeWords(experience.association)}
+                    {capitalizeWords(experience.role)} , {capitalizeWords(experience.organization)}
                     {!_.isEmpty(experience.city) ? ' ,' + capitalizeWords(experience.city) : null}
                     {!_.isNull(experience.country) ? ' ,' + experience.country.label : null}
 
