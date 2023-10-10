@@ -67,8 +67,7 @@ export default function EditorialExperienceTimeLine({ editorial_experience }) {
                             editorial_experience.length != 0 &&
 
                             <Timeline
-                                ref={provided.innerRef}
-                                {...provided.droppableProps}
+                                
                                 sx={{
                                     [`& .${timelineItemClasses.root}:before`]: {
                                         flex: 0,

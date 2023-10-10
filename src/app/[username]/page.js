@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { useParams  } from 'next/navigation'
+import { useParams,useRouter  } from 'next/navigation'
 import { ENDPOINT } from '@/data/endpoints';
 import LoadingUI from '@/components/LoadingUI';
 import CVViewMode from '@/components/CVViewMode';
@@ -8,10 +8,17 @@ import CVViewMode from '@/components/CVViewMode';
 export default function Page() {
 
     const {username} = useParams()
+    const router = useRouter()
     const [cvdataViewmode,setcvdataViewMode]= useState(null);
     const [pageLoading, setIsPageLoading] = useState(true)
 
     useEffect(() => {
+        //parsing text form of JS object into actual object
+        const usrData = JSON.parse(localStorage.getItem('user-data'))
+        if (usrData && usrData.username.toLowerCase()===username.toLowerCase()){
+            router.push('/')
+            return;
+        }
         async function fetchData() {
           await fetchCVData();
         }

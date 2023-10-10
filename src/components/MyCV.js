@@ -1,6 +1,6 @@
 'use client';
 import { Button } from '@mui/material';
-import { useRouter } from 'next/navigation';
+import { useRouter,usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import BasicInformationSection from '@/components/BasicInformationSection';
@@ -61,10 +61,10 @@ import { CVDATA_TEMPLATE } from '@/assets/cvdata';
 import Toast from './Toast';
 import AppTopBar from './TopMenuBar';
 import EditAccreditionExperienceForm from './forms/FormsForEdit/EditAccreditionExperienceForm';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
+export default function MyCV({ userData, authToken }) {
 
-export default function MyCV({userData, authToken}) {
-  
   const [cvdata, updateCVData] = useState({})
   const [isBasicInfoEditModeOn, setEditBasicInfoMode] = useState(false);
   const [isPersonalStatementEditModeOn, setIsPersonalStatementEditModeOn] = useState(false);
@@ -104,7 +104,7 @@ export default function MyCV({userData, authToken}) {
   const [toastPayLoad, setToastPayLoad] = useState({ show: false, severity: 'success', message: '' })
 
   useEffect(() => {
-    document.title=`Welcome @${userData.username}`
+    document.title = `Welcome @${userData.username}`
     async function fetchData() {
       await fetchCVData();
     }
@@ -309,8 +309,8 @@ export default function MyCV({userData, authToken}) {
         ...prevCVData,
         accreditations_experience: [response.data, ...prevCVData.accreditations_experience]
       }));
-    
-    } 
+
+    }
     setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
@@ -443,7 +443,7 @@ export default function MyCV({userData, authToken}) {
     setToastPayLoad({ show: true, severity: response.severity, message: response.message })
   }
 
-  
+
   //function to add new degree Information
   async function addNewDegree(newDegreeDetails) {
 
@@ -874,19 +874,19 @@ export default function MyCV({userData, authToken}) {
   }
 
 
-    //function to edit accredition experience from the existing list
-    async function editAccreditionExperience(updatedData) {
-      const response = await API_CALLS.updateSection(authToken, 'accreditations_experience', updatedData, updatedData._id)
-      if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-        updateCVData(prevCVData => ({
-          ...prevCVData,
-          accreditations_experience: prevCVData.accreditations_experience.map(accreditation => accreditation._id == updatedData._id ? updatedData : accreditation)
-        }));
-      }
-      setToastPayLoad({ show: true, severity: response.severity, message: response.message })
-      setTempStore(null);
+  //function to edit accredition experience from the existing list
+  async function editAccreditionExperience(updatedData) {
+    const response = await API_CALLS.updateSection(authToken, 'accreditations_experience', updatedData, updatedData._id)
+    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+      updateCVData(prevCVData => ({
+        ...prevCVData,
+        accreditations_experience: prevCVData.accreditations_experience.map(accreditation => accreditation._id == updatedData._id ? updatedData : accreditation)
+      }));
     }
-  
+    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setTempStore(null);
+  }
+
 
 
   //function to edit publication detail from the existing list
@@ -1109,7 +1109,7 @@ export default function MyCV({userData, authToken}) {
 
   return pageLoading ? <LoadingUI /> :
     <AppTheme>
-      <DragDropContext onDragEnd={result => onDragEndHndler(result, cvdata, updateCVData,authToken)}>
+      <DragDropContext onDragEnd={result => onDragEndHndler(result, cvdata, updateCVData, authToken)}>
         <Box sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -1118,7 +1118,7 @@ export default function MyCV({userData, authToken}) {
           minHeight: '100vh',
           width: '100%'
         }}>
-          <AppTopBar userData={userData}/>
+          <AppTopBar userData={userData} />
           <Box sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -1136,8 +1136,14 @@ export default function MyCV({userData, authToken}) {
               display: 'flex',
               justifyContent: 'flex-end',
               paddingTop: 2,
+              gap: 1,
               width: '100%'
             }}>
+
+              <CopyToClipboard text={`${window.location}/${userData.username}`}
+                onCopy={() => setToastPayLoad({ show: true, severity:'success', message: 'CV link copied to clipboard!' })}>
+                <Button size='small' variant='outlined'>Copy link to my CV</Button>
+              </CopyToClipboard>
               <Button size='small' variant='contained' onClick={saveCVObject}>Download CV</Button>
             </Box>
 
@@ -1239,7 +1245,7 @@ export default function MyCV({userData, authToken}) {
                                     (provided, snapshot) => {
                                       return (
                                         <Box ref={provided.innerRef} key={key} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                          <AccreditationsTimeLine key={index} deleteAccreditationsSection={deleteAccreditationsSection} setOpenNewAccreditionExperienceForm={setOpenNewAccreditionExperienceForm} accreditations_experience={cvdata.accreditations_experience} deleteAccreditation={deleteAccreditation} openFormForAccreditationExperienceEdit={openFormForAccreditationExperienceEdit}/>
+                                          <AccreditationsTimeLine key={index} deleteAccreditationsSection={deleteAccreditationsSection} setOpenNewAccreditionExperienceForm={setOpenNewAccreditionExperienceForm} accreditations_experience={cvdata.accreditations_experience} deleteAccreditation={deleteAccreditation} openFormForAccreditationExperienceEdit={openFormForAccreditationExperienceEdit} />
                                         </Box>
                                       )
                                     }
@@ -1432,7 +1438,7 @@ export default function MyCV({userData, authToken}) {
               {openEditConferenceForm && <EditConferenceForm open={openEditConferenceForm} setOpen={setOpenEditConferenceForm} conference={tempStore} editConference={editConference} />}
               {openEditJournalForm && <EditJournalForm open={openEditJournalForm} setOpen={setOpenEditJournalForm} jrnl={tempStore} editJournal={editJournal} />}
               {openEditAccreditionExperienceForm && <EditAccreditionExperienceForm open={openEditAccreditionExperienceForm} setOpen={setOpenEditAccreditionExperienceForm} editAccreditionExperience={editAccreditionExperience} accreditation={tempStore} />}
-              
+
             </Box>
             <CVSectionButtons keys={Object.keys(cvdata)} CVMenuButtonHandlers={CVMenuButtonHandlers} />
             {toastPayLoad.show && <Toast message={toastPayLoad.message} show={toastPayLoad.show} severity={toastPayLoad.severity} setToastPayLoad={setToastPayLoad} />}
