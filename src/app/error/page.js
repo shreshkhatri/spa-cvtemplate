@@ -11,7 +11,7 @@ export default function Error() {
     
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', justifyContent: 'center', height: '100vh' }}>
-            <Typography textAlign='center' sx={{ padding: 3 }}>Something went wrong. Please try again later.</Typography>
+            <Typography textAlign='center' sx={{ padding: 3 }}>404 | Content not found</Typography>
         </Box>
     );
 }

@@ -20,7 +20,13 @@ export default function Page() {
             return;
         }
         async function fetchData() {
-          await fetchCVData();
+          const response = await fetchCVData();
+          
+          if (!response){
+            router.push('/error')
+            return;
+          }
+          setIsPageLoading(false)
         }
         fetchData();
       }, []);
@@ -28,7 +34,7 @@ export default function Page() {
       // function for getting CV data
       async function fetchCVData() {
     
-        fetch(`${ENDPOINT.VIEWCV}/${username}`, {
+        return fetch(`${ENDPOINT.VIEWCV}/${username}`, {
           method: "GET",
           redirect: 'follow',
           headers: {
@@ -41,21 +47,18 @@ export default function Page() {
         })
           .then(response => {
             if (response.status == 200) {
-              console.log(response)
-              setcvdataViewMode(response.data)
-              setIsPageLoading(false)
+              setcvdataViewMode(response.data);
+              return true;
             }
             else {
-              const { error } = response
-              console.log(error)
-              setIsPageLoading(false)
-              router.push('/error')
+              const { error } = response;
+              console.log(error);
+              return false;
             }
           })
           .catch(error => {
-            console.log(error)
-            setIsPageLoading(false)
-            router.push('/error')
+            console.log(error);
+            return false;
           });
     
     
