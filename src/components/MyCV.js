@@ -1,6 +1,6 @@
 'use client';
 import { Button } from '@mui/material';
-import { useRouter,usePathname } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import BasicInformationSection from '@/components/BasicInformationSection';
@@ -54,7 +54,11 @@ import AppTheme from '@/assets/AppTheme';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { onDragEndHndler } from '@/assets/dndHandlers';
 import { downloadCV } from '@/assets/cvDownloadScript';
-import { DROPPABLE_TYPE_IDS, DROPPABLE_TYPES, RESPONSE_SEVERITY } from '@/data/data';
+import {
+  DROPPABLE_TYPE_IDS,
+  DROPPABLE_TYPES,
+  RESPONSE_SEVERITY,
+} from '@/data/data';
 import { ENDPOINT } from '@/data/endpoints';
 import { API_CALLS } from '@/assets/apicalls';
 import { CVDATA_TEMPLATE } from '@/assets/cvdata';
@@ -64,19 +68,24 @@ import EditAccreditionExperienceForm from './forms/FormsForEdit/EditAccreditionE
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 export default function MyCV({ userData, authToken }) {
-
-  const [cvdata, updateCVData] = useState({})
+  const [cvdata, updateCVData] = useState({});
   const [isBasicInfoEditModeOn, setEditBasicInfoMode] = useState(false);
-  const [isPersonalStatementEditModeOn, setIsPersonalStatementEditModeOn] = useState(false);
+  const [isPersonalStatementEditModeOn, setIsPersonalStatementEditModeOn] =
+    useState(false);
   const [isCareerSummaryEditMode, setIsCareerSummaryEditMode] = useState(false);
 
   //states for forms for entering new entry
   const [openNewEducationForm, setOpenNewEducationForm] = useState(false);
   const [openNewExperienceForm, setOpenNewExperienceForm] = useState(false);
-  const [openNewAccreditionExperienceForm, setOpenNewAccreditionExperienceForm] = useState(false);
+  const [
+    openNewAccreditionExperienceForm,
+    setOpenNewAccreditionExperienceForm,
+  ] = useState(false);
   const [openNewProjectForm, setOpenNewProjectForm] = useState(false);
-  const [openNewTechnicalSkillForm, setOpenNewTechnicalSkillForm] = useState(false);
-  const [openNewEditorialExperienceForm, setOpenNewEditorialExperienceForm] = useState(false);
+  const [openNewTechnicalSkillForm, setOpenNewTechnicalSkillForm] =
+    useState(false);
+  const [openNewEditorialExperienceForm, setOpenNewEditorialExperienceForm] =
+    useState(false);
   const [openNewPublicationForm, setOpenNewPublicationForm] = useState(false);
   const [openNewCommitteeForm, setOpenNewCommitteeForm] = useState(false);
   const [openNewCouncilForm, setOpenNewCouncilForm] = useState(false);
@@ -88,9 +97,13 @@ export default function MyCV({ userData, authToken }) {
   // States for forms for modifying the existing entry
   const [openEditEducationForm, setOpenEditEducationForm] = useState(false);
   const [openEditExperienceForm, setOpenEditExperienceForm] = useState(false);
-  const [openEditAccreditionExperienceForm, setOpenEditAccreditionExperienceForm] = useState(false);
+  const [
+    openEditAccreditionExperienceForm,
+    setOpenEditAccreditionExperienceForm,
+  ] = useState(false);
   const [openEditProjectForm, setOpenEditProjectForm] = useState(false);
-  const [openEditEditorialExperienceForm, setOpenEditEditorialExperienceForm] = useState(false);
+  const [openEditEditorialExperienceForm, setOpenEditEditorialExperienceForm] =
+    useState(false);
   const [openEditPublicationForm, setOpenEditPublicationForm] = useState(false);
   const [openEditCommitteeForm, setOpenEditCommitteeForm] = useState(false);
   const [openEditCouncilForm, setOpenEditCouncilForm] = useState(false);
@@ -99,12 +112,16 @@ export default function MyCV({ userData, authToken }) {
   const [openEditConferenceForm, setOpenEditConferenceForm] = useState(false);
   const [openEditJournalForm, setOpenEditJournalForm] = useState(false);
   const router = useRouter();
-  const [pageLoading, setIsPageLoading] = useState(true)
+  const [pageLoading, setIsPageLoading] = useState(true);
   const [tempStore, setTempStore] = useState(null);
-  const [toastPayLoad, setToastPayLoad] = useState({ show: false, severity: 'success', message: '' })
+  const [toastPayLoad, setToastPayLoad] = useState({
+    show: false,
+    severity: 'success',
+    message: '',
+  });
 
   useEffect(() => {
-    document.title = `Welcome @${userData.username}`
+    document.title = `Welcome @${userData.username}`;
     async function fetchData() {
       await fetchCVData();
     }
@@ -113,835 +130,1123 @@ export default function MyCV({ userData, authToken }) {
 
   //function for calling a function for converting document into pdf format
   const saveCVObject = () => {
-    downloadCV(cvdata)
+    downloadCV(cvdata);
   };
-
 
   // function for getting CV data
   async function fetchCVData() {
-
     fetch(ENDPOINT.GETCV, {
-      method: "GET",
+      method: 'GET',
       redirect: 'follow',
       headers: {
-        'Accept': 'application/json',
-        'charset': 'UTF-8',
-        'auth-token': authToken
-      }
-    }).then(async (response) => {
-      var json = await response.json()
-      return { status: response.status, ...json }
+        Accept: 'application/json',
+        charset: 'UTF-8',
+        'auth-token': authToken,
+      },
     })
-      .then(response => {
+      .then(async (response) => {
+        var json = await response.json();
+        return { status: response.status, ...json };
+      })
+      .then((response) => {
         if (response.status == 200) {
-          console.log(response)
-          updateCVData(response.data)
-          setIsPageLoading(false)
-        }
-        else {
-          const { error } = response
-          console.log(error)
-          setIsPageLoading(false)
-          router.push('/error')
+          console.log(response);
+          updateCVData(response.data);
+          setIsPageLoading(false);
+        } else {
+          const { error } = response;
+          console.log(error);
+          setIsPageLoading(false);
+          router.push('/error');
         }
       })
-      .catch(error => {
-        console.log(error)
-        setIsPageLoading(false)
-        router.push('/error')
+      .catch((error) => {
+        console.log(error);
+        setIsPageLoading(false);
+        router.push('/error');
       });
-
-
   }
   /*************************************  FUNCTION FOR OPENING FORM FOR EDITING DATA  **************************************************/
 
-
   // function for setting the form up for editing journal details
   function openFormForJournalEdit(_id) {
-
-    setTempStore(cvdata.journals.find(journal => journal._id == _id));
+    setTempStore(cvdata.journals.find((journal) => journal._id == _id));
     setOpenEditJournalForm(true);
   }
 
   // function for setting the form up for editing accreditations experience
   function openFormForAccreditationExperienceEdit(_id) {
-    setTempStore(cvdata.accreditations_experience.find(accreditation => accreditation._id == _id));
+    setTempStore(
+      cvdata.accreditations_experience.find(
+        (accreditation) => accreditation._id == _id
+      )
+    );
     setOpenEditAccreditionExperienceForm(true);
   }
 
-
   // function for setting the form up for editing conference details
   function openFormForConferenceEdit(_id) {
-    setTempStore(cvdata.conferences.find(conference => conference._id == _id));
+    setTempStore(
+      cvdata.conferences.find((conference) => conference._id == _id)
+    );
     setOpenEditConferenceForm(true);
   }
 
-
   // function for setting the form up for editing award and honor details
   function openFormForAwardHonorEdit(_id) {
-    setTempStore(cvdata.awards_honors.find(award => award._id == _id));
+    setTempStore(cvdata.awards_honors.find((award) => award._id == _id));
     setOpenEditAwardHonorForm(true);
   }
 
   // function for setting the form up for editing membership details
   function openFormForMembershipEdit(_id) {
-    setTempStore(cvdata.memberships.find(membership => membership._id == _id));
+    setTempStore(
+      cvdata.memberships.find((membership) => membership._id == _id)
+    );
     setOpenEditMembershipForm(true);
   }
 
-
   // function for setting the form up for editing council details
   function openFormForCouncilEdit(_id) {
-    setTempStore(cvdata.councils.find(council => council._id == _id));
+    setTempStore(cvdata.councils.find((council) => council._id == _id));
     setOpenEditCouncilForm(true);
   }
 
   // function for setting the form up for editing editorial experience
   function openFormForCommitteeEdit(_id) {
-    setTempStore(cvdata.committees.find(committee => committee._id == _id));
+    setTempStore(cvdata.committees.find((committee) => committee._id == _id));
     setOpenEditCommitteeForm(true);
   }
 
   // function for setting the form up for editing editorial experience
   function openFormForEditorialExperienceEdit(_id) {
-    setTempStore(cvdata.editorial_experience.find(experience => experience._id == _id));
+    setTempStore(
+      cvdata.editorial_experience.find((experience) => experience._id == _id)
+    );
     setOpenEditEditorialExperienceForm(true);
   }
 
-
-
-  // function for setting the form up for editing publication information 
+  // function for setting the form up for editing publication information
   function openFormForPublicationEdit(_id) {
-    setTempStore(cvdata.publications.find(publication => publication._id == _id));
+    setTempStore(
+      cvdata.publications.find((publication) => publication._id == _id)
+    );
     setOpenEditPublicationForm(true);
   }
 
-
-  // function for setting the form up for editing project information 
+  // function for setting the form up for editing project information
   function openFormForProjectEdit(_id) {
-    setTempStore(cvdata.projects.find(project => project._id == _id));
+    setTempStore(cvdata.projects.find((project) => project._id == _id));
     setOpenEditProjectForm(true);
   }
 
-
   // function for setting the form for editing degree information and loading the data into tempstorage
   function openFormForDegreeEdit(_id) {
-    setTempStore(cvdata.education_history.find(degree => degree._id == _id));
+    setTempStore(cvdata.education_history.find((degree) => degree._id == _id));
     setOpenEditEducationForm(true);
   }
 
-
-  // function for opening th form for dediting employment details 
+  // function for opening th form for dediting employment details
   function openFormForWorkExperienceEdit(_id) {
-    setTempStore(cvdata.work_history.find(work_experience => work_experience._id == _id));
+    setTempStore(
+      cvdata.work_history.find((work_experience) => work_experience._id == _id)
+    );
     setOpenEditExperienceForm(true);
   }
 
-
-
   // function to update Career summary
   async function updateCareerSummary(updatedCareerSummary) {
-
-    const response = await API_CALLS.addRecord(authToken, 'career_summary', { career_summary: updatedCareerSummary })
+    const response = await API_CALLS.addRecord(authToken, 'career_summary', {
+      career_summary: updatedCareerSummary,
+    });
 
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        career_summary: updatedCareerSummary
+        career_summary: updatedCareerSummary,
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   // function to update Personal Statement
   async function updatePersonalStatement(updatedStatement) {
-    const response = await API_CALLS.addRecord(authToken, 'personal_statement', { personal_statement: updatedStatement })
+    const response = await API_CALLS.addRecord(
+      authToken,
+      'personal_statement',
+      { personal_statement: updatedStatement }
+    );
 
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        personal_statement: updatedStatement
+        personal_statement: updatedStatement,
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
-
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   // function to update BasicInformation
   async function updateBasicInformation(updatedData) {
-    console.log(updatedData)
-    const response = await API_CALLS.addRecord(authToken, 'basic_information', updatedData)
-    console.log(response)
+    console.log(updatedData);
+    const response = await API_CALLS.addRecord(
+      authToken,
+      'basic_information',
+      updatedData
+    );
+    console.log(response);
 
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        basic_information: updatedData
+        basic_information: updatedData,
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
 
   /******************************************* FUNCTION FOR APPENDING NEW ITEMS TO THE LIST ************************************************ */
 
   //function to add new editorial experience to the exisiting list
   async function addNewEditorialExperience(editorialExperienceDetails) {
-    const response = await API_CALLS.addRecord(authToken, 'editorial_experience', editorialExperienceDetails)
+    const response = await API_CALLS.addRecord(
+      authToken,
+      'editorial_experience',
+      editorialExperienceDetails
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        editorial_experience: [response.data, ...prevCVData.editorial_experience]
+        editorial_experience: [
+          response.data,
+          ...prevCVData.editorial_experience,
+        ],
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
 
   //function to add new accreditation to the exisiting list
   async function addNewAccreditionExperience(accreditationDetails) {
-    const response = await API_CALLS.addRecord(authToken, 'accreditations_experience', accreditationDetails)
+    const response = await API_CALLS.addRecord(
+      authToken,
+      'accreditations_experience',
+      accreditationDetails
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        accreditations_experience: [response.data, ...prevCVData.accreditations_experience]
+        accreditations_experience: [
+          response.data,
+          ...prevCVData.accreditations_experience,
+        ],
       }));
-
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
 
   //function to add new technical skill to the exisiting list
   async function addNewTechnicalSkill(skillDetails) {
-    console.log(skillDetails)
-    const response = await API_CALLS.addRecord(authToken, 'technical_skills', skillDetails)
+    console.log(skillDetails);
+    const response = await API_CALLS.addRecord(
+      authToken,
+      'technical_skills',
+      skillDetails
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        technical_skills: [response.data, ...prevCVData.technical_skills]
+        technical_skills: [response.data, ...prevCVData.technical_skills],
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   //function to add new conference entry to the exisiting list
   async function addNewJournal(journalDetails) {
-    console.log(journalDetails)
-    const response = await API_CALLS.addRecord(authToken, 'journals', journalDetails)
+    console.log(journalDetails);
+    const response = await API_CALLS.addRecord(
+      authToken,
+      'journals',
+      journalDetails
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        journals: [response.data, ...prevCVData.journals]
+        journals: [response.data, ...prevCVData.journals],
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   //function to add new conference entry to the exisiting list
   async function addNewConference(conferenceDetails) {
-    const response = await API_CALLS.addRecord(authToken, 'conferences', conferenceDetails)
+    const response = await API_CALLS.addRecord(
+      authToken,
+      'conferences',
+      conferenceDetails
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        conferences: [response.data, ...prevCVData.conferences]
+        conferences: [response.data, ...prevCVData.conferences],
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   //function to add new award ifnromation to the exisiting list
   async function addNewAwardHonor(awardDetails) {
-    const response = await API_CALLS.addRecord(authToken, 'awards_honors', awardDetails)
+    const response = await API_CALLS.addRecord(
+      authToken,
+      'awards_honors',
+      awardDetails
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        awards_honors: [response.data, ...prevCVData.awards_honors]
+        awards_honors: [response.data, ...prevCVData.awards_honors],
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
 
   //function to add new membership details to the exisiting list
   async function addNewMembership(membershipDetails) {
-    const response = await API_CALLS.addRecord(authToken, 'memberships', membershipDetails)
+    const response = await API_CALLS.addRecord(
+      authToken,
+      'memberships',
+      membershipDetails
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        memberships: [response.data, ...prevCVData.memberships]
+        memberships: [response.data, ...prevCVData.memberships],
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   //function to add new committee to the exisiting list
   async function addNewCommittee(newCommitteeDetails) {
-    const response = await API_CALLS.addRecord(authToken, 'committees', newCommitteeDetails)
+    const response = await API_CALLS.addRecord(
+      authToken,
+      'committees',
+      newCommitteeDetails
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        committees: [response.data, ...prevCVData.committees]
+        committees: [response.data, ...prevCVData.committees],
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   //function to add new publication to the exisiting list
   async function addNewCouncil(newCouncilData) {
-    console.log(newCouncilData)
-    const response = await API_CALLS.addRecord(authToken, 'councils', newCouncilData)
+    console.log(newCouncilData);
+    const response = await API_CALLS.addRecord(
+      authToken,
+      'councils',
+      newCouncilData
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        councils: [response.data, ...prevCVData.councils]
+        councils: [response.data, ...prevCVData.councils],
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
 
   //function to add new publication to the exisiting list
   async function addNewPublication(newPublicationData) {
-    console.log(newPublicationData)
-    const response = await API_CALLS.addRecord(authToken, 'publications', newPublicationData)
+    console.log(newPublicationData);
+    const response = await API_CALLS.addRecord(
+      authToken,
+      'publications',
+      newPublicationData
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        publications: [response.data, ...prevCVData.publications]
+        publications: [response.data, ...prevCVData.publications],
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   //function to add new work experience
   async function addNewWorkExperience(newWorkExperience) {
-    const response = await API_CALLS.addRecord(authToken, 'work_history', newWorkExperience)
+    const response = await API_CALLS.addRecord(
+      authToken,
+      'work_history',
+      newWorkExperience
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        work_history: [response.data, ...prevCVData.work_history]
+        work_history: [response.data, ...prevCVData.work_history],
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
 
   //function to add new project Information
   async function addNewProject(newProjectDetails) {
-
-    const response = await API_CALLS.addRecord(authToken, 'projects', newProjectDetails)
+    const response = await API_CALLS.addRecord(
+      authToken,
+      'projects',
+      newProjectDetails
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        projects: [response.data, ...prevCVData.projects]
+        projects: [response.data, ...prevCVData.projects],
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
 
   //function to add new degree Information
   async function addNewDegree(newDegreeDetails) {
-
-    const response = await API_CALLS.addRecord(authToken, 'education_history', newDegreeDetails)
+    const response = await API_CALLS.addRecord(
+      authToken,
+      'education_history',
+      newDegreeDetails
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      console.log(response)
-      updateCVData(prevCVData => ({
+      console.log(response);
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        education_history: [response.data, ...prevCVData.education_history]
+        education_history: [response.data, ...prevCVData.education_history],
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
-
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
-
 
   /********************************** FUNCTION FOR DELEING THE PROPERTY FROM THE OBJECT *************************************************** */
 
   // function to delete editorial experience property from the object
   async function deleteEditorialExperienceSection() {
-    const response = await API_CALLS.deleteSection(authToken, 'editorial_experience')
+    const response = await API_CALLS.deleteSection(
+      authToken,
+      'editorial_experience'
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       const { editorial_experience, ...rest } = cvdata;
       updateCVData({ ...rest });
     }
 
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
 
   // function to delte accreditations property from the object
   async function deleteAccreditationsSection() {
-    const response = await API_CALLS.deleteSection(authToken, 'accreditations_experience')
+    const response = await API_CALLS.deleteSection(
+      authToken,
+      'accreditations_experience'
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       const { accreditations_experience, ...rest } = cvdata;
       updateCVData({ ...rest });
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
 
   // function to delete technicalSkills property from the object
   async function deleteTechnicallSection() {
-
-    const response = await API_CALLS.deleteSection(authToken, 'technical_skills')
+    const response = await API_CALLS.deleteSection(
+      authToken,
+      'technical_skills'
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-
       const { technical_skills, ...rest } = cvdata;
       updateCVData({ ...rest });
     }
 
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   // function to delete journals property from the object
   async function deleteJournalsSection() {
-
-    const response = await API_CALLS.deleteSection(authToken, 'journals')
+    const response = await API_CALLS.deleteSection(authToken, 'journals');
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-
       const { journals, ...rest } = cvdata;
       updateCVData({ ...rest });
     }
 
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
 
   // function to delete conferences property from the object
   async function deleteConferencesSection() {
-
-    const response = await API_CALLS.deleteSection(authToken, 'conferences')
+    const response = await API_CALLS.deleteSection(authToken, 'conferences');
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-
       const { conferences, ...rest } = cvdata;
       updateCVData({ ...rest });
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
 
   // function to delete awards property from the object
   async function deleteAwardSection() {
-
-    const response = await API_CALLS.deleteSection(authToken, 'awards_honors')
+    const response = await API_CALLS.deleteSection(authToken, 'awards_honors');
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       const { awards_honors, ...rest } = cvdata;
       updateCVData({ ...rest });
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
 
   // function to delete memberships property from the object
   async function deleteMembershipSection() {
-    const response = await API_CALLS.deleteSection(authToken, 'memberships')
+    const response = await API_CALLS.deleteSection(authToken, 'memberships');
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       const { memberships, ...rest } = cvdata;
       updateCVData({ ...rest });
     }
 
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
 
   // function to delete committees property from the object
   async function deleteCommitteeSection() {
-    const response = await API_CALLS.deleteSection(authToken, 'committees')
+    const response = await API_CALLS.deleteSection(authToken, 'committees');
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       const { committees, ...rest } = cvdata;
       updateCVData({ ...rest });
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   // function to delete councils property from the object
   async function deleteCouncilsSection() {
-
-    const response = await API_CALLS.deleteSection(authToken, 'councils')
+    const response = await API_CALLS.deleteSection(authToken, 'councils');
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       const { councils, ...rest } = cvdata;
       updateCVData({ ...rest });
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
 
   // function to delete personal statement
   async function deletePersonalStatement() {
-    const response = await API_CALLS.deleteSection(authToken, 'personal_statement')
+    const response = await API_CALLS.deleteSection(
+      authToken,
+      'personal_statement'
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       const { personal_statement, ...rest } = cvdata;
       updateCVData({ ...rest });
     }
 
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   // function to delete career summary
   async function deleteCareerSummary() {
-    const response = await API_CALLS.deleteSection(authToken, 'career_summary')
+    const response = await API_CALLS.deleteSection(authToken, 'career_summary');
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       const { career_summary, ...rest } = cvdata;
       updateCVData({ ...rest });
     }
 
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   // function to delete education history
   async function deleteEducationHistory() {
-    const response = await API_CALLS.deleteSection(authToken, 'education_history')
+    const response = await API_CALLS.deleteSection(
+      authToken,
+      'education_history'
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       const { education_history, ...rest } = cvdata;
       updateCVData({ ...rest });
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   // function to delete work history
   async function deleteWorkHistory() {
-    const response = await API_CALLS.deleteSection(authToken, 'work_history')
+    const response = await API_CALLS.deleteSection(authToken, 'work_history');
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       const { work_history, ...rest } = cvdata;
       updateCVData({ ...rest });
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   // function to delete Publications
   async function deletePublications() {
-    const response = await API_CALLS.deleteSection(authToken, 'publications')
+    const response = await API_CALLS.deleteSection(authToken, 'publications');
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       const { publications, ...rest } = cvdata;
       updateCVData({ ...rest });
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   // function to delete Projects Section
   async function deleteProjects() {
-    const response = await API_CALLS.deleteSection(authToken, 'projects')
+    const response = await API_CALLS.deleteSection(authToken, 'projects');
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
       const { projects, ...rest } = cvdata;
       updateCVData({ ...rest });
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
 
   /************************************* FUNCTION FOR ADDING PROPERTY BACK TO THE MAIN OBJECT ***********************************************/
 
   const CVMenuButtonHandlers = {
-
-    //function for adding editorialExperience property to the list 
+    //function for adding editorialExperience property to the list
     addNewEditorialExperienceSection: () => {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        editorial_experience: []
+        editorial_experience: [],
       }));
     },
 
-    //function for adding accreditationsections property to the list 
+    //function for adding accreditationsections property to the list
     addAccreditionsSection: () => {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        accreditations_experience: []
+        accreditations_experience: [],
       }));
     },
 
-
-    //function for adding technical skills property to the list 
+    //function for adding technical skills property to the list
     addTechnicalSkillsSection: () => {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        technical_skills: []
+        technical_skills: [],
       }));
-
     },
 
-    //function for adding journals property to the list 
+    //function for adding journals property to the list
     addJournalsSection: () => {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        journals: []
+        journals: [],
       }));
     },
 
-    //function for adding conferences property to the list 
+    //function for adding conferences property to the list
     addConferencesSection: () => {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        conferences: []
+        conferences: [],
       }));
     },
 
-
-    //function for adding awards property to the list 
+    //function for adding awards property to the list
     addAwardSection: () => {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        awards_honors: []
-      }))
+        awards_honors: [],
+      }));
     },
 
-    //function for adding memberships property to the list 
+    //function for adding memberships property to the list
     addMembershipsSection: () => {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        memberships: []
+        memberships: [],
       }));
     },
 
-
-    //function for adding committee to the list 
+    //function for adding committee to the list
     addCommitteeSection: () => {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        committees: []
+        committees: [],
       }));
     },
 
-    //function for adding councils object 
+    //function for adding councils object
     addCouncilsSection: () => {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        councils: []
+        councils: [],
       }));
     },
 
     //function for adding personal statement
     addPersonalStatement: () => {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        personal_statement: 'Double tap or click to update ...'
+        personal_statement: 'Double tap or click to update ...',
       }));
     },
 
     // function to add career summary
     addCareerSummary: () => {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        career_summary: 'Double tap or click to update ...'
+        career_summary: 'Double tap or click to update ...',
       }));
     },
-
 
     // function to add education history
     addEducationHistory: () => {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        education_history: []
+        education_history: [],
       }));
     },
 
-
     // function to add work history section
     addWorkHistory: () => {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        work_history: []
+        work_history: [],
       }));
     },
 
     // function to add Publications
     addPublications: () => {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        publications: []
+        publications: [],
       }));
     },
 
     // function to add  Projects Section
     addProjects: () => {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        projects: []
+        projects: [],
       }));
     },
 
     // function to add  Projects Section
     addBasicInformation: () => {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        basic_information: CVDATA_TEMPLATE
+        basic_information: CVDATA_TEMPLATE,
       }));
-    }
-  }
+    },
+  };
 
   /*************************************** FUNCTION TO EDIT INDIVIDUAL ITEMS FROM THE LIST *****************************************/
 
   //function to edit journal from  the existing list
   async function editJournal(updatedData) {
-    const response = await API_CALLS.updateSection(authToken, 'journals', updatedData, updatedData._id)
+    const response = await API_CALLS.updateSection(
+      authToken,
+      'journals',
+      updatedData,
+      updatedData._id
+    );
 
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        journals: prevCVData.journals.map(journal => journal._id == updatedData._id ? updatedData : journal)
+        journals: prevCVData.journals.map((journal) =>
+          journal._id == updatedData._id ? updatedData : journal
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
     setTempStore(null);
   }
-
 
   //function to edit conference from  the existing list
   async function editConference(updatedData) {
-    const response = await API_CALLS.updateSection(authToken, 'conferences', updatedData, updatedData._id)
+    const response = await API_CALLS.updateSection(
+      authToken,
+      'conferences',
+      updatedData,
+      updatedData._id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        conferences: prevCVData.conferences.map(conference => conference._id == updatedData._id ? updatedData : conference)
+        conferences: prevCVData.conferences.map((conference) =>
+          conference._id == updatedData._id ? updatedData : conference
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
     setTempStore(null);
   }
-
 
   //function to edit awardHonor details from the existing list
   async function editAwardHonor(updatedData) {
-    const response = await API_CALLS.updateSection(authToken, 'awards_honors', updatedData, updatedData._id)
+    const response = await API_CALLS.updateSection(
+      authToken,
+      'awards_honors',
+      updatedData,
+      updatedData._id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        awards_honors: prevCVData.awards_honors.map(award => award._id == updatedData._id ? updatedData : award)
+        awards_honors: prevCVData.awards_honors.map((award) =>
+          award._id == updatedData._id ? updatedData : award
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
     setTempStore(null);
   }
-
 
   //function to edit membership details from the existing list
   async function editMembership(updatedData) {
-    const response = await API_CALLS.updateSection(authToken, 'memberships', updatedData, updatedData._id)
+    const response = await API_CALLS.updateSection(
+      authToken,
+      'memberships',
+      updatedData,
+      updatedData._id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        memberships: prevCVData.memberships.map(membership => membership._id == updatedData._id ? updatedData : membership)
+        memberships: prevCVData.memberships.map((membership) =>
+          membership._id == updatedData._id ? updatedData : membership
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
     setTempStore(null);
   }
 
-
   //function to edit council details from the existing list
   async function editCouncil(updatedData) {
-    const response = await API_CALLS.updateSection(authToken, 'councils', updatedData, updatedData._id)
+    const response = await API_CALLS.updateSection(
+      authToken,
+      'councils',
+      updatedData,
+      updatedData._id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        councils: prevCVData.councils.map(council => council._id == updatedData._id ? updatedData : council)
+        councils: prevCVData.councils.map((council) =>
+          council._id == updatedData._id ? updatedData : council
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
     setTempStore(null);
   }
 
   //function to edit committee details from the existing list
   async function editCommittee(updatedData) {
-    const response = await API_CALLS.updateSection(authToken, 'committees', updatedData, updatedData._id)
+    const response = await API_CALLS.updateSection(
+      authToken,
+      'committees',
+      updatedData,
+      updatedData._id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        committees: prevCVData.committees.map(committee => committee._id == updatedData._id ? updatedData : committee)
+        committees: prevCVData.committees.map((committee) =>
+          committee._id == updatedData._id ? updatedData : committee
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
     setTempStore(null);
   }
-
 
   //function to edit editorial experience from the existing list
   async function editEditorialExperience(updatedData) {
-    const response = await API_CALLS.updateSection(authToken, 'editorial_experience', updatedData, updatedData._id)
+    const response = await API_CALLS.updateSection(
+      authToken,
+      'editorial_experience',
+      updatedData,
+      updatedData._id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        editorial_experience: prevCVData.editorial_experience.map(experience => experience._id == updatedData._id ? updatedData : experience)
+        editorial_experience: prevCVData.editorial_experience.map(
+          (experience) =>
+            experience._id == updatedData._id ? updatedData : experience
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
     setTempStore(null);
   }
-
 
   //function to edit accredition experience from the existing list
   async function editAccreditionExperience(updatedData) {
-    const response = await API_CALLS.updateSection(authToken, 'accreditations_experience', updatedData, updatedData._id)
+    const response = await API_CALLS.updateSection(
+      authToken,
+      'accreditations_experience',
+      updatedData,
+      updatedData._id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        accreditations_experience: prevCVData.accreditations_experience.map(accreditation => accreditation._id == updatedData._id ? updatedData : accreditation)
+        accreditations_experience: prevCVData.accreditations_experience.map(
+          (accreditation) =>
+            accreditation._id == updatedData._id ? updatedData : accreditation
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
     setTempStore(null);
   }
-
-
 
   //function to edit publication detail from the existing list
   async function editPublication(updatedData) {
-    const response = await API_CALLS.updateSection(authToken, 'publications', updatedData, updatedData._id)
+    const response = await API_CALLS.updateSection(
+      authToken,
+      'publications',
+      updatedData,
+      updatedData._id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        publications: prevCVData.publications.map(publication => publication._id == updatedData._id ? updatedData : publication)
+        publications: prevCVData.publications.map((publication) =>
+          publication._id == updatedData._id ? updatedData : publication
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
     setTempStore(null);
   }
 
-
   //function to edit project detail from the existing list
   async function editProject(updatedData) {
-    const response = await API_CALLS.updateSection(authToken, 'projects', updatedData, updatedData._id)
+    const response = await API_CALLS.updateSection(
+      authToken,
+      'projects',
+      updatedData,
+      updatedData._id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        projects: prevCVData.projects.map(project => project._id == updatedData._id ? updatedData : project)
+        projects: prevCVData.projects.map((project) =>
+          project._id == updatedData._id ? updatedData : project
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
     setTempStore(null);
   }
 
   //function to edit education degree item from the exisiting list
   async function editEducationDegree(updatedData) {
+    console.log(updatedData);
 
-    console.log(updatedData)
-
-    const response = await API_CALLS.updateSection(authToken, 'education_history', updatedData, updatedData._id)
+    const response = await API_CALLS.updateSection(
+      authToken,
+      'education_history',
+      updatedData,
+      updatedData._id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        education_history: prevCVData.education_history.map(degree => degree._id == updatedData._id ? updatedData : degree)
+        education_history: prevCVData.education_history.map((degree) =>
+          degree._id == updatedData._id ? updatedData : degree
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
     setTempStore(null);
   }
 
   //function to edit work experience item from the exisiting list
   async function editWorkExperience(updatedData) {
-    const response = await API_CALLS.updateSection(authToken, 'work_history', updatedData, updatedData._id)
+    const response = await API_CALLS.updateSection(
+      authToken,
+      'work_history',
+      updatedData,
+      updatedData._id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        work_history: prevCVData.work_history.map(work_experience => work_experience._id == updatedData._id ? updatedData : work_experience)
+        work_history: prevCVData.work_history.map((work_experience) =>
+          work_experience._id == updatedData._id ? updatedData : work_experience
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
     setTempStore(null);
   }
 
@@ -949,222 +1254,372 @@ export default function MyCV({ userData, authToken }) {
 
   //function to delete editorialExperience item from the exisiting list
   async function deleteEditorialExperience(_id) {
-    const response = await API_CALLS.deleteRecord(authToken, 'editorial_experience', _id)
+    const response = await API_CALLS.deleteRecord(
+      authToken,
+      'editorial_experience',
+      _id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        editorial_experience: prevCVData.editorial_experience.filter(experience => experience._id !== _id)
+        editorial_experience: prevCVData.editorial_experience.filter(
+          (experience) => experience._id !== _id
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   //function to delete accreditation details from the exisiting list
   async function deleteAccreditation(_id) {
-    const response = await API_CALLS.deleteRecord(authToken, 'accreditations_experience', _id)
+    const response = await API_CALLS.deleteRecord(
+      authToken,
+      'accreditations_experience',
+      _id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        accreditations_experience: prevCVData.accreditations_experience.filter(accreditation => accreditation._id !== _id)
+        accreditations_experience: prevCVData.accreditations_experience.filter(
+          (accreditation) => accreditation._id !== _id
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
 
   //function to delete technical skills details from the exisiting list
   async function deleteTechnicalSkill(_id) {
-    const response = await API_CALLS.deleteRecord(authToken, 'technical_skills', _id)
+    const response = await API_CALLS.deleteRecord(
+      authToken,
+      'technical_skills',
+      _id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        technical_skills: prevCVData.technical_skills.filter(skill => skill._id !== _id)
+        technical_skills: prevCVData.technical_skills.filter(
+          (skill) => skill._id !== _id
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   //function to delete journal details from the exisiting list
   async function deleteJournal(_id) {
-    const response = await API_CALLS.deleteRecord(authToken, 'journals', _id)
+    const response = await API_CALLS.deleteRecord(authToken, 'journals', _id);
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        journals: prevCVData.journals.filter(journal => journal._id !== _id)
+        journals: prevCVData.journals.filter((journal) => journal._id !== _id),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   //function to delete conference details from the exisiting list
   async function deleteConference(_id) {
-    const response = await API_CALLS.deleteRecord(authToken, 'conferences', _id)
+    const response = await API_CALLS.deleteRecord(
+      authToken,
+      'conferences',
+      _id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        conferences: prevCVData.conferences.filter(conference => conference._id !== _id)
+        conferences: prevCVData.conferences.filter(
+          (conference) => conference._id !== _id
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   //function to delete award details from the exisiting list
   async function deleteAward(_id) {
-    const response = await API_CALLS.deleteRecord(authToken, 'awards_honors', _id)
+    const response = await API_CALLS.deleteRecord(
+      authToken,
+      'awards_honors',
+      _id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        awards_honors: prevCVData.awards_honors.filter(award => award._id !== _id)
+        awards_honors: prevCVData.awards_honors.filter(
+          (award) => award._id !== _id
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   //function to delete membership details from the exisiting list
   async function deleteMembership(_id) {
-    const response = await API_CALLS.deleteRecord(authToken, 'memberships', _id)
+    const response = await API_CALLS.deleteRecord(
+      authToken,
+      'memberships',
+      _id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        memberships: prevCVData.memberships.filter(membership => membership._id !== _id)
+        memberships: prevCVData.memberships.filter(
+          (membership) => membership._id !== _id
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   //function to delete committee from the exisiting list
   async function deleteCommittee(_id) {
-    const response = await API_CALLS.deleteRecord(authToken, 'committees', _id)
+    const response = await API_CALLS.deleteRecord(authToken, 'committees', _id);
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        committees: prevCVData.committees.filter(committee => committee._id !== _id)
+        committees: prevCVData.committees.filter(
+          (committee) => committee._id !== _id
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   //function to delete council from the exisiting list
   async function deleteCouncil(_id) {
-    const response = await API_CALLS.deleteRecord(authToken, 'councils', _id)
+    const response = await API_CALLS.deleteRecord(authToken, 'councils', _id);
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        councils: prevCVData.councils.filter(council => council._id !== _id)
+        councils: prevCVData.councils.filter((council) => council._id !== _id),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   //function to delete publication from the exisiting list
   async function deletePublication(_id) {
-    const response = await API_CALLS.deleteRecord(authToken, 'publications', _id)
+    const response = await API_CALLS.deleteRecord(
+      authToken,
+      'publications',
+      _id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        publications: prevCVData.publications.filter(publication => publication._id !== _id)
+        publications: prevCVData.publications.filter(
+          (publication) => publication._id !== _id
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   //function to delete existing work experience
   async function deleteWorkExperience(_id) {
-    const response = await API_CALLS.deleteRecord(authToken, 'work_history', _id)
+    const response = await API_CALLS.deleteRecord(
+      authToken,
+      'work_history',
+      _id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        work_history: prevCVData.work_history.filter(experience => experience._id !== _id)
+        work_history: prevCVData.work_history.filter(
+          (experience) => experience._id !== _id
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
-
 
   //function to delete project from the list
   async function deleteProject(_id) {
-    const response = await API_CALLS.deleteRecord(authToken, 'projects', _id)
+    const response = await API_CALLS.deleteRecord(authToken, 'projects', _id);
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        projects: prevCVData.projects.filter(project => project._id !== _id)
+        projects: prevCVData.projects.filter((project) => project._id !== _id),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
   //function to delete degree from the education degree list
   async function deleteEducationDegree(_id) {
-
-    const response = await API_CALLS.deleteRecord(authToken, 'education_history', _id)
+    const response = await API_CALLS.deleteRecord(
+      authToken,
+      'education_history',
+      _id
+    );
     if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      updateCVData(prevCVData => ({
+      updateCVData((prevCVData) => ({
         ...prevCVData,
-        education_history: prevCVData.education_history.filter(degree => degree._id !== _id)
+        education_history: prevCVData.education_history.filter(
+          (degree) => degree._id !== _id
+        ),
       }));
     }
-    setToastPayLoad({ show: true, severity: response.severity, message: response.message })
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
   }
 
-
-  return pageLoading ? <LoadingUI /> :
+  return pageLoading ? (
+    <LoadingUI />
+  ) : (
     <AppTheme>
-      <DragDropContext onDragEnd={result => onDragEndHndler(result, cvdata, updateCVData, authToken)}>
-        <Box sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          minHeight: '100vh',
-          width: '100%'
-        }}>
-          <AppTopBar userData={userData} />
-          <Box sx={{
+      <DragDropContext
+        onDragEnd={(result) =>
+          onDragEndHndler(result, cvdata, updateCVData, authToken)
+        }
+      >
+        <Box
+          sx={{
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
             alignItems: 'center',
-            gap: 2,
+            minHeight: '100vh',
             width: '100%',
-            paddingX: {
-              xs: 1,
-              sm: 5,
-              md: 10
-            }
-          }}>
-            <Box sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              paddingTop: 2,
-              gap: 1,
-              width: '100%'
-            }}>
-
-              <CopyToClipboard text={`${window.location}/${userData.username}`}
-                onCopy={() => setToastPayLoad({ show: true, severity:'success', message: 'CV link copied to clipboard!' })}>
-                <Button size='small' variant='outlined'>Copy link to my CV</Button>
-              </CopyToClipboard>
-              <Button size='small' variant='contained' onClick={saveCVObject}>Download CV</Button>
-            </Box>
-
-            <Box id='cv-content' sx={{
+          }}
+        >
+          <AppTopBar userData={userData} />
+          <Box
+            sx={{
               display: 'flex',
               flexDirection: 'column',
-              paddingTop: 2,
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              gap: 2,
               width: '100%',
-            }}>
+              paddingX: {
+                xs: 1,
+                sm: 5,
+                md: 10,
+              },
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                paddingTop: 2,
+                gap: 1,
+                width: '100%',
+              }}
+            >
+              <CopyToClipboard
+                text={`${window.location}/${userData.username}`}
+                onCopy={() =>
+                  setToastPayLoad({
+                    show: true,
+                    severity: 'success',
+                    message: 'CV link copied!',
+                  })
+                }
+              >
+                <Button size="small" variant="outlined">
+                  Copy link to my CV
+                </Button>
+              </CopyToClipboard>
+              <Button size="small" variant="contained" onClick={saveCVObject}>
+                Download CV
+              </Button>
+            </Box>
 
+            <Box
+              id="cv-content"
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                paddingTop: 2,
+                width: '100%',
+              }}
+            >
+              {cvdata.hasOwnProperty('basic_information') &&
+                !isBasicInfoEditModeOn && (
+                  <BasicInformationSection
+                    userData={userData}
+                    basic_information={cvdata.basic_information}
+                    setEditBasicInfoMode={setEditBasicInfoMode}
+                  />
+                )}
 
-              {cvdata.hasOwnProperty('basic_information') && !isBasicInfoEditModeOn && <BasicInformationSection userData={userData} basic_information={cvdata.basic_information} setEditBasicInfoMode={setEditBasicInfoMode} />}
+              {cvdata.hasOwnProperty('basic_information') &&
+                isBasicInfoEditModeOn && (
+                  <BasicInformationForm
+                    userData={userData}
+                    basic_information={cvdata.basic_information}
+                    updateBasicInformation={updateBasicInformation}
+                    setEditBasicInfoMode={setEditBasicInfoMode}
+                  />
+                )}
 
-              {cvdata.hasOwnProperty('basic_information') && isBasicInfoEditModeOn && <BasicInformationForm userData={userData} basic_information={cvdata.basic_information} updateBasicInformation={updateBasicInformation} setEditBasicInfoMode={setEditBasicInfoMode} />}
+              {!_.isNull(cvdata) && (
+                <QuickLiinks targets={Object.keys(cvdata)} />
+              )}
 
-              {!_.isNull(cvdata) && <QuickLiinks targets={Object.keys(cvdata)} />}
-
-              <Droppable droppableId={DROPPABLE_TYPE_IDS.mainContainer} type={DROPPABLE_TYPES.Main}>
-                {
-                  (provided, snapshot) => (
-                    <Box ref={provided.innerRef} {...provided.droppableProps} sx={{
+              <Droppable
+                droppableId={DROPPABLE_TYPE_IDS.mainContainer}
+                type={DROPPABLE_TYPES.Main}
+              >
+                {(provided, snapshot) => (
+                  <Box
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    sx={{
                       display: 'flex',
                       flexDirection: 'column',
                       padding: 2,
@@ -1173,279 +1628,741 @@ export default function MyCV({ userData, authToken }) {
                       borderColor: snapshot.isDraggingOver ? '#f9f6ee' : null,
                       boxShadow: snapshot.isDraggingOver ? 1 : 0,
                       borderRadius: snapshot.isDraggingOver ? 2 : 0,
-                    }}>
-
-                      {!_.isNull(cvdata) &&
-                        Object.keys(cvdata).map((key, index) => {
-
-                          switch (key) {
-                            case 'personal_statement':
-                              return (
-                                <Draggable draggableId={key} key={key} index={index} >
-                                  {(provided, snapshot) => {
-                                    return (
-                                      <Box ref={provided.innerRef} key={key} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                        <PersonalStatement isPersonalStatementEditModeOn={isPersonalStatementEditModeOn} personal_statement={cvdata.personal_statement} deletePersonalStatement={deletePersonalStatement} setIsPersonalStatementEditModeOn={setIsPersonalStatementEditModeOn} />
-                                        <PersonalStatementForm isPersonalStatementEditModeOn={isPersonalStatementEditModeOn} personal_statement={cvdata.personal_statement} updatePersonalStatement={updatePersonalStatement} setIsPersonalStatementEditModeOn={setIsPersonalStatementEditModeOn} />
-                                      </Box>
-                                    )
-                                  }
-                                  }
-                                </Draggable>
-                              )
-                            case 'career_summary':
-                              return (
-                                <Draggable draggableId={key} key={key} index={index}>
-                                  {
-                                    (provided, snapshot) => {
-                                      return (
-                                        <Box ref={provided.innerRef} key={key} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                          <CareerSummary isCareerSummaryEditMode={isCareerSummaryEditMode} career_summary={cvdata.career_summary} deleteCareerSummary={deleteCareerSummary} setIsCareerSummaryEditMode={setIsCareerSummaryEditMode} />
-                                          <CareerSummaryForm isCareerSummaryEditMode={isCareerSummaryEditMode} career_summary={cvdata.career_summary} updateCareerSummary={updateCareerSummary} setIsCareerSummaryEditMode={setIsCareerSummaryEditMode} />
-                                        </Box>
-                                      )
-                                    }
-                                  }
-                                </Draggable>
-                              )
-                            case 'education_history':
-                              return (
-                                <Draggable draggableId={key} key={key} index={index}>
-                                  {
-                                    (provided, snapshot) => {
-                                      return (
-                                        <Box ref={provided.innerRef} key={key} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                          <EducationTimeLine key={index} education_history={cvdata.education_history} deleteEducationDegree={deleteEducationDegree} openFormForDegreeEdit={openFormForDegreeEdit} setOpenNewEducationForm={setOpenNewEducationForm} deleteEducationHistory={deleteEducationHistory} />
-                                        </Box>
-                                      )
-                                    }
-                                  }
-                                </Draggable>
-                              )
-                            case 'work_history':
-
-                              return (
-                                <Draggable draggableId={key} key={key} index={index}>
-                                  {
-                                    (provided, snapshot) => {
-                                      return (
-                                        <Box ref={provided.innerRef} key={key} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                          <WorkExperienceTimeLine key={index} deleteWorkHistory={deleteWorkHistory} setOpenNewExperienceForm={setOpenNewExperienceForm} work_history={cvdata.work_history} deleteWorkExperience={deleteWorkExperience} openFormForWorkExperienceEdit={openFormForWorkExperienceEdit} />
-                                        </Box>
-                                      )
-                                    }
-                                  }
-                                </Draggable>
-                              )
-                            case 'accreditations_experience':
-
-                              return (
-                                <Draggable draggableId={key} key={key} index={index}>
-                                  {
-                                    (provided, snapshot) => {
-                                      return (
-                                        <Box ref={provided.innerRef} key={key} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                          <AccreditationsTimeLine key={index} deleteAccreditationsSection={deleteAccreditationsSection} setOpenNewAccreditionExperienceForm={setOpenNewAccreditionExperienceForm} accreditations_experience={cvdata.accreditations_experience} deleteAccreditation={deleteAccreditation} openFormForAccreditationExperienceEdit={openFormForAccreditationExperienceEdit} />
-                                        </Box>
-                                      )
-                                    }
-                                  }
-                                </Draggable>
-                              )
-                            case 'projects':
-
-                              return (
-                                <Draggable draggableId={key} key={key} index={index}>
-                                  {
-                                    (provided, snapshot) => {
-                                      return (
-                                        <Box ref={provided.innerRef} key={key} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                          <ProjectsTimeline key={index} deleteProjects={deleteProjects} setOpenNewProjectForm={setOpenNewProjectForm} projects={cvdata.projects} deleteProject={deleteProject} openFormForProjectEdit={openFormForProjectEdit} />
-                                        </Box>
-                                      )
-                                    }
-                                  }
-                                </Draggable>
-                              )
-                            case 'technical_skills':
-
-                              return (
-                                <Draggable draggableId={key} key={key} index={index}>
-                                  {
-                                    (provided, snapshot) => {
-                                      return (
-                                        <Box ref={provided.innerRef} key={key} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                          <TechnicalSkillsList key={index} addNewTechnicalSkill={addNewTechnicalSkill} openNewTechnicalSkillForm={openNewTechnicalSkillForm} deleteTechnicallSection={deleteTechnicallSection} setOpenNewTechnicalSkillForm={setOpenNewTechnicalSkillForm} technical_skills={cvdata.technical_skills} deleteTechnicalSkill={deleteTechnicalSkill} />
-                                        </Box>
-                                      )
-                                    }
-                                  }
-                                </Draggable>
-                              )
-                            case 'editorial_experience':
-                              return (
-                                <Draggable draggableId={key} key={key} index={index}>
-                                  {
-                                    (provided, snapshot) => {
-                                      return (
-                                        <Box ref={provided.innerRef} key={key} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                          <EditorialExperienceTimeLine key={index} deleteEditorialExperienceSection={deleteEditorialExperienceSection} setOpenNewEditorialExperienceForm={setOpenNewEditorialExperienceForm} editorial_experience={cvdata.editorial_experience} deleteEditorialExperience={deleteEditorialExperience} openFormForEditorialExperienceEdit={openFormForEditorialExperienceEdit} />
-                                        </Box>
-                                      )
-                                    }
-                                  }
-                                </Draggable>
-                              )
-                            case 'publications':
-
-                              return (
-                                <Draggable draggableId={key} key={key} index={index}>
-                                  {
-                                    (provided, snapshot) => {
-                                      return (
-                                        <Box ref={provided.innerRef} key={key} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                          <PublicationsTimeLine key={index} setOpenNewPublicationForm={setOpenNewPublicationForm} deletePublications={deletePublications} publications={cvdata.publications} deletePublication={deletePublication} openFormForPublicationEdit={openFormForPublicationEdit} />
-                                        </Box>
-                                      )
-                                    }
-                                  }
-                                </Draggable>
-                              )
-                            case 'committees':
-
-                              return (
-                                <Draggable draggableId={key} key={key} index={index}>
-                                  {
-                                    (provided, snapshot) => {
-                                      return (
-                                        <Box ref={provided.innerRef} key={key} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                          <CommitteeTimeLine key={index} deleteCommitteeSection={deleteCommitteeSection} setOpenNewCommitteeForm={setOpenNewCommitteeForm} committees={cvdata.committees} deleteCommittee={deleteCommittee} openFormForCommitteeEdit={openFormForCommitteeEdit} />
-                                        </Box>
-                                      )
-                                    }
-                                  }
-                                </Draggable>
-                              )
-                            case 'councils':
-
-                              return (
-                                <Draggable draggableId={key} key={key} index={index}>
-                                  {
-                                    (provided, snapshot) => {
-                                      return (
-                                        <Box ref={provided.innerRef} key={key} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                          <CouncilTimeLine key={index} setOpenNewCouncilForm={setOpenNewCouncilForm} deleteCouncilsSection={deleteCouncilsSection} councils={cvdata.councils} deleteCouncil={deleteCouncil} openFormForCouncilEdit={openFormForCouncilEdit} />
-                                        </Box>
-                                      )
-                                    }
-                                  }
-                                </Draggable>
-                              )
-                            case 'memberships':
-
-                              return (
-                                <Draggable draggableId={key} key={key} index={index}>
-                                  {
-                                    (provided, snapshot) => {
-                                      return (
-                                        <Box ref={provided.innerRef} key={key} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                          <MembershipTimeLine key={index} deleteMembershipSection={deleteMembershipSection} setOpenNewMembershipForm={setOpenNewMembershipForm} memberships={cvdata.memberships} deleteMembership={deleteMembership} openFormForMembershipEdit={openFormForMembershipEdit} />
-                                        </Box>
-                                      )
-                                    }
-                                  }
-                                </Draggable>
-                              )
-                            case 'awards_honors':
-
-                              return (
-                                <Draggable draggableId={key} key={key} index={index}>
-                                  {
-                                    (provided, snapshot) => {
-                                      return (
-                                        <Box ref={provided.innerRef} key={key} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                          <AwardHonorsTimeLine key={index} deleteAwardSection={deleteAwardSection} setOpenNewAwardHonorForm={setOpenNewAwardHonorForm} awards_honors={cvdata.awards_honors} deleteAward={deleteAward} openFormForAwardHonorEdit={openFormForAwardHonorEdit} />
-                                        </Box>
-                                      )
-                                    }
-                                  }
-                                </Draggable>
-                              )
-                            case 'conferences':
-                              return (
-                                <Draggable draggableId={key} key={key} index={index}>
-                                  {
-                                    (provided, snapshot) => {
-                                      return (
-                                        <Box ref={provided.innerRef} key={key} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                          <ConferencesList key={index} deleteConferencesSection={deleteConferencesSection} setOpenNewConferenceForm={setOpenNewConferenceForm} conferences={cvdata.conferences} deleteConference={deleteConference} openFormForConferenceEdit={openFormForConferenceEdit} />
-                                        </Box>
-                                      )
-                                    }
-                                  }
-                                </Draggable>
-                              )
-                            case 'journals':
-                              return (
-                                <Draggable draggableId={key} key={key} index={index}>
-                                  {
-                                    (provided, snapshot) => {
-                                      return (
-                                        <Box ref={provided.innerRef} key={key} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                          <JournalsList key={index} setOpenNewJournalForm={setOpenNewJournalForm} deleteJournalsSection={deleteJournalsSection} journals={cvdata.journals} deleteJournal={deleteJournal} openFormForJournalEdit={openFormForJournalEdit} />
-                                        </Box>
-                                      )
-                                    }
-                                  }
-                                </Draggable>
-                              )
-                            default:
-                              return null
-                          }
-                        })
-
-                      }
-                      {provided.placeholder}
-                    </Box>
-                  )
-                }
+                    }}
+                  >
+                    {!_.isNull(cvdata) &&
+                      Object.keys(cvdata).map((key, index) => {
+                        switch (key) {
+                          case 'personal_statement':
+                            return (
+                              <Draggable
+                                draggableId={key}
+                                key={key}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <Box
+                                      ref={provided.innerRef}
+                                      key={key}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <PersonalStatement
+                                        isPersonalStatementEditModeOn={
+                                          isPersonalStatementEditModeOn
+                                        }
+                                        personal_statement={
+                                          cvdata.personal_statement
+                                        }
+                                        deletePersonalStatement={
+                                          deletePersonalStatement
+                                        }
+                                        setIsPersonalStatementEditModeOn={
+                                          setIsPersonalStatementEditModeOn
+                                        }
+                                      />
+                                      <PersonalStatementForm
+                                        isPersonalStatementEditModeOn={
+                                          isPersonalStatementEditModeOn
+                                        }
+                                        personal_statement={
+                                          cvdata.personal_statement
+                                        }
+                                        updatePersonalStatement={
+                                          updatePersonalStatement
+                                        }
+                                        setIsPersonalStatementEditModeOn={
+                                          setIsPersonalStatementEditModeOn
+                                        }
+                                      />
+                                    </Box>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          case 'career_summary':
+                            return (
+                              <Draggable
+                                draggableId={key}
+                                key={key}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <Box
+                                      ref={provided.innerRef}
+                                      key={key}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <CareerSummary
+                                        isCareerSummaryEditMode={
+                                          isCareerSummaryEditMode
+                                        }
+                                        career_summary={cvdata.career_summary}
+                                        deleteCareerSummary={
+                                          deleteCareerSummary
+                                        }
+                                        setIsCareerSummaryEditMode={
+                                          setIsCareerSummaryEditMode
+                                        }
+                                      />
+                                      <CareerSummaryForm
+                                        isCareerSummaryEditMode={
+                                          isCareerSummaryEditMode
+                                        }
+                                        career_summary={cvdata.career_summary}
+                                        updateCareerSummary={
+                                          updateCareerSummary
+                                        }
+                                        setIsCareerSummaryEditMode={
+                                          setIsCareerSummaryEditMode
+                                        }
+                                      />
+                                    </Box>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          case 'education_history':
+                            return (
+                              <Draggable
+                                draggableId={key}
+                                key={key}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <Box
+                                      ref={provided.innerRef}
+                                      key={key}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <EducationTimeLine
+                                        key={index}
+                                        education_history={
+                                          cvdata.education_history
+                                        }
+                                        deleteEducationDegree={
+                                          deleteEducationDegree
+                                        }
+                                        openFormForDegreeEdit={
+                                          openFormForDegreeEdit
+                                        }
+                                        setOpenNewEducationForm={
+                                          setOpenNewEducationForm
+                                        }
+                                        deleteEducationHistory={
+                                          deleteEducationHistory
+                                        }
+                                      />
+                                    </Box>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          case 'work_history':
+                            return (
+                              <Draggable
+                                draggableId={key}
+                                key={key}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <Box
+                                      ref={provided.innerRef}
+                                      key={key}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <WorkExperienceTimeLine
+                                        key={index}
+                                        deleteWorkHistory={deleteWorkHistory}
+                                        setOpenNewExperienceForm={
+                                          setOpenNewExperienceForm
+                                        }
+                                        work_history={cvdata.work_history}
+                                        deleteWorkExperience={
+                                          deleteWorkExperience
+                                        }
+                                        openFormForWorkExperienceEdit={
+                                          openFormForWorkExperienceEdit
+                                        }
+                                      />
+                                    </Box>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          case 'accreditations_experience':
+                            return (
+                              <Draggable
+                                draggableId={key}
+                                key={key}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <Box
+                                      ref={provided.innerRef}
+                                      key={key}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <AccreditationsTimeLine
+                                        key={index}
+                                        deleteAccreditationsSection={
+                                          deleteAccreditationsSection
+                                        }
+                                        setOpenNewAccreditionExperienceForm={
+                                          setOpenNewAccreditionExperienceForm
+                                        }
+                                        accreditations_experience={
+                                          cvdata.accreditations_experience
+                                        }
+                                        deleteAccreditation={
+                                          deleteAccreditation
+                                        }
+                                        openFormForAccreditationExperienceEdit={
+                                          openFormForAccreditationExperienceEdit
+                                        }
+                                      />
+                                    </Box>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          case 'projects':
+                            return (
+                              <Draggable
+                                draggableId={key}
+                                key={key}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <Box
+                                      ref={provided.innerRef}
+                                      key={key}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <ProjectsTimeline
+                                        key={index}
+                                        deleteProjects={deleteProjects}
+                                        setOpenNewProjectForm={
+                                          setOpenNewProjectForm
+                                        }
+                                        projects={cvdata.projects}
+                                        deleteProject={deleteProject}
+                                        openFormForProjectEdit={
+                                          openFormForProjectEdit
+                                        }
+                                      />
+                                    </Box>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          case 'technical_skills':
+                            return (
+                              <Draggable
+                                draggableId={key}
+                                key={key}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <Box
+                                      ref={provided.innerRef}
+                                      key={key}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <TechnicalSkillsList
+                                        key={index}
+                                        addNewTechnicalSkill={
+                                          addNewTechnicalSkill
+                                        }
+                                        openNewTechnicalSkillForm={
+                                          openNewTechnicalSkillForm
+                                        }
+                                        deleteTechnicallSection={
+                                          deleteTechnicallSection
+                                        }
+                                        setOpenNewTechnicalSkillForm={
+                                          setOpenNewTechnicalSkillForm
+                                        }
+                                        technical_skills={
+                                          cvdata.technical_skills
+                                        }
+                                        deleteTechnicalSkill={
+                                          deleteTechnicalSkill
+                                        }
+                                      />
+                                    </Box>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          case 'editorial_experience':
+                            return (
+                              <Draggable
+                                draggableId={key}
+                                key={key}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <Box
+                                      ref={provided.innerRef}
+                                      key={key}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <EditorialExperienceTimeLine
+                                        key={index}
+                                        deleteEditorialExperienceSection={
+                                          deleteEditorialExperienceSection
+                                        }
+                                        setOpenNewEditorialExperienceForm={
+                                          setOpenNewEditorialExperienceForm
+                                        }
+                                        editorial_experience={
+                                          cvdata.editorial_experience
+                                        }
+                                        deleteEditorialExperience={
+                                          deleteEditorialExperience
+                                        }
+                                        openFormForEditorialExperienceEdit={
+                                          openFormForEditorialExperienceEdit
+                                        }
+                                      />
+                                    </Box>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          case 'publications':
+                            return (
+                              <Draggable
+                                draggableId={key}
+                                key={key}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <Box
+                                      ref={provided.innerRef}
+                                      key={key}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <PublicationsTimeLine
+                                        key={index}
+                                        setOpenNewPublicationForm={
+                                          setOpenNewPublicationForm
+                                        }
+                                        deletePublications={deletePublications}
+                                        publications={cvdata.publications}
+                                        deletePublication={deletePublication}
+                                        openFormForPublicationEdit={
+                                          openFormForPublicationEdit
+                                        }
+                                      />
+                                    </Box>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          case 'committees':
+                            return (
+                              <Draggable
+                                draggableId={key}
+                                key={key}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <Box
+                                      ref={provided.innerRef}
+                                      key={key}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <CommitteeTimeLine
+                                        key={index}
+                                        deleteCommitteeSection={
+                                          deleteCommitteeSection
+                                        }
+                                        setOpenNewCommitteeForm={
+                                          setOpenNewCommitteeForm
+                                        }
+                                        committees={cvdata.committees}
+                                        deleteCommittee={deleteCommittee}
+                                        openFormForCommitteeEdit={
+                                          openFormForCommitteeEdit
+                                        }
+                                      />
+                                    </Box>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          case 'councils':
+                            return (
+                              <Draggable
+                                draggableId={key}
+                                key={key}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <Box
+                                      ref={provided.innerRef}
+                                      key={key}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <CouncilTimeLine
+                                        key={index}
+                                        setOpenNewCouncilForm={
+                                          setOpenNewCouncilForm
+                                        }
+                                        deleteCouncilsSection={
+                                          deleteCouncilsSection
+                                        }
+                                        councils={cvdata.councils}
+                                        deleteCouncil={deleteCouncil}
+                                        openFormForCouncilEdit={
+                                          openFormForCouncilEdit
+                                        }
+                                      />
+                                    </Box>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          case 'memberships':
+                            return (
+                              <Draggable
+                                draggableId={key}
+                                key={key}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <Box
+                                      ref={provided.innerRef}
+                                      key={key}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <MembershipTimeLine
+                                        key={index}
+                                        deleteMembershipSection={
+                                          deleteMembershipSection
+                                        }
+                                        setOpenNewMembershipForm={
+                                          setOpenNewMembershipForm
+                                        }
+                                        memberships={cvdata.memberships}
+                                        deleteMembership={deleteMembership}
+                                        openFormForMembershipEdit={
+                                          openFormForMembershipEdit
+                                        }
+                                      />
+                                    </Box>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          case 'awards_honors':
+                            return (
+                              <Draggable
+                                draggableId={key}
+                                key={key}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <Box
+                                      ref={provided.innerRef}
+                                      key={key}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <AwardHonorsTimeLine
+                                        key={index}
+                                        deleteAwardSection={deleteAwardSection}
+                                        setOpenNewAwardHonorForm={
+                                          setOpenNewAwardHonorForm
+                                        }
+                                        awards_honors={cvdata.awards_honors}
+                                        deleteAward={deleteAward}
+                                        openFormForAwardHonorEdit={
+                                          openFormForAwardHonorEdit
+                                        }
+                                      />
+                                    </Box>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          case 'conferences':
+                            return (
+                              <Draggable
+                                draggableId={key}
+                                key={key}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <Box
+                                      ref={provided.innerRef}
+                                      key={key}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <ConferencesList
+                                        key={index}
+                                        deleteConferencesSection={
+                                          deleteConferencesSection
+                                        }
+                                        setOpenNewConferenceForm={
+                                          setOpenNewConferenceForm
+                                        }
+                                        conferences={cvdata.conferences}
+                                        deleteConference={deleteConference}
+                                        openFormForConferenceEdit={
+                                          openFormForConferenceEdit
+                                        }
+                                      />
+                                    </Box>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          case 'journals':
+                            return (
+                              <Draggable
+                                draggableId={key}
+                                key={key}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <Box
+                                      ref={provided.innerRef}
+                                      key={key}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <JournalsList
+                                        key={index}
+                                        setOpenNewJournalForm={
+                                          setOpenNewJournalForm
+                                        }
+                                        deleteJournalsSection={
+                                          deleteJournalsSection
+                                        }
+                                        journals={cvdata.journals}
+                                        deleteJournal={deleteJournal}
+                                        openFormForJournalEdit={
+                                          openFormForJournalEdit
+                                        }
+                                      />
+                                    </Box>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          default:
+                            return null;
+                        }
+                      })}
+                    {provided.placeholder}
+                  </Box>
+                )}
               </Droppable>
 
+              <NewEducationDegreeForm
+                open={openNewEducationForm}
+                setOpen={setOpenNewEducationForm}
+                addNewDegree={addNewDegree}
+              />
+              <NewWorkExperienceForm
+                open={openNewExperienceForm}
+                setOpen={setOpenNewExperienceForm}
+                addNewWorkExperience={addNewWorkExperience}
+              />
+              <NewAccreditionExperienceForm
+                open={openNewAccreditionExperienceForm}
+                setOpen={setOpenNewAccreditionExperienceForm}
+                addNewAccreditionExperience={addNewAccreditionExperience}
+              />
+              <NewProjectForm
+                open={openNewProjectForm}
+                setOpen={setOpenNewProjectForm}
+                addNewProject={addNewProject}
+              />
+              <NewEditorialExperienceForm
+                open={openNewEditorialExperienceForm}
+                setOpen={setOpenNewEditorialExperienceForm}
+                addNewEditorialExperience={addNewEditorialExperience}
+              />
+              <NewPublicationForm
+                open={openNewPublicationForm}
+                setOpen={setOpenNewPublicationForm}
+                addNewPublication={addNewPublication}
+              />
+              <NewCommitteeForm
+                open={openNewCommitteeForm}
+                setOpen={setOpenNewCommitteeForm}
+                addNewCommittee={addNewCommittee}
+              />
+              <NewCouncilForm
+                open={openNewCouncilForm}
+                setOpen={setOpenNewCouncilForm}
+                addNewCouncil={addNewCouncil}
+              />
+              <NewMembershipForm
+                open={openNewMembershipForm}
+                setOpen={setOpenNewMembershipForm}
+                addNewMembership={addNewMembership}
+              />
+              <NewAwardHonorForm
+                open={openNewAwardHonorForm}
+                setOpen={setOpenNewAwardHonorForm}
+                addNewAwardHonor={addNewAwardHonor}
+              />
+              <NewConferenceForm
+                open={openNewConferenceForm}
+                setOpen={setOpenNewConferenceForm}
+                addNewConference={addNewConference}
+              />
+              <NewJournalForm
+                open={openNewJournalForm}
+                setOpen={setOpenNewJournalForm}
+                addNewJournal={addNewJournal}
+              />
 
-
-              <NewEducationDegreeForm open={openNewEducationForm} setOpen={setOpenNewEducationForm} addNewDegree={addNewDegree} />
-              <NewWorkExperienceForm open={openNewExperienceForm} setOpen={setOpenNewExperienceForm} addNewWorkExperience={addNewWorkExperience} />
-              <NewAccreditionExperienceForm open={openNewAccreditionExperienceForm} setOpen={setOpenNewAccreditionExperienceForm} addNewAccreditionExperience={addNewAccreditionExperience} />
-              <NewProjectForm open={openNewProjectForm} setOpen={setOpenNewProjectForm} addNewProject={addNewProject} />
-              <NewEditorialExperienceForm open={openNewEditorialExperienceForm} setOpen={setOpenNewEditorialExperienceForm} addNewEditorialExperience={addNewEditorialExperience} />
-              <NewPublicationForm open={openNewPublicationForm} setOpen={setOpenNewPublicationForm} addNewPublication={addNewPublication} />
-              <NewCommitteeForm open={openNewCommitteeForm} setOpen={setOpenNewCommitteeForm} addNewCommittee={addNewCommittee} />
-              <NewCouncilForm open={openNewCouncilForm} setOpen={setOpenNewCouncilForm} addNewCouncil={addNewCouncil} />
-              <NewMembershipForm open={openNewMembershipForm} setOpen={setOpenNewMembershipForm} addNewMembership={addNewMembership} />
-              <NewAwardHonorForm open={openNewAwardHonorForm} setOpen={setOpenNewAwardHonorForm} addNewAwardHonor={addNewAwardHonor} />
-              <NewConferenceForm open={openNewConferenceForm} setOpen={setOpenNewConferenceForm} addNewConference={addNewConference} />
-              <NewJournalForm open={openNewJournalForm} setOpen={setOpenNewJournalForm} addNewJournal={addNewJournal} />
-
-              {openEditEducationForm && <EditEducationDegreeForm open={openEditEducationForm} setOpen={setOpenEditEducationForm} qualification={tempStore} editEducationDegree={editEducationDegree} />}
-              {openEditExperienceForm && <EditWorkExperienceForm open={openEditExperienceForm} setOpen={setOpenEditExperienceForm} work_experience={tempStore} editWorkExperience={editWorkExperience} />}
-              {openEditProjectForm && <EditProjectForm open={openEditProjectForm} setOpen={setOpenEditProjectForm} project={tempStore} editProject={editProject} />}
-              {openEditPublicationForm && <EditPublicationForm open={openEditPublicationForm} setOpen={setOpenEditPublicationForm} publication={tempStore} editPublication={editPublication} />}
-              {openEditEditorialExperienceForm && <EditEditorialExperienceForm open={openEditEditorialExperienceForm} setOpen={setOpenEditEditorialExperienceForm} experience={tempStore} editEditorialExperience={editEditorialExperience} />}
-              {openEditCommitteeForm && <EditCommitteeForm open={openEditCommitteeForm} setOpen={setOpenEditCommitteeForm} committee={tempStore} editCommittee={editCommittee} />}
-              {openEditCouncilForm && <EditCouncilForm open={openEditCouncilForm} setOpen={setOpenEditCouncilForm} council={tempStore} editCouncil={editCouncil} />}
-              {openEditMembershipForm && <EditMembershipForm open={openEditMembershipForm} setOpen={setOpenEditMembershipForm} membership={tempStore} editMembership={editMembership} />}
-              {openEditAwardHonorForm && <EditAwardHonorForm open={openEditAwardHonorForm} setOpen={setOpenEditAwardHonorForm} award={tempStore} editAwardHonor={editAwardHonor} />}
-              {openEditConferenceForm && <EditConferenceForm open={openEditConferenceForm} setOpen={setOpenEditConferenceForm} conference={tempStore} editConference={editConference} />}
-              {openEditJournalForm && <EditJournalForm open={openEditJournalForm} setOpen={setOpenEditJournalForm} jrnl={tempStore} editJournal={editJournal} />}
-              {openEditAccreditionExperienceForm && <EditAccreditionExperienceForm open={openEditAccreditionExperienceForm} setOpen={setOpenEditAccreditionExperienceForm} editAccreditionExperience={editAccreditionExperience} accreditation={tempStore} />}
-
+              {openEditEducationForm && (
+                <EditEducationDegreeForm
+                  open={openEditEducationForm}
+                  setOpen={setOpenEditEducationForm}
+                  qualification={tempStore}
+                  editEducationDegree={editEducationDegree}
+                />
+              )}
+              {openEditExperienceForm && (
+                <EditWorkExperienceForm
+                  open={openEditExperienceForm}
+                  setOpen={setOpenEditExperienceForm}
+                  work_experience={tempStore}
+                  editWorkExperience={editWorkExperience}
+                />
+              )}
+              {openEditProjectForm && (
+                <EditProjectForm
+                  open={openEditProjectForm}
+                  setOpen={setOpenEditProjectForm}
+                  project={tempStore}
+                  editProject={editProject}
+                />
+              )}
+              {openEditPublicationForm && (
+                <EditPublicationForm
+                  open={openEditPublicationForm}
+                  setOpen={setOpenEditPublicationForm}
+                  publication={tempStore}
+                  editPublication={editPublication}
+                />
+              )}
+              {openEditEditorialExperienceForm && (
+                <EditEditorialExperienceForm
+                  open={openEditEditorialExperienceForm}
+                  setOpen={setOpenEditEditorialExperienceForm}
+                  experience={tempStore}
+                  editEditorialExperience={editEditorialExperience}
+                />
+              )}
+              {openEditCommitteeForm && (
+                <EditCommitteeForm
+                  open={openEditCommitteeForm}
+                  setOpen={setOpenEditCommitteeForm}
+                  committee={tempStore}
+                  editCommittee={editCommittee}
+                />
+              )}
+              {openEditCouncilForm && (
+                <EditCouncilForm
+                  open={openEditCouncilForm}
+                  setOpen={setOpenEditCouncilForm}
+                  council={tempStore}
+                  editCouncil={editCouncil}
+                />
+              )}
+              {openEditMembershipForm && (
+                <EditMembershipForm
+                  open={openEditMembershipForm}
+                  setOpen={setOpenEditMembershipForm}
+                  membership={tempStore}
+                  editMembership={editMembership}
+                />
+              )}
+              {openEditAwardHonorForm && (
+                <EditAwardHonorForm
+                  open={openEditAwardHonorForm}
+                  setOpen={setOpenEditAwardHonorForm}
+                  award={tempStore}
+                  editAwardHonor={editAwardHonor}
+                />
+              )}
+              {openEditConferenceForm && (
+                <EditConferenceForm
+                  open={openEditConferenceForm}
+                  setOpen={setOpenEditConferenceForm}
+                  conference={tempStore}
+                  editConference={editConference}
+                />
+              )}
+              {openEditJournalForm && (
+                <EditJournalForm
+                  open={openEditJournalForm}
+                  setOpen={setOpenEditJournalForm}
+                  jrnl={tempStore}
+                  editJournal={editJournal}
+                />
+              )}
+              {openEditAccreditionExperienceForm && (
+                <EditAccreditionExperienceForm
+                  open={openEditAccreditionExperienceForm}
+                  setOpen={setOpenEditAccreditionExperienceForm}
+                  editAccreditionExperience={editAccreditionExperience}
+                  accreditation={tempStore}
+                />
+              )}
             </Box>
-            <CVSectionButtons keys={Object.keys(cvdata)} CVMenuButtonHandlers={CVMenuButtonHandlers} />
-            {toastPayLoad.show && <Toast message={toastPayLoad.message} show={toastPayLoad.show} severity={toastPayLoad.severity} setToastPayLoad={setToastPayLoad} />}
+            <CVSectionButtons
+              keys={Object.keys(cvdata)}
+              CVMenuButtonHandlers={CVMenuButtonHandlers}
+            />
+            {toastPayLoad.show && (
+              <Toast
+                message={toastPayLoad.message}
+                show={toastPayLoad.show}
+                severity={toastPayLoad.severity}
+                setToastPayLoad={setToastPayLoad}
+              />
+            )}
             <FloatingButton />
           </Box>
         </Box>
       </DragDropContext>
     </AppTheme>
+  );
 }
-

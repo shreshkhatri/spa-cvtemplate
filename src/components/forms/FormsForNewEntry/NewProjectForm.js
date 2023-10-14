@@ -51,19 +51,6 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (!projectCountry) {
-            alert('Please select the country')
-            return
-        }
-        if (!startDate) {
-            alert('Please select the start date')
-            return
-        }
-
-        if (!isContinue && !endDate) {
-            alert('Please select the end date')
-            return
-        }
         addNewProject({
             project_title: projectTitle,
             designation: designation,
@@ -153,7 +140,6 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    required
                                     fullWidth
                                     id="project-city"
                                     label="City"

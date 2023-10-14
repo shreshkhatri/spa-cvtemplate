@@ -56,19 +56,6 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (!institutionCountry) {
-            alert('Please select the country')
-            return
-        }
-        if (!startDate) {
-            alert('Please select the course start date')
-            return
-        }
-
-        if (!isContinue && !endDate) {
-            alert('Please select the course end date')
-            return
-        }
         addNewDegree({
             institution: institution,
             degree: degree,
@@ -158,7 +145,7 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    required
+                                    
                                     fullWidth
                                     id="institution-city"
                                     label="City "
