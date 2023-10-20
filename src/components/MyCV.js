@@ -316,6 +316,24 @@ export default function MyCV({ userData, authToken }) {
       message: response.message,
     });
   }
+  
+
+   // function to uplaod profile picture
+   async function uploadProfilePicture(formData) {
+
+    const response = await API_CALLS.uploadProfilePicture(
+      authToken,
+      formData
+    );
+    console.log(response);
+
+    setToastPayLoad({
+      show: true,
+      severity: response.severity,
+      message: response.message,
+    });
+    return response;
+  }
 
   /******************************************* FUNCTION FOR APPENDING NEW ITEMS TO THE LIST ************************************************ */
 
@@ -1594,6 +1612,7 @@ export default function MyCV({ userData, authToken }) {
                     userData={userData}
                     basic_information={cvdata.basic_information}
                     setEditBasicInfoMode={setEditBasicInfoMode}
+                    uploadProfilePicture={uploadProfilePicture}
                   />
                 )}
 

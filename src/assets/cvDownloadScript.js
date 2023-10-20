@@ -8,6 +8,7 @@ import {
   getYear,
 } from './utilityFunctions';
 import { CV_SECTIONS_PDF } from '@/data/data';
+import { ENDPOINT } from '@/data/endpoints';
 import _ from 'lodash';
 
 // Register fonts (if custom fonts are used)
@@ -125,18 +126,19 @@ const styles = {
   },
 };
 
-export const downloadCV = (cvdata) => {
-  //emptying array in between function calls
-  data.length = 0;
-  console.log(cvdata);
-
+export const downloadCV =  async (cvdata) => {
+var dataURL;
+  if (!_.isEmpty(cvdata) && _.has(cvdata, 'basic_information') && !_.isEmpty(cvdata.basic_information.url)){
+    dataURL = await fetchAndConvertImage(`${ENDPOINT.PICTURE_URL}/${cvdata.basic_information.url}`);
+    console.log(dataURL)
+  }
   Object.entries(cvdata).forEach((entry) => {
     switch (entry[0]) {
       case CV_SECTIONS_PDF.accreditations_experience:
         formatAccreditationExperience(entry[0], entry[1]);
         break;
       case CV_SECTIONS_PDF.basic_information:
-        formatBasicInformation(entry[1]);
+        formatBasicInformation(entry[1],dataURL);
         break;
       case CV_SECTIONS_PDF.personal_statement:
         formatPersonalStatement(entry[0], entry[1]);
@@ -495,7 +497,6 @@ function formatEditorialExperience(title, editorial_experience) {
 // function for formatting accreditation experience
 function formatAccreditationExperience(title, accreditations_experience) {
   if (!_.isEmpty(accreditations_experience)) {
-    console.log('non empty');
 
     data.push({
       text: capitalizeWords(title.replace(/_/g, ' ')),
@@ -728,8 +729,11 @@ function formatPersonalStatement(title, personal_statement) {
   }
 }
 
-function formatBasicInformation(basic_information) {
-  const formattedData = [
+
+
+function formatBasicInformation(basic_information,dataURL){
+  
+  const baseData = [
     {
       text: capitalizeWords(
         `${basic_information.title ? basic_information.title : ''} ${
@@ -793,5 +797,58 @@ function formatBasicInformation(basic_information) {
       style: 'media',
     },
   ];
-  data.push(...formattedData);
+  
+  if (dataURL){
+    const baseDataWithCVPicture= [
+      {
+        table: {
+          widths: ['20%', '80%'], // Specify the column widths
+          body: [
+            [
+              {
+                image: dataURL ,
+                width: 150,
+                height: 150,
+                padding:2
+              }, 
+              {
+                stack: baseData
+              },
+            ],
+          ],
+        },
+        layout: 'noBorders', // Remove cell borders for a cleaner look
+      }
+
+    ]
+  data.push(...baseDataWithCVPicture);
+}
+else {
+  data.push(...baseData);
+}
+}
+
+async function fetchAndConvertImage(url) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous'; // Enable CORS for the image
+    img.src = url;
+
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+
+      // Convert the image to a data URL
+      const dataURL = canvas.toDataURL('image/jpeg'); // You can specify the format here
+
+      resolve(dataURL);
+    };
+
+    img.onerror = (error) => {
+      reject(error);
+    };
+  });
 }

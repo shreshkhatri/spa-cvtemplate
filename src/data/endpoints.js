@@ -13,6 +13,8 @@ export const ENDPOINT ={
     COUNTRIES_LIST:'https://startupden.org:5000/country',
     REORDER_SECTION:'https://startupden.org:5000/api/cv/reorder',
     REORDER_RECORD:'https://startupden.org:5000/api/cv/reorder',
-    VIEWCV:'https://startupden.org:5000/api/user'
+    VIEWCV:'https://startupden.org:5000/api/user',
+    UPLOAD_PICTURE:'https://startupden.org:5000/api/user/upload',
+    PROFILE_PICTURE_LINK:'https://startupden.org:5000/api/user/uploads'
 
 }

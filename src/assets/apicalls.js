@@ -178,6 +178,31 @@ export const API_CALLS = {
         });
 
         return response
+    },
+
+     // function for uploading the picture
+     uploadProfilePicture: async (authToken, formData) => {
+
+        const response = await fetch(ENDPOINT.UPLOAD_PICTURE, {
+            method: "POST",
+            redirect: 'follow',
+            headers: {
+                'Accept': 'application/json',
+                'auth-token': authToken
+            },
+            body: formData
+        }).then(async (response) => {
+            var json = await response.json()
+            return { status: response.status, ...json }
+        }).then(response => {
+            console.log(response)
+            return response.status == 200 ? { severity: 'success', message: response.message } : { severity: 'error', message: response.error }
+        }).catch(error => {
+            console.log(error)
+            return { severity: 'error', message: error }
+        });
+
+        return response
     }
 }
 
