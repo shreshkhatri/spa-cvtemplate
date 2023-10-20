@@ -56,7 +56,7 @@ export default function LoginPage() {
                 'charset': 'UTF-8'
             },
             body: JSON.stringify({
-                email: useremail,
+                email: useremail.trim(),
                 password,
             }),
         }).then(async (response) => {

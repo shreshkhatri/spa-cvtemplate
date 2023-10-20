@@ -73,10 +73,10 @@ export default function SignUp() {
         'charset': 'UTF-8'
       },
       body: JSON.stringify({
-        first_name: firstName,
-        last_name: lastName,
-        username: userName,
-        email: email,
+        first_name: firstName.trim(),
+        last_name: lastName.trim(),
+        username: userName.trim(),
+        email: email.trim(),
         password: password
       })
     }).then(async (response) => {
