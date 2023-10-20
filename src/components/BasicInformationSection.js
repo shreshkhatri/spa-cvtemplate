@@ -135,19 +135,25 @@ export default function BasicInformationSection({
             display: 'flex',
             flexDirection: {
               xs: 'column',
-              sm: 'row',
+              sm:'column',
+              md:'row'
             },
-            flexWrap: 'wrap',
             rowGap: 1,
-            columnGap: 2
+            columnGap: 2,
+            justifyContent:'center',
+            alignItems: 'center',
           }}>
-            <Box sx={{width:{
-              xs:'100%',
-              sm:'100%',
-              md:'15%'
-            }}}>
+            <Box sx={{
+              width:{
+              xs:'50%',
+              sm:'50%',
+              md:'30%',
+              lg:'15%'
+              },
+             
+              }}>
               <Card>
-                <CardContent>
+                <CardContent >
                   {
                     !_.isEmpty(basic_information.url)? <Avatar
                     alt={`Profile picture ${basic_information.first_name || userData.first_name } ${basic_information.last_name || userData.last_name}`}

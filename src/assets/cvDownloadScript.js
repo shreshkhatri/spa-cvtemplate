@@ -11,11 +11,34 @@ import { CV_SECTIONS_PDF } from '@/data/data';
 import { ENDPOINT } from '@/data/endpoints';
 import _ from 'lodash';
 
-// Register fonts (if custom fonts are used)
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+function fetchAndConvertImage(url) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous'; // Enable CORS for the image
+    img.src = url;
+
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+
+      // Convert the image to a data URL
+      resolve(canvas.toDataURL('image/jpeg')); // You can specify the format here
+    };
+
+    img.onerror = (error) => {
+      reject(error);
+    };
+  });
+}
 
 //array to hold content to be printed. initially empty array
 const data = [];
+
+let dataURL; 
+pdfMake.vfs = pdfFonts.pdfMake.vfs; // register fonts
 
 const styles = {
   pageMargins: [60, 40, 60, 40],
@@ -126,10 +149,25 @@ const styles = {
   },
 };
 
+function clearPdfMakeCache() {
+  pdfMake._buildDocumentStructure = null; // Clear the cached document structure
+}
+
 export const downloadCV =  async (cvdata) => {
+  console.log(dataURL)
+  clearPdfMakeCache();
   if (!_.isEmpty(cvdata) && _.has(cvdata, 'basic_information') && !_.isEmpty(cvdata.basic_information.url)){
 
-    const dataURL = await fetchAndConvertImage(`${ENDPOINT.PROFILE_PICTURE_LINK}/${cvdata.basic_information.url}`);
+    dataURL = await fetchAndConvertImage(`${ENDPOINT.PROFILE_PICTURE_LINK}/${cvdata.basic_information.url}?t=${new Date().getTime()}`)
+    .then(dataurl=>dataurl)
+    .catch(error=>{
+      alert(error)
+      alert(dataURL)
+    })
+  }
+  else{
+    dataURL=null;
+  }
   
   Object.entries(cvdata).forEach((entry) => {
     switch (entry[0]) {
@@ -185,7 +223,6 @@ export const downloadCV =  async (cvdata) => {
         break;
     }
   });
-}
 
   const documentDefinition = {
     content: data,
@@ -195,7 +232,7 @@ export const downloadCV =  async (cvdata) => {
   pdfMake
     .createPdf(documentDefinition)
     .download(
-      `${
+      `${ 
         !_.isEmpty(cvdata.basic_information.first_name)
           ? capitalizeWords(cvdata.basic_information.first_name) + '-CV'
           : 'my-CV'
@@ -806,12 +843,13 @@ function formatBasicInformation(basic_information,dataURL){
           body: [
             [
               {
-                image: dataURL ,
+                image: dataURL,
                 width: 120,
                 height: 120
               }, 
               {},
               {
+                margin:[0,25,0,0],
                 stack: baseData
               },
             ],
@@ -828,27 +866,3 @@ else {
 }
 }
 
-async function fetchAndConvertImage(url) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.crossOrigin = 'anonymous'; // Enable CORS for the image
-    img.src = url;
-
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-
-      // Convert the image to a data URL
-      const dataURL = canvas.toDataURL('image/jpeg'); // You can specify the format here
-      console.log(dataURL)
-      resolve(dataURL);
-    };
-
-    img.onerror = (error) => {
-      reject(error);
-    };
-  });
-}
