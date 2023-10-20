@@ -127,11 +127,10 @@ const styles = {
 };
 
 export const downloadCV =  async (cvdata) => {
-var dataURL;
   if (!_.isEmpty(cvdata) && _.has(cvdata, 'basic_information') && !_.isEmpty(cvdata.basic_information.url)){
-    dataURL = await fetchAndConvertImage(`${ENDPOINT.PICTURE_URL}/${cvdata.basic_information.url}`);
-    console.log(dataURL)
-  }
+
+    const dataURL = await fetchAndConvertImage(`${ENDPOINT.PROFILE_PICTURE_LINK}/${cvdata.basic_information.url}`);
+  
   Object.entries(cvdata).forEach((entry) => {
     switch (entry[0]) {
       case CV_SECTIONS_PDF.accreditations_experience:
@@ -186,6 +185,7 @@ var dataURL;
         break;
     }
   });
+}
 
   const documentDefinition = {
     content: data,
@@ -802,15 +802,15 @@ function formatBasicInformation(basic_information,dataURL){
     const baseDataWithCVPicture= [
       {
         table: {
-          widths: ['20%', '80%'], // Specify the column widths
+          widths: ['15%','10%', '75%'], // Specify the column widths
           body: [
             [
               {
                 image: dataURL ,
-                width: 150,
-                height: 150,
-                padding:2
+                width: 120,
+                height: 120
               }, 
+              {},
               {
                 stack: baseData
               },
@@ -843,7 +843,7 @@ async function fetchAndConvertImage(url) {
 
       // Convert the image to a data URL
       const dataURL = canvas.toDataURL('image/jpeg'); // You can specify the format here
-
+      console.log(dataURL)
       resolve(dataURL);
     };
 
