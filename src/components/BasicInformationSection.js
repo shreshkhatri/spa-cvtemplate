@@ -35,7 +35,7 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 const validateFileExtension = (file) => {
-  const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
+  const allowedExtensions = ['.jpg', '.jpeg', '.png'];
   const fileName = file.name;
   const extension = fileName.slice(((fileName.lastIndexOf(".") - 1) >>> 0) + 2);
   return allowedExtensions.includes('.' + extension.toLowerCase());
@@ -91,7 +91,7 @@ export default function BasicInformationSection({
 
 
       } else {
-        alert('Invalid file type. Only image files with .jpg, .jpeg, .png, or .gif extensions are allowed.');
+        alert('Invalid file type. Only image files with .jpg, .jpeg or .png extensions are allowed.');
       }
     }
   }
@@ -155,18 +155,19 @@ export default function BasicInformationSection({
               <Card>
                 <CardContent >
                   {
-                    !_.isEmpty(basic_information.url)? <Avatar
+                    (!_.isEmpty(basic_information.url) || (uploadSuccessful && latestUploadedImage)) && <Avatar
                     alt={`Profile picture ${basic_information.first_name || userData.first_name } ${basic_information.last_name || userData.last_name}`}
                     src={(uploadSuccessful && latestUploadedImage)?latestUploadedImage:`${ENDPOINT.PROFILE_PICTURE_LINK}/${basic_information.url}`}
                     sx={{ width: '100%' ,height:'auto'}}
-                  />:<AccountCircleIcon sx={{ width: '100%' ,height:'auto'}} />
+                  />
                   }
+                  {(_.isEmpty(basic_information.url) && (!uploadSuccessful && !latestUploadedImage)) && <AccountCircleIcon sx={{ width: '100%' ,height:'auto'}} />}
                   
                 </CardContent>
                 <CardActions sx={{justifyContent:'center'}}>
                   <Button size="small" component="label" variant="contained" startIcon={<AddAPhotoIcon />} sx={{ textTransform: 'none' }}>
                     Upload picture
-                    <VisuallyHiddenInput type="file"  accept=".jpg, .jpeg, .png, .gif" onChange={handleFileUpload}/>
+                    <VisuallyHiddenInput type="file"  accept=".jpg, .jpeg, .png" onChange={handleFileUpload}/>
                   </Button>
                 </CardActions>
               </Card>
