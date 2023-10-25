@@ -35,7 +35,7 @@ function fetchAndConvertImage(url) {
 }
 
 //array to hold content to be printed. initially empty array
-const data = [];
+let data = [];
 
 let dataURL; 
 pdfMake.vfs = pdfFonts.pdfMake.vfs; // register fonts
@@ -154,7 +154,6 @@ function clearPdfMakeCache() {
 }
 
 export const downloadCV =  async (cvdata) => {
-  console.log(dataURL)
   clearPdfMakeCache();
   if (!_.isEmpty(cvdata) && _.has(cvdata, 'basic_information') && !_.isEmpty(cvdata.basic_information.url)){
 
@@ -238,6 +237,8 @@ export const downloadCV =  async (cvdata) => {
           : 'my-CV'
       }.pdf`
     );
+    data=[];
+    
 };
 
 //function for formatting committees
