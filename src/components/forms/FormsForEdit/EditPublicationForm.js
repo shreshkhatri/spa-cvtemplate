@@ -337,6 +337,9 @@ export default function EditPublicationForm({
                         color="error"
                         size="small"
                         onClick={() => removeAuthor(author._id)}
+                        sx={{
+                          textTransform:'none',
+                        }}
                       >
                         Remove Author
                       </Button>
@@ -378,8 +381,11 @@ export default function EditPublicationForm({
                     color="success"
                     variant="outlined"
                     onClick={addAuthor}
+                    sx={{
+                      textTransform:'none',
+                    }}
                   >
-                    Add
+                    Add Author
                   </Button>
                 </Box>
               </Box>
@@ -404,6 +410,7 @@ export default function EditPublicationForm({
                   backgroundColor: 'error.main',
                   padding: 1,
                   flexGrow: 1,
+                  textTransform:'none',
                 }}
                 onClick={() => setOpen(false)}
               >
@@ -418,6 +425,7 @@ export default function EditPublicationForm({
                   backgroundColor: 'success.main',
                   padding: 1,
                   flexGrow: 1,
+                  textTransform:'none',
                 }}
               >
                 Add

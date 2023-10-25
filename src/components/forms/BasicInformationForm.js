@@ -471,6 +471,7 @@ export default function BasicInformationForm({
           variant="contained"
           onClick={() => setEditBasicInfoMode(false)}
           sx={{
+            textTransform:'none',
             backgroundColor: 'error.main',
             padding: 1,
             flexGrow: 1,
@@ -483,6 +484,7 @@ export default function BasicInformationForm({
           variant="contained"
           size="small"
           sx={{
+            textTransform:'none',
             backgroundColor: 'success.main',
             padding: 1,
             flexGrow: 1,

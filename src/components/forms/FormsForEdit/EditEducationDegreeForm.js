@@ -277,6 +277,7 @@ export default function EditEducationDegreeForm({
                   backgroundColor: 'error.main',
                   padding: 1,
                   flexGrow: 1,
+                  textTransform:'none',
                 }}
                 onClick={() => setOpen(false)}
               >
@@ -291,6 +292,7 @@ export default function EditEducationDegreeForm({
                   backgroundColor: 'success.main',
                   padding: 1,
                   flexGrow: 1,
+                  textTransform:'none',
                 }}
               >
                 Add

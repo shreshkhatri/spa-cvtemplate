@@ -309,6 +309,9 @@ export default function NewPublicationForm({
                         color="error"
                         size="small"
                         onClick={() => removeAuthor(author._id)}
+                        sx={{
+                          textTransform:'none',
+                        }}
                       >
                         Remove Author
                       </Button>
@@ -350,6 +353,9 @@ export default function NewPublicationForm({
                     color="success"
                     variant="outlined"
                     onClick={addAuthor}
+                    sx={{
+                      textTransform:'none',
+                    }}
                   >
                     Add Author
                   </Button>
@@ -373,6 +379,7 @@ export default function NewPublicationForm({
                 size="small"
                 variant="contained"
                 sx={{
+                  textTransform:'none',
                   backgroundColor: 'error.main',
                   padding: 1,
                   flexGrow: 1,
@@ -387,6 +394,7 @@ export default function NewPublicationForm({
                 variant="contained"
                 size="small"
                 sx={{
+                  textTransform:'none',
                   backgroundColor: 'success.main',
                   padding: 1,
                   flexGrow: 1,

@@ -200,7 +200,8 @@ export default function NewAccreditionExperienceForm({ open, setOpen, addNewAccr
                                 sx={{
                                     backgroundColor: 'error.main',
                                     padding: 1,
-                                    flexGrow: 1
+                                    flexGrow: 1,
+                                    textTransform:'none',
                                 }}
                                 onClick={() => setOpen(false)}
                             >
@@ -214,7 +215,8 @@ export default function NewAccreditionExperienceForm({ open, setOpen, addNewAccr
                                 sx={{
                                     backgroundColor: 'success.main',
                                     padding: 1,
-                                    flexGrow: 1
+                                    flexGrow: 1,
+                                    textTransform:'none',
                                 }}
                             >
                                 Add

@@ -290,6 +290,9 @@ export default function EditConferenceForm({
                         color="error"
                         size="small"
                         onClick={() => removeAuthor(author._id)}
+                        sx={{
+                          textTransform:'none',
+                        }}
                       >
                         Remove Author
                       </Button>
@@ -331,6 +334,9 @@ export default function EditConferenceForm({
                     color="success"
                     variant="outlined"
                     onClick={addAuthor}
+                    sx={{
+                      textTransform:'none',
+                    }}
                   >
                     Add
                   </Button>
@@ -357,6 +363,7 @@ export default function EditConferenceForm({
                   backgroundColor: 'error.main',
                   padding: 1,
                   flexGrow: 1,
+                  textTransform:'none',
                 }}
                 onClick={() => setOpen(false)}
               >
@@ -371,6 +378,7 @@ export default function EditConferenceForm({
                   backgroundColor: 'success.main',
                   padding: 1,
                   flexGrow: 1,
+                  textTransform:'none',
                 }}
               >
                 Add

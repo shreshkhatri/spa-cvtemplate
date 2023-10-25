@@ -267,7 +267,7 @@ export default function EditJournalForm({ open, setOpen, jrnl, editJournal }) {
                                         }} key={author._id}>
                                             <Typography variant='body2'> {author.first_name}</Typography>
                                             <Typography sx={{ flexGrow: 1 }} variant='body2'>{author.last_name}</Typography>
-                                            <Button variant='outlined' color='error' size='small' onClick={() => removeAuthor(author._id)}>Remove Author</Button>
+                                            <Button sx={{textTransform:'none',}} variant='outlined' color='error' size='small' onClick={() => removeAuthor(author._id)}>Remove Author</Button>
                                         </Box>
                                         )
 
@@ -307,8 +307,11 @@ export default function EditJournalForm({ open, setOpen, jrnl, editJournal }) {
                                         color='success'
                                         variant='outlined'
                                         onClick={addAuthor}
+                                        sx={{
+                                            textTransform:'none',
+                                        }}
                                     >
-                                        Add
+                                        Add Author
                                     </Button>
                                 </Box>
                             </Box>
@@ -329,7 +332,8 @@ export default function EditJournalForm({ open, setOpen, jrnl, editJournal }) {
                                 sx={{
                                     backgroundColor: 'error.main',
                                     padding: 1,
-                                    flexGrow: 1
+                                    flexGrow: 1,
+                                    textTransform:'none',
                                 }}
                                 onClick={() => setOpen(false)}
                             >
@@ -343,7 +347,8 @@ export default function EditJournalForm({ open, setOpen, jrnl, editJournal }) {
                                 sx={{
                                     backgroundColor: 'success.main',
                                     padding: 1,
-                                    flexGrow: 1
+                                    flexGrow: 1,
+                                    textTransform:'none',
                                 }}
                             >
                                 Add

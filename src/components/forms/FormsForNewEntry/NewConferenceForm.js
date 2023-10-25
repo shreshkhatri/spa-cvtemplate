@@ -234,7 +234,7 @@ export default function NewConferenceForm({ open, setOpen, addNewConference }) {
                                         }} key={author._id}>
                                             <Typography variant='body2'> {author.first_name}</Typography>
                                             <Typography sx={{ flexGrow: 1 }} variant='body2'>{author.last_name}</Typography>
-                                            <Button variant='outlined' color='error' size='small' onClick={() => removeAuthor(author._id)}>Remove Author</Button>
+                                            <Button sx={{textTransform:'none',}} variant='outlined' color='error' size='small' onClick={() => removeAuthor(author._id)}>Remove Author</Button>
                                         </Box>
                                         )
 
@@ -274,8 +274,11 @@ export default function NewConferenceForm({ open, setOpen, addNewConference }) {
                                         color='success'
                                         variant='outlined'
                                         onClick={addAuthor}
+                                        sx={{
+                                            textTransform:'none',
+                                        }}
                                     >
-                                        Add
+                                        Add Author
                                     </Button>
                                 </Box>
                             </Box>
@@ -295,6 +298,7 @@ export default function NewConferenceForm({ open, setOpen, addNewConference }) {
                                 size='small'
                                 variant="contained"
                                 sx={{
+                                    textTransform:'none',
                                     backgroundColor: 'error.main',
                                     padding: 1,
                                     flexGrow: 1
@@ -309,6 +313,7 @@ export default function NewConferenceForm({ open, setOpen, addNewConference }) {
                                 variant="contained"
                                 size='small'
                                 sx={{
+                                    textTransform:'none',
                                     backgroundColor: 'success.main',
                                     padding: 1,
                                     flexGrow: 1

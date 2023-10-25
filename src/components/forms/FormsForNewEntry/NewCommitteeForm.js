@@ -208,6 +208,7 @@ export default function NewCommitteeForm({ open, setOpen, addNewCommittee }) {
                 size="small"
                 variant="contained"
                 sx={{
+                  textTransform:'none',
                   backgroundColor: 'error.main',
                   padding: 1,
                   flexGrow: 1,
@@ -222,6 +223,7 @@ export default function NewCommitteeForm({ open, setOpen, addNewCommittee }) {
                 variant="contained"
                 size="small"
                 sx={{
+                  textTransform:'none',
                   backgroundColor: 'success.main',
                   padding: 1,
                   flexGrow: 1,

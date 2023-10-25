@@ -206,6 +206,7 @@ export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
                                 size='small'
                                 variant="contained"
                                 sx={{
+                                    textTransform:'none',
                                     backgroundColor: 'error.main',
                                     padding: 1,
                                     flexGrow: 1
@@ -220,6 +221,7 @@ export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
                                 variant="contained"
                                 size='small'
                                 sx={{
+                                    textTransform:'none',
                                     backgroundColor: 'success.main',
                                     padding: 1,
                                     flexGrow: 1

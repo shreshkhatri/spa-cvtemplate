@@ -252,6 +252,7 @@ export default function EditEditorialExperienceForm({
                   backgroundColor: 'error.main',
                   padding: 1,
                   flexGrow: 1,
+                  textTransform:'none',
                 }}
                 onClick={() => setOpen(false)}
               >
@@ -266,6 +267,7 @@ export default function EditEditorialExperienceForm({
                   backgroundColor: 'success.main',
                   padding: 1,
                   flexGrow: 1,
+                  textTransform:'none',
                 }}
               >
                 Add

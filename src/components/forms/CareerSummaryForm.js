@@ -58,6 +58,7 @@ export default function CareerSummaryForm({ isCareerSummaryEditMode, career_summ
                     size='small'
                     variant="contained"
                     sx={{
+                        textTransform:'none',
                         backgroundColor:'text.error',
                         p:1,
                         flexGrow:1,
@@ -71,6 +72,7 @@ export default function CareerSummaryForm({ isCareerSummaryEditMode, career_summ
                     type='submit'
                     size='small'
                     sx={{
+                        textTransform:'none',
                         backgroundColor:'success.main',
                         p:1,
                         flexGrow:1,

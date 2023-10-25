@@ -64,6 +64,7 @@ export default function PersonalStatementForm({ isPersonalStatementEditModeOn, p
                     size='small'
                     variant="contained"
                     sx={{
+                        textTransform:'none',
                         backgroundColor:'text.error',
                         p:1,
                         flexGrow:1,
@@ -77,6 +78,7 @@ export default function PersonalStatementForm({ isPersonalStatementEditModeOn, p
                     type='submit'
                     size='small'
                     sx={{
+                        textTransform:'none',
                         backgroundColor:'success.main',
                         p:1,
                         flexGrow:1,

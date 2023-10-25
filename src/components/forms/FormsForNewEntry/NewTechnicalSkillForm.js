@@ -58,6 +58,9 @@ export default function NewTechnicalSkillForm({
           color="error"
           variant="contained"
           onClick={() => setOpen(false)}
+          sx={{
+            textTransform:'none',
+          }}
         >
           Cancel
         </Button>
@@ -67,6 +70,9 @@ export default function NewTechnicalSkillForm({
           size="small"
           color="success"
           variant="contained"
+          sx={{
+            textTransform:'none',
+          }}
         >
           Add
         </Button>

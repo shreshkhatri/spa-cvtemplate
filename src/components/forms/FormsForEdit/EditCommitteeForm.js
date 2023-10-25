@@ -241,6 +241,7 @@ export default function EditCommitteeForm({
                   backgroundColor: 'error.main',
                   padding: 1,
                   flexGrow: 1,
+                  textTransform:'none',
                 }}
                 onClick={() => setOpen(false)}
               >
@@ -255,6 +256,7 @@ export default function EditCommitteeForm({
                   backgroundColor: 'success.main',
                   padding: 1,
                   flexGrow: 1,
+                  textTransform:'none',
                 }}
               >
                 Add

@@ -175,6 +175,7 @@ export default function EditAwardHonorForm({
                 size="small"
                 variant="contained"
                 sx={{
+                  textTransform:'none',
                   backgroundColor: 'error.main',
                   padding: 1,
                   flexGrow: 1,
@@ -189,6 +190,7 @@ export default function EditAwardHonorForm({
                 variant="contained"
                 size="small"
                 sx={{
+                  textTransform:'none',
                   backgroundColor: 'success.main',
                   padding: 1,
                   flexGrow: 1,

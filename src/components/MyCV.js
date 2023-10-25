@@ -66,9 +66,13 @@ import Toast from './Toast';
 import AppTopBar from './TopMenuBar';
 import EditAccreditionExperienceForm from './forms/FormsForEdit/EditAccreditionExperienceForm';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import DialogForDeleteSection from './DialogForDeleteSection';
 
 export default function MyCV({ userData, authToken }) {
   const [cvdata, updateCVData] = useState({});
+  const [openDeleteSectionDialog, setOpenDeleteSectionDialog] = useState(false);
+  const [deleteDialogResponse, setDeleteDialogResponse] = useState(false);
+  const [deleteSectionName, setDeleteSectionName] = useState('');
   const [isBasicInfoEditModeOn, setEditBasicInfoMode] = useState(false);
   const [isPersonalStatementEditModeOn, setIsPersonalStatementEditModeOn] =
     useState(false);
@@ -127,6 +131,37 @@ export default function MyCV({ userData, authToken }) {
     }
     fetchData();
   }, []);
+
+  //useeffct for executinng the complete delete operation
+  useEffect(() => {
+
+    if (!deleteDialogResponse) return;
+
+    async function deleteCVSection() {
+
+      const response = await API_CALLS.deleteSection(
+        authToken,
+        deleteSectionName
+      );
+      if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
+        const { [deleteSectionName]: data, ...rest } = cvdata;
+        updateCVData({ ...rest });
+      }
+      setDeleteDialogResponse(false)
+      setToastPayLoad({
+        show: true,
+        severity: response.severity,
+        message: response.message,
+      });
+
+
+    }
+
+    deleteCVSection();
+
+
+
+  }, [deleteDialogResponse]);
 
   //function for calling a function for converting document into pdf format
   const saveCVObject = () => {
@@ -316,10 +351,10 @@ export default function MyCV({ userData, authToken }) {
       message: response.message,
     });
   }
-  
 
-   // function to uplaod profile picture
-   async function uploadProfilePicture(formData) {
+
+  // function to uplaod profile picture
+  async function uploadProfilePicture(formData) {
 
     const response = await API_CALLS.uploadProfilePicture(
       authToken,
@@ -611,234 +646,109 @@ export default function MyCV({ userData, authToken }) {
   /********************************** FUNCTION FOR DELEING THE PROPERTY FROM THE OBJECT *************************************************** */
 
   // function to delete editorial experience property from the object
-  async function deleteEditorialExperienceSection() {
-    const response = await API_CALLS.deleteSection(
-      authToken,
-      'editorial_experience'
-    );
-    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      const { editorial_experience, ...rest } = cvdata;
-      updateCVData({ ...rest });
-    }
-
-    setToastPayLoad({
-      show: true,
-      severity: response.severity,
-      message: response.message,
-    });
+  function deleteEditorialExperienceSection() {
+    setDeleteSectionName('editorial_experience');
+    setOpenDeleteSectionDialog(true);
   }
 
   // function to delte accreditations property from the object
-  async function deleteAccreditationsSection() {
-    const response = await API_CALLS.deleteSection(
-      authToken,
-      'accreditations_experience'
-    );
-    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      const { accreditations_experience, ...rest } = cvdata;
-      updateCVData({ ...rest });
-    }
-    setToastPayLoad({
-      show: true,
-      severity: response.severity,
-      message: response.message,
-    });
+  function deleteAccreditationsSection() {
+    setDeleteSectionName('accreditations_experience');
+    setOpenDeleteSectionDialog(true);
   }
 
   // function to delete technicalSkills property from the object
-  async function deleteTechnicallSection() {
-    const response = await API_CALLS.deleteSection(
-      authToken,
-      'technical_skills'
-    );
-    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      const { technical_skills, ...rest } = cvdata;
-      updateCVData({ ...rest });
-    }
+  function deleteTechnicallSection() {
+    setDeleteSectionName('technical_skills');
+    setOpenDeleteSectionDialog(true);
 
-    setToastPayLoad({
-      show: true,
-      severity: response.severity,
-      message: response.message,
-    });
   }
 
   // function to delete journals property from the object
-  async function deleteJournalsSection() {
-    const response = await API_CALLS.deleteSection(authToken, 'journals');
-    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      const { journals, ...rest } = cvdata;
-      updateCVData({ ...rest });
-    }
+  function deleteJournalsSection() {
+    setDeleteSectionName('journals');
+    setOpenDeleteSectionDialog(true);
 
-    setToastPayLoad({
-      show: true,
-      severity: response.severity,
-      message: response.message,
-    });
   }
 
   // function to delete conferences property from the object
-  async function deleteConferencesSection() {
-    const response = await API_CALLS.deleteSection(authToken, 'conferences');
-    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      const { conferences, ...rest } = cvdata;
-      updateCVData({ ...rest });
-    }
-    setToastPayLoad({
-      show: true,
-      severity: response.severity,
-      message: response.message,
-    });
+  function deleteConferencesSection() {
+    setDeleteSectionName('conferences');
+    setOpenDeleteSectionDialog(true);
+
   }
 
   // function to delete awards property from the object
-  async function deleteAwardSection() {
-    const response = await API_CALLS.deleteSection(authToken, 'awards_honors');
-    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      const { awards_honors, ...rest } = cvdata;
-      updateCVData({ ...rest });
-    }
-    setToastPayLoad({
-      show: true,
-      severity: response.severity,
-      message: response.message,
-    });
+  function deleteAwardSection() {
+    setDeleteSectionName('awards_honors');
+    setOpenDeleteSectionDialog(true);
+
   }
 
   // function to delete memberships property from the object
-  async function deleteMembershipSection() {
-    const response = await API_CALLS.deleteSection(authToken, 'memberships');
-    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      const { memberships, ...rest } = cvdata;
-      updateCVData({ ...rest });
-    }
+  function deleteMembershipSection() {
+    setDeleteSectionName('memberships');
+    setOpenDeleteSectionDialog(true);
 
-    setToastPayLoad({
-      show: true,
-      severity: response.severity,
-      message: response.message,
-    });
   }
 
   // function to delete committees property from the object
-  async function deleteCommitteeSection() {
-    const response = await API_CALLS.deleteSection(authToken, 'committees');
-    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      const { committees, ...rest } = cvdata;
-      updateCVData({ ...rest });
-    }
-    setToastPayLoad({
-      show: true,
-      severity: response.severity,
-      message: response.message,
-    });
+  function deleteCommitteeSection() {
+    setDeleteSectionName('committees');
+    setOpenDeleteSectionDialog(true);
+
   }
 
   // function to delete councils property from the object
-  async function deleteCouncilsSection() {
-    const response = await API_CALLS.deleteSection(authToken, 'councils');
-    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      const { councils, ...rest } = cvdata;
-      updateCVData({ ...rest });
-    }
-    setToastPayLoad({
-      show: true,
-      severity: response.severity,
-      message: response.message,
-    });
+  function deleteCouncilsSection() {
+    setDeleteSectionName('councils');
+    setOpenDeleteSectionDialog(true);
   }
 
   // function to delete personal statement
-  async function deletePersonalStatement() {
-    const response = await API_CALLS.deleteSection(
-      authToken,
-      'personal_statement'
-    );
-    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      const { personal_statement, ...rest } = cvdata;
-      updateCVData({ ...rest });
-    }
+  function deletePersonalStatement() {
+    setDeleteSectionName('personal_statement');
+    setOpenDeleteSectionDialog(true);
 
-    setToastPayLoad({
-      show: true,
-      severity: response.severity,
-      message: response.message,
-    });
   }
 
   // function to delete career summary
-  async function deleteCareerSummary() {
-    const response = await API_CALLS.deleteSection(authToken, 'career_summary');
-    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      const { career_summary, ...rest } = cvdata;
-      updateCVData({ ...rest });
-    }
+  function deleteCareerSummary() {
 
-    setToastPayLoad({
-      show: true,
-      severity: response.severity,
-      message: response.message,
-    });
+
+    setDeleteSectionName('career_summary');
+    setOpenDeleteSectionDialog(true);
   }
 
   // function to delete education history
-  async function deleteEducationHistory() {
-    const response = await API_CALLS.deleteSection(
-      authToken,
-      'education_history'
-    );
-    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      const { education_history, ...rest } = cvdata;
-      updateCVData({ ...rest });
-    }
-    setToastPayLoad({
-      show: true,
-      severity: response.severity,
-      message: response.message,
-    });
+  function deleteEducationHistory() {
+
+    setDeleteSectionName('education_history');
+    setOpenDeleteSectionDialog(true);
   }
 
   // function to delete work history
-  async function deleteWorkHistory() {
-    const response = await API_CALLS.deleteSection(authToken, 'work_history');
-    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      const { work_history, ...rest } = cvdata;
-      updateCVData({ ...rest });
-    }
-    setToastPayLoad({
-      show: true,
-      severity: response.severity,
-      message: response.message,
-    });
+  function deleteWorkHistory() {
+
+    setDeleteSectionName('work_history');
+    setOpenDeleteSectionDialog(true);
   }
 
   // function to delete Publications
-  async function deletePublications() {
-    const response = await API_CALLS.deleteSection(authToken, 'publications');
-    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      const { publications, ...rest } = cvdata;
-      updateCVData({ ...rest });
-    }
-    setToastPayLoad({
-      show: true,
-      severity: response.severity,
-      message: response.message,
-    });
+  function deletePublications() {
+
+    setDeleteSectionName('publications');
+    setOpenDeleteSectionDialog(true);
+
+
   }
 
   // function to delete Projects Section
-  async function deleteProjects() {
-    const response = await API_CALLS.deleteSection(authToken, 'projects');
-    if (response.severity === RESPONSE_SEVERITY.SUCCESS) {
-      const { projects, ...rest } = cvdata;
-      updateCVData({ ...rest });
-    }
-    setToastPayLoad({
-      show: true,
-      severity: response.severity,
-      message: response.message,
-    });
+  function deleteProjects() {
+
+    setDeleteSectionName('projects');
+    setOpenDeleteSectionDialog(true);
+
   }
 
   /************************************* FUNCTION FOR ADDING PROPERTY BACK TO THE MAIN OBJECT ***********************************************/
@@ -1588,11 +1498,11 @@ export default function MyCV({ userData, authToken }) {
                   })
                 }
               >
-                <Button size="small" variant="outlined">
+                <Button size="small" variant="outlined" sx={{ textTransform: 'none', }}>
                   Copy link to my CV
                 </Button>
               </CopyToClipboard>
-              <Button size="small" variant="contained" onClick={saveCVObject}>
+              <Button size="small" variant="contained" onClick={saveCVObject} sx={{ textTransform: 'none', }}>
                 Download CV
               </Button>
             </Box>
@@ -2379,6 +2289,7 @@ export default function MyCV({ userData, authToken }) {
               />
             )}
             <FloatingButton />
+            {deleteSectionName && <DialogForDeleteSection open={openDeleteSectionDialog} setOpen={setOpenDeleteSectionDialog} sectionName={deleteSectionName} setDeleteDialogResponse={setDeleteDialogResponse} />}
           </Box>
         </Box>
       </DragDropContext>
