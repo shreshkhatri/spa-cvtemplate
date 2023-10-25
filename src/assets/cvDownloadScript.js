@@ -154,6 +154,7 @@ function clearPdfMakeCache() {
 }
 
 export const downloadCV =  async (cvdata) => {
+  data=[];
   clearPdfMakeCache();
   if (!_.isEmpty(cvdata) && _.has(cvdata, 'basic_information') && !_.isEmpty(cvdata.basic_information.url)){
 
@@ -237,7 +238,7 @@ export const downloadCV =  async (cvdata) => {
           : 'my-CV'
       }.pdf`
     );
-    data=[];
+    
     
 };
 
