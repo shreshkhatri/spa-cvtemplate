@@ -80,7 +80,7 @@ export default function ItemPublication({ publication }) {
           </Typography>
         ) : null}
         {!_.isEmpty(publication.publication_url) ? (
-          <Typography sx={{ fontStyle: 'italic' }} gutterBottom>
+          <Typography sx={{ fontStyle: 'italic',wordBreak: 'break-all'  }} gutterBottom>
             Available On - {publication.publication_url}
           </Typography>
         ) : null}
