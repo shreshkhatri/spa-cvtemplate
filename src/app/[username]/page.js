@@ -4,6 +4,7 @@ import { useParams,useRouter  } from 'next/navigation'
 import { ENDPOINT } from '@/data/endpoints';
 import LoadingUI from '@/components/LoadingUI';
 import CVViewMode from '@/components/CVViewMode';
+import AppTheme from '@/assets/AppTheme';
 
 export default function Page() {
 
@@ -63,5 +64,5 @@ export default function Page() {
     
     
       }
-      return pageLoading ? <LoadingUI /> : <CVViewMode cvdata={cvdataViewmode} />
+      return pageLoading ? <LoadingUI /> : <AppTheme><CVViewMode cvdata={cvdataViewmode} /></AppTheme>
 }

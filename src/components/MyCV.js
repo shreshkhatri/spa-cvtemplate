@@ -1,4 +1,5 @@
 'use client';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button } from '@mui/material';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -67,6 +68,14 @@ import AppTopBar from './TopMenuBar';
 import EditAccreditionExperienceForm from './forms/FormsForEdit/EditAccreditionExperienceForm';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import DialogForDeleteSection from './DialogForDeleteSection';
+import Copyright from './Copyright';
+
+const theme = createTheme({
+  palette: {
+    mode: 'light', // Set the mode to 'light' explicitly
+  },
+});
+
 
 export default function MyCV({ userData, authToken }) {
   const [cvdata, updateCVData] = useState({});
@@ -2291,6 +2300,7 @@ export default function MyCV({ userData, authToken }) {
             <FloatingButton />
             {deleteSectionName && <DialogForDeleteSection open={openDeleteSectionDialog} setOpen={setOpenDeleteSectionDialog} sectionName={deleteSectionName} setDeleteDialogResponse={setDeleteDialogResponse} />}
           </Box>
+          <Copyright sx={{ mt: 5 }} />
         </Box>
       </DragDropContext>
     </AppTheme>

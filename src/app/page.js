@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import Home from "@/components/HomePage";
 import MyCV from "@/components/MyCV";
 import LoadingUI from "@/components/LoadingUI";
-import _ from 'lodash'
-import { AppDataContextProvider } from "@/assets/AppDataContextProvider";
+import _ from 'lodash';
 
 export default function DefaultPage() {
 

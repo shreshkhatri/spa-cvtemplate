@@ -15,19 +15,10 @@ import _ from 'lodash';
 import { useRouter } from 'next/navigation';
 import PasswordStrengthBar from 'react-password-strength-bar';
 import { ENDPOINT } from '@/data/endpoints';
+import Copyright from '@/components/Copyright';
+import AppTheme from '@/assets/AppTheme';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link href="https://theCV.org">
-        CV Org
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 
 export default function SignUp() {
 
@@ -40,12 +31,12 @@ export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [notification, setNotification] = useState('');
   const [signingUp, setSighiningUp] = useState(false)
-  
 
-  
-  useEffect(()=>{
-    document.title='SignUp - CV Building'
-})
+
+
+  useEffect(() => {
+    document.title = 'SignUp - CV Building'
+  })
 
   function confirmPasswordMatch() {
     setNotification('')
@@ -104,137 +95,140 @@ export default function SignUp() {
   };
 
   return (
-    <Box>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign Up
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete='off'
-                  name="firstName"
-                  size="small"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  value={firstName}
-                  onChange={e => setFirstName(e.target.value)}
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  size="small"
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete='off'
-                  value={lastName}
-                  onChange={e => setLastName(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  size="small"
-                  label="Email Address"
-                  name="email"
-                  autoComplete='off'
-                  type='email'
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="username"
-                  size="small"
-                  label="Username"
-                  name="username"
-                  autoComplete='off'
-                  value={userName}
-                  onChange={e => setUsername(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  size="small"
-                  autoComplete='off'
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                />
-              </Grid>
+    <AppTheme>
+      <Box sx={{minHeight:'100vh',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
+        <Container component="main" maxWidth="xs" sx={{flexGrow:1}}>
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign Up
+            </Typography>
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    autoComplete='off'
+                    name="firstName"
+                    size="small"
+                    required
+                    fullWidth
+                    id="firstName"
+                    label="First Name"
+                    value={firstName}
+                    onChange={e => setFirstName(e.target.value)}
+                    autoFocus
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    required
+                    fullWidth
+                    size="small"
+                    id="lastName"
+                    label="Last Name"
+                    name="lastName"
+                    autoComplete='off'
+                    value={lastName}
+                    onChange={e => setLastName(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="email"
+                    size="small"
+                    label="Email Address"
+                    name="email"
+                    autoComplete='off'
+                    type='email'
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="username"
+                    size="small"
+                    label="Username"
+                    name="username"
+                    autoComplete='off'
+                    value={userName}
+                    onChange={e => setUsername(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    size="small"
+                    autoComplete='off'
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                  />
+                </Grid>
 
-              <Grid item xs={12}>
-                {
-                  password.length !== 0 && <PasswordStrengthBar password={password} style={{ width: '100%', paddingLeft: 50, paddingRight: 50 }} />
-                }
+                <Grid item xs={12}>
+                  {
+                    password.length !== 0 && <PasswordStrengthBar password={password} style={{ width: '100%', paddingLeft: 50, paddingRight: 50 }} />
+                  }
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="confirm-password"
+                    label="Confirm Password"
+                    type="password"
+                    id="confirm-password"
+                    size="small"
+                    value={confirmPassword}
+                    onChange={e => setConfirmPassword(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography textAlign={'center'} sx={{ visibility: !_.isEmpty(notification) ? 'visible' : 'hidden' }}>{` ${notification}`}</Typography>
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="confirm-password"
-                  label="Confirm Password"
-                  type="password"
-                  id="confirm-password"
-                  size="small"
-                  value={confirmPassword}
-                  onChange={e => setConfirmPassword(e.target.value)}
-                />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                size="small"
+              >
+                {signingUp && <ThreeDots speed={.5} style={{ padding: '.60rem' }} />}
+                {!signingUp && "Sign Up"}
+              </Button>
+              <Grid container justifyContent="center">
+                <Grid item>
+                  <Link href="/login" variant="body2">
+                    Already have an account? Sign in
+                  </Link>
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <Typography textAlign={'center'} sx={{ visibility: !_.isEmpty(notification) ? 'visible' : 'hidden' }}>{` ${notification}`}</Typography>
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              size="small"
-            >
-              {signingUp && <ThreeDots speed={.5} style={{ padding: '.60rem' }} />}
-              {!signingUp && "Sign Up"}
-            </Button>
-            <Grid container justifyContent="center">
-              <Grid item>
-                <Link href="/login" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
+          
+        </Container>
         <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </Box>
+      </Box>
+    </AppTheme>
   );
 }

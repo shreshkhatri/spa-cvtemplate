@@ -6,20 +6,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from 'next/link';
-import _ from 'lodash'
-
-function Copyright(props) {
-    
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link href="https://theCV.org/">
-                CV Org
-            </Link>
-            {new Date().getFullYear()}
-        </Typography>
-    );
-}
+import _ from 'lodash';
+import Copyright from './Copyright';
 
 
 // TODO remove, this demo shouldn't need to reset the theme.
@@ -28,11 +16,12 @@ export default function Home() {
     document.title='Home - CV Building'
 
     return (
-        <Box>
+        <Box sx={{minHeight:'100vh',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
             <Box
                 sx={{
                     pt: 8,
                     pb: 6,
+                    flexGrow:1
                 }}
             >
                 <Container maxWidth="sm">
@@ -59,9 +48,8 @@ export default function Home() {
                     </Stack>
                 </Container>
             </Box>
-            <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
-                <Copyright />
-            </Box>
+            <Copyright sx={{ mt: 5 }}/>
+         
         </Box>
     );
 }

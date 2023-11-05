@@ -10,6 +10,7 @@ import StarIcon from '@mui/icons-material/StarBorder';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Container from '@mui/material/Container';
+import AppTheme from '@/assets/AppTheme';
 
 const tiers = [
   {
@@ -78,7 +79,9 @@ const footers = [
 
 export default function AboutUs() {
   return (
-    <Box>
+
+    <AppTheme>
+    <Box sx={{minHeight:'100vh'}}>
       <Typography
         component="h1"
         variant="h2"
@@ -191,5 +194,6 @@ export default function AboutUs() {
         </Grid>
       </Container>
     </Box>
+    </AppTheme>
   )
 }

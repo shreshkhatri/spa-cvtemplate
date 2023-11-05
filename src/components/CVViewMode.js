@@ -24,6 +24,7 @@ import QuickLiinks from './ViewModeComponents/QuickLiinks';
 import FloatingButton from './FloatingButton';
 import AppTheme from '@/assets/AppTheme';
 import { downloadCV } from '@/assets/cvDownloadScript';
+import Copyright from './Copyright';
 
 export default function CVViewMode({ cvdata }) {
   //function for calling a function for converting document into pdf format
@@ -41,7 +42,7 @@ export default function CVViewMode({ cvdata }) {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'flex-start',
+          justifyContent: 'space-between',
           alignItems: 'center',
           minHeight: '100vh',
           width: '100%',
@@ -55,6 +56,7 @@ export default function CVViewMode({ cvdata }) {
             alignItems: 'center',
             gap: 2,
             width: '100%',
+            flexGrow:1,
             paddingX: {
               xs: 1,
               sm: 5,
@@ -219,6 +221,7 @@ export default function CVViewMode({ cvdata }) {
           </Box>
           <FloatingButton />
         </Box>
+        <Copyright sx={{ mt: 5 }} />
       </Box>
     </AppTheme>
   );
