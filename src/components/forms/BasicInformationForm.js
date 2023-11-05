@@ -96,6 +96,7 @@ export default function BasicInformationForm({
         flexDirection: 'column',
         width: '100%',
         gap: 2,
+        backgroundColor:'#fff'
       }}
       component="form"
       onSubmit={handleSubmit}

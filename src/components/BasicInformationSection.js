@@ -43,10 +43,6 @@ const validateFileExtension = (file) => {
 
 
 
-
-
-
-
 export default function BasicInformationSection({
   userData,
   basic_information,
@@ -54,37 +50,37 @@ export default function BasicInformationSection({
   uploadProfilePicture
 }) {
   const [isMouseOver, setIsMouseOver] = useState(false);
-  const [uploadSuccessful,setUploadSuccessful] = useState(false);
-  const [latestUploadedImage,setLatestUploadedImage] = useState(null)
+  const [uploadSuccessful, setUploadSuccessful] = useState(false);
+  const [latestUploadedImage, setLatestUploadedImage] = useState(null)
 
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     console.log(file)
-    
+
     if (file) {
       if (validateFileExtension(file)) {
         // You can send the file to your server for upload here.
         // You may use libraries like axios for making HTTP requests.
         // Example: axios.post('/upload', file)
-        
+
         // Create a FormData object and append the file to it
         const formData = new FormData();
         formData.append('image', file);
 
         const response = await uploadProfilePicture(formData)
         console.log(response)
-        if (response.severity==='success'){
+        if (response.severity === 'success') {
           const reader = new FileReader();
 
           reader.onload = (e) => {
             // Set the selected image to the base64 data URL
             setLatestUploadedImage(e.target.result);
           };
-  
+
           reader.readAsDataURL(file);
           setUploadSuccessful(true)
-        }else{
+        } else {
           setUploadSuccessful(false)
           setLatestUploadedImage(null)
         }
@@ -132,49 +128,48 @@ export default function BasicInformationSection({
             </Tooltip>
           </Box>
           <Box sx={{
+            width:'100%',
             display: 'flex',
             flexDirection: {
               xs: 'column',
-              sm:'column',
-              md:'row'
+              sm: 'column',
+              md: 'row'
             },
             rowGap: 1,
             columnGap: 2,
-            justifyContent:'center',
+            justifyContent: 'center',
             alignItems: 'center',
           }}>
             <Box sx={{
-              width:{
-              xs:'50%',
-              sm:'50%',
-              md:'30%',
-              lg:'15%'
-              },
-             
-              }}>
+              width: {
+                xs: 250,
+                sm: 250,
+                md: 800,
+                lg:400,
+                xl:300
+              }
+            }}>
               <Card>
                 <CardContent >
                   {
                     (!_.isEmpty(basic_information.url) || (uploadSuccessful && latestUploadedImage)) && <Avatar
-                    alt={`Profile picture ${basic_information.first_name || userData.first_name } ${basic_information.last_name || userData.last_name}`}
-                    src={(uploadSuccessful && latestUploadedImage)?latestUploadedImage:`${ENDPOINT.PROFILE_PICTURE_LINK}/${basic_information.url}`}
-                    sx={{ width: '100%' ,height:'auto'}}
-                  />
+                      alt={`Profile picture ${basic_information.first_name || userData.first_name} ${basic_information.last_name || userData.last_name}`}
+                      src={(uploadSuccessful && latestUploadedImage) ? latestUploadedImage : `${ENDPOINT.PROFILE_PICTURE_LINK}/${basic_information.url}`}
+                      sx={{ width: '100%', height: 'auto' }}
+                    />
                   }
-                  {(_.isEmpty(basic_information.url) && (!uploadSuccessful && !latestUploadedImage)) && <AccountCircleIcon sx={{ width: '100%' ,height:'auto'}} />}
-                  
+                  {(_.isEmpty(basic_information.url) && (!uploadSuccessful && !latestUploadedImage)) && <AccountCircleIcon sx={{ width: '100%', height: 'auto' }} />}
+
                 </CardContent>
-                <CardActions sx={{justifyContent:'center'}}>
+                <CardActions sx={{ justifyContent: 'center' }}>
                   <Button size="small" component="label" variant="contained" startIcon={<AddAPhotoIcon />} sx={{ textTransform: 'none' }}>
                     Upload picture
-                    <VisuallyHiddenInput type="file"  accept=".jpg, .jpeg, .png" onChange={handleFileUpload}/>
+                    <VisuallyHiddenInput type="file" accept=".jpg, .jpeg, .png" onChange={handleFileUpload} />
                   </Button>
                 </CardActions>
               </Card>
             </Box>
-            <Box sx={{ flexGrow: {
-              sm:1
-            } }}>
+            <Box >
               <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
                 {capitalizeWords(
                   `${basic_information.title ? basic_information.title + ' ' : ''

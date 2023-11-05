@@ -26,6 +26,7 @@ export default function PersonalStatementForm({ isPersonalStatementEditModeOn, p
             display: isPersonalStatementEditModeOn?'flex':'none',
             flexDirection: 'column',
             width: '100%',
+            backgroundColor:'#fff',
             gap:2
         }}
             component='form'
