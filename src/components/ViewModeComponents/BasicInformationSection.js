@@ -53,12 +53,13 @@ export default function BasicInformationSection({
             alignItems: 'center',
           }}>
             <Box sx={{
-              width:{
-              xs:'50%',
-              sm:'50%',
-              md:'30%',
-              lg:'15%'
-              },
+              width: {
+                xs: 250,
+                sm: 250,
+                md: 800,
+                lg:400,
+                xl:300
+              }
              
               }}>
               <Card>
