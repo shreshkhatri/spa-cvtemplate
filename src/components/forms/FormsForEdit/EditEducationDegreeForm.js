@@ -135,7 +135,7 @@ export default function EditEducationDegreeForm({
           <Box component="form" onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h5">
+                <Typography variant="h5" sx={{color:'black'}}>
                   {' '}
                   Education Qualification Details
                 </Typography>
@@ -203,7 +203,7 @@ export default function EditEducationDegreeForm({
               </Grid>
               <Grid item xs={6}>
                 <FormGroup>
-                  <FormControlLabel
+                  <FormControlLabel sx={{color:'black'}}
                     control={
                       <Switch
                         value={isContinue}

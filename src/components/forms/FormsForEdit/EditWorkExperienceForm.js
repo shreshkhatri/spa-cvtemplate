@@ -140,7 +140,7 @@ export default function EditWorkExperienceForm({
           <Box component="form" onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h5"> Experience Details</Typography>
+                <Typography sx={{color:'black'}} variant="h5"> Experience Details</Typography>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -202,7 +202,7 @@ export default function EditWorkExperienceForm({
               </Grid>
               <Grid item xs={12}>
                 <FormGroup>
-                  <FormControlLabel
+                  <FormControlLabel sx={{color:'black'}}
                     control={
                       <Switch
                         value={isContinue}

@@ -125,7 +125,7 @@ export default function EditProjectForm({
           <Box component="form" onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h5"> Project Details</Typography>
+                <Typography variant="h5" sx={{color:'black'}}> Project Details</Typography>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -189,7 +189,7 @@ export default function EditProjectForm({
               </Grid>
               <Grid item xs={6}>
                 <FormGroup>
-                  <FormControlLabel
+                  <FormControlLabel sx={{color:'black'}}
                     control={
                       <Switch
                         value={isContinue}

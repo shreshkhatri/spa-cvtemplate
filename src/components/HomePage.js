@@ -16,13 +16,12 @@ export default function Home() {
     document.title='Home - CV Building'
 
     return (
-        <Box sx={{minHeight:'100vh',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
+        <Box sx={{minHeight:'100vh',display:'flex',flexDirection:'column',justifyContent:'space-between',backgroundColor:'#fff'}}>
             <Box
                 sx={{
                     pt: 8,
                     pb: 6,
-                    flexGrow:1,
-                   
+                    flexGrow:1
                 }}
             >
                 <Container maxWidth="sm">
@@ -30,12 +29,12 @@ export default function Home() {
                         component="h3"
                         variant="h3"
                         align="center"
-                      
+                        color="text.primary"
                         gutterBottom
                     >
                         Build CV with us
                     </Typography>
-                    <Typography variant="h5" align="center" paragraph>
+                    <Typography variant="h5" align="center" color="text.secondary" paragraph>
                         Welcome to theCV.org App, where you can effortlessly create, save, and download your professional CV in PDF format.<br></br><br></br> Sign up today and take the first step towards a brighter tomorrow. Your dream career awaits – lets make it happen together!
                     </Typography>
                     <Stack

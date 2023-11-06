@@ -104,7 +104,7 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                     <Box component="form" onSubmit={handleSubmit} >
                         <Grid container spacing={1}>
                             <Grid item xs={12} >
-                                <Typography variant='h5'> Project Details</Typography>
+                                <Typography variant='h5' sx={{color:'black'}}> Project Details</Typography>
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -159,7 +159,7 @@ export default function NewProjectForm({ open, setOpen, addNewProject }) {
                             </Grid>
                             <Grid item xs={6}>
                                 <FormGroup>
-                                    <FormControlLabel control={<Switch
+                                    <FormControlLabel sx={{color:'black'}} control={<Switch
                                         value={isContinue}
                                         onChange={(e) => {
                                             setIsContinue(e.target.checked);

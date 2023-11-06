@@ -8,7 +8,6 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { ThreeDots } from 'react-loading-icons'
 import Checkbox from '@mui/material/Checkbox';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -76,7 +75,6 @@ export default function LoginPage() {
     }
 
 
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         setSigninIn(true)
@@ -86,8 +84,8 @@ export default function LoginPage() {
 
     return (
         <AppTheme>
-            <Box sx={{ minHeight: '100vh' ,display:'flex',flexDirection:'column', justifyContent:'space-between'}} >
-                <Grid container component="main" sx={{flexGrow:1}}>
+            <Box sx={{  minHeight: '100vh' ,display:'flex',flexDirection:'column', justifyContent:'space-between'}} >
+                <Grid container sx={{flexGrow:1}}>
                     <CssBaseline />
                     <Grid
                         item
@@ -111,7 +109,7 @@ export default function LoginPage() {
                                 alignItems: 'center',
                             }}
                         >
-                            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                            <Avatar sx={{ m: 1 }}>
                                 <LockOutlinedIcon />
                             </Avatar>
                             <Typography component="h1" variant="h5">

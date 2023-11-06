@@ -95,7 +95,8 @@ export default function BasicInformationForm({
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        gap: 2
+        gap: 2,
+        backgroundColor:'#fff'
       }}
       component="form"
       onSubmit={handleSubmit}
@@ -146,7 +147,7 @@ export default function BasicInformationForm({
         onChange={(e) => setTagline(e.target.value)}
         fullWidth
       />
-      <Typography  sx={{ fontWeight: 'bold' }}>
+      <Typography color="text.secondary" sx={{ fontWeight: 'bold' }}>
         Contact Information
       </Typography>
       <Box
@@ -201,7 +202,7 @@ export default function BasicInformationForm({
         />
       </Box>
 
-      <Typography  sx={{ fontWeight: 'bold' }}>
+      <Typography color="text.secondary" sx={{ fontWeight: 'bold' }}>
         Address Information
       </Typography>
 
@@ -283,7 +284,7 @@ export default function BasicInformationForm({
         <CountrySelector country={country} setCountry={setCountry} />
       </Box>
 
-      <Typography sx={{ fontWeight: 'bold' }}>
+      <Typography color="text.secondary" sx={{ fontWeight: 'bold' }}>
         Media Information
       </Typography>
 

@@ -104,7 +104,7 @@ export default function NewEditorialExperienceForm({ open, setOpen, addNewEditor
                     <Box component="form" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} >
-                                <Typography variant='h5'> New Editorial Experience</Typography>
+                                <Typography variant='h5' sx={{color:'black'}}> New Editorial Experience</Typography>
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -157,7 +157,7 @@ export default function NewEditorialExperienceForm({ open, setOpen, addNewEditor
                             </Grid>
                             <Grid item xs={6}>
                                 <FormGroup>
-                                    <FormControlLabel control={<Switch
+                                    <FormControlLabel sx={{color:'black'}} control={<Switch
                                         value={isContinue}
                                         onChange={(e) => {
                                             setIsContinue(e.target.checked);

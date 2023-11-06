@@ -11,7 +11,7 @@ export default function CVSectionButtons({ keys, CVMenuButtonHandlers }) {
 
   return (
     <>
-      {!_.isEmpty(keysToAdd) && <Typography variant='h5' align='center'> Add Sections</Typography>}
+      {!_.isEmpty(keysToAdd) && <Typography sx={{color:'black'}} variant='h5' align='center'> Add Sections</Typography>}
 
       <Box sx={{
         display: 'flex',

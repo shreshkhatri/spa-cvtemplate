@@ -1470,6 +1470,7 @@ export default function MyCV({ userData, authToken }) {
             alignItems: 'center',
             minHeight: '100vh',
             width: '100%',
+            backgroundColor:'#fff'
           }}
         >
           <AppTopBar userData={userData} />

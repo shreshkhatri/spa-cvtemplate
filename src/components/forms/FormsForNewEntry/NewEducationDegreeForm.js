@@ -109,7 +109,7 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
 
                         <Grid container spacing={2}>
                             <Grid item xs={12} >
-                                <Typography variant='h5'> Education Qualification Details</Typography>
+                                <Typography variant='h5' sx={{color:'black'}}> Education Qualification Details</Typography>
                             </Grid>
                             <Grid item xs={12} >
                                 <TextField
@@ -165,7 +165,7 @@ export default function NewEducationDegreeForm({ open, setOpen, addNewDegree }) 
                             </Grid>
                             <Grid item xs={6} >
                                 <FormGroup>
-                                    <FormControlLabel control={<Switch
+                                    <FormControlLabel sx={{color:'black'}} control={<Switch 
                                         value={isContinue}
                                         onChange={(e) => {
                                             setIsContinue(e.target.checked);

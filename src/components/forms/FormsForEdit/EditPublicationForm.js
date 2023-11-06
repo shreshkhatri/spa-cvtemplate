@@ -169,7 +169,7 @@ export default function EditPublicationForm({
           <Box component="form" onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h6">Publication Details</Typography>
+                <Typography variant="h6" sx={{color:'black'}}>Publication Details</Typography>
               </Grid>
 
               <Grid item xs={12}>
@@ -304,7 +304,7 @@ export default function EditPublicationForm({
                 padding: 1,
               }}
             >
-              <Typography variant="body1">Authors</Typography>
+              <Typography variant="body1" sx={{color:'black'}}>Authors</Typography>
 
               <Box
                 sx={{
@@ -325,11 +325,11 @@ export default function EditPublicationForm({
                       }}
                       key={author._id}
                     >
-                      <Typography variant="body2">
+                      <Typography variant="body2" sx={{color:'black'}}>
                         {' '}
                         {author.first_name}
                       </Typography>
-                      <Typography sx={{ flexGrow: 1 }} variant="body2">
+                      <Typography sx={{ flexGrow: 1,color:'black' }} variant="body2">
                         {author.last_name}
                       </Typography>
                       <Button

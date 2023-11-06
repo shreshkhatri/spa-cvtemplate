@@ -29,7 +29,7 @@ export default function CareerSummaryForm({ isCareerSummaryEditMode, career_summ
             gap:2,
         }} component={'form'} >
 
-            <Typography variant="h6">
+            <Typography variant="h6" sx={{color:'black'}}>
                 Career Summary
             </Typography>
             <TextField

@@ -30,7 +30,7 @@ export default function PersonalStatementForm({ isPersonalStatementEditModeOn, p
         }}
             component='form'
         >
-            <Typography variant='h6' >Personal Statement</Typography>
+            <Typography variant='h6' sx={{color:'black'}}>Personal Statement</Typography>
             <Box sx={{
                 display: 'flex',
                 flexDirection: {

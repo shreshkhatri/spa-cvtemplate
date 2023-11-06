@@ -106,7 +106,7 @@ export default function NewWorkExperienceForm({ open, setOpen, addNewWorkExperie
                     <Box component="form" onSubmit={handleSubmit} >
                         <Grid container spacing={2}>
                             <Grid item xs={12} >
-                                <Typography variant='h5'> Experience Details</Typography>
+                                <Typography variant='h5' sx={{color:'black'}}> Experience Details</Typography>
                             </Grid>
                             <Grid item xs={12} >
                                 <TextField
@@ -160,7 +160,7 @@ export default function NewWorkExperienceForm({ open, setOpen, addNewWorkExperie
                             </Grid>
                             <Grid item xs={12} >
                                 <FormGroup>
-                                    <FormControlLabel control={<Switch
+                                    <FormControlLabel sx={{color:'black'}} control={<Switch
                                         value={isContinue}
                                         onChange={(e) => {
                                             setIsContinue(e.target.checked);
