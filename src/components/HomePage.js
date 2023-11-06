@@ -16,12 +16,13 @@ export default function Home() {
     document.title='Home - CV Building'
 
     return (
-        <Box sx={{minHeight:'100vh',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
+        <Box sx={{minHeight:'100vh',display:'flex',flexDirection:'column',justifyContent:'space-between',backgroundColor:'white'}}>
             <Box
                 sx={{
                     pt: 8,
                     pb: 6,
-                    flexGrow:1
+                    flexGrow:1,
+                   
                 }}
             >
                 <Container maxWidth="sm">
