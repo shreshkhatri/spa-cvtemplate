@@ -16,7 +16,7 @@ export default function Home() {
     document.title='Home - CV Building'
 
     return (
-        <Box sx={{minHeight:'100vh',display:'flex',flexDirection:'column',justifyContent:'space-between',backgroundColor:'white'}}>
+        <Box sx={{minHeight:'100vh',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
             <Box
                 sx={{
                     pt: 8,
