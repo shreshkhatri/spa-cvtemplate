@@ -121,7 +121,7 @@ export default function EditCouncilForm({
           <Box component="form" onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h5">
+                <Typography variant="h5" sx={{color:'black'}}>
                   {' '}
                   Council Association Information
                 </Typography>
@@ -191,7 +191,7 @@ export default function EditCouncilForm({
 
               <Grid item xs={12}>
                 <FormGroup>
-                  <FormControlLabel
+                  <FormControlLabel sx={{color:'black'}}
                     control={
                       <Switch
                         value={isContinue}

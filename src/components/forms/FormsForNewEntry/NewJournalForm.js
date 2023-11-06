@@ -129,7 +129,7 @@ export default function NewJournalForm({ open, setOpen, addNewJournal }) {
                     <Box component="form" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} >
-                                <Typography variant='h5'>Journal Information</Typography>
+                                <Typography variant='h5' sx={{color:'black'}}>Journal Information</Typography>
                             </Grid>
                             <Grid item xs={12} >
                                 <TextField
@@ -229,7 +229,7 @@ export default function NewJournalForm({ open, setOpen, addNewJournal }) {
                             gap: 1,
                             padding: 1
                         }}>
-                            <Typography variant='body1'>Authors</Typography>
+                            <Typography variant='body1' sx={{color:'black'}}>Authors</Typography>
 
                             <Box sx={{
                                 display: 'flex',
@@ -245,8 +245,8 @@ export default function NewJournalForm({ open, setOpen, addNewJournal }) {
                                             flexWrap: 'wrap',
                                             gap: 1
                                         }} key={author._id}>
-                                            <Typography variant='body2'> {author.first_name}</Typography>
-                                            <Typography sx={{ flexGrow: 1 }} variant='body2'>{author.last_name}</Typography>
+                                            <Typography variant='body2' sx={{color:'black'}}> {author.first_name}</Typography>
+                                            <Typography sx={{ flexGrow: 1,color:'black' }} variant='body2'>{author.last_name}</Typography>
                                         <Button sx={{textTransform:'none',}} variant='outlined' color='error' size='small' onClick={() => removeAuthor(author._id)}>Remove Author</Button>
                                         </Box>
                                         )

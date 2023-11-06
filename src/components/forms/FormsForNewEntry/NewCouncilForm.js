@@ -101,7 +101,7 @@ export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
                     <Box component="form" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} >
-                                <Typography variant='h5'> Council Association Information</Typography>
+                                <Typography variant='h5' sx={{color:'black'}}> Council Association Information</Typography>
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -165,7 +165,7 @@ export default function NewCouncilForm({ open, setOpen, addNewCouncil }) {
 
                             <Grid item xs={12}>
                                 <FormGroup>
-                                    <FormControlLabel
+                                    <FormControlLabel sx={{color:'black'}}
                                         control={<Switch
                                             value={isContinue}
                                             onChange={(e) => setIsContinue(e.target.checked)}

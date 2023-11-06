@@ -99,7 +99,7 @@ export default function NewMembershipForm({ open, setOpen, addNewMembership }) {
                     <Box component="form" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} >
-                                <Typography variant='h6'>Membership Information</Typography>
+                                <Typography variant='h6' sx={{color:'black'}}>Membership Information</Typography>
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -154,7 +154,7 @@ export default function NewMembershipForm({ open, setOpen, addNewMembership }) {
                             </Grid>
                             <Grid item xs={6}>
                                 <FormGroup>
-                                    <FormControlLabel control={<Switch
+                                    <FormControlLabel sx={{color:'black'}} control={<Switch
                                         value={isContinue}
                                         onChange={(e) => {
                                             setIsContinue(e.target.checked);

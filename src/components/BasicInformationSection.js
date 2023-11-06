@@ -144,7 +144,7 @@ export default function BasicInformationSection({
               width: {
                 xs: 250,
                 sm: 250,
-                md: 800,
+                md: 250,
                 lg:400,
                 xl:300
               }
@@ -169,7 +169,7 @@ export default function BasicInformationSection({
                 </CardActions>
               </Card>
             </Box>
-            <Box >
+            <Box sx={{flexGrow:1}}>
               <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
                 {capitalizeWords(
                   `${basic_information.title ? basic_information.title + ' ' : ''

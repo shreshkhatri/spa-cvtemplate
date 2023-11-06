@@ -158,7 +158,7 @@ export default function EditConferenceForm({
           <Box component="form" onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h6">
+                <Typography variant="h6" sx={{color:'black'}}>
                   Conferences (Selected) Details
                 </Typography>
               </Grid>
@@ -257,7 +257,7 @@ export default function EditConferenceForm({
                 padding: 1,
               }}
             >
-              <Typography variant="body1">Authors</Typography>
+              <Typography variant="body1" sx={{color:'black'}}>Authors</Typography>
 
               <Box
                 sx={{
@@ -278,11 +278,11 @@ export default function EditConferenceForm({
                       }}
                       key={author._id}
                     >
-                      <Typography variant="body2">
+                      <Typography variant="body2" sx={{color:'black'}}>
                         {' '}
                         {author.first_name}
                       </Typography>
-                      <Typography sx={{ flexGrow: 1 }} variant="body2">
+                      <Typography sx={{ flexGrow: 1 ,color:'black'}} variant="body2" >
                         {author.last_name}
                       </Typography>
                       <Button

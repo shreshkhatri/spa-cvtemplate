@@ -100,7 +100,7 @@ export default function EditAwardHonorForm({
           <Box component="form" onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h6">Award Details</Typography>
+                <Typography variant="h6" sx={{color:'black'}}>Award Details</Typography>
               </Grid>
               <Grid item xs={12}>
                 <TextField

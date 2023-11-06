@@ -127,7 +127,7 @@ export default function EditCommitteeForm({
           <Box component="form" onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h5">
+                <Typography variant="h5" sx={{color:'black'}}>
                   {' '}
                   Committees Association Details
                 </Typography>
@@ -193,7 +193,7 @@ export default function EditCommitteeForm({
               </Grid>
               <Grid item xs={6}>
                 <FormGroup>
-                  <FormControlLabel
+                  <FormControlLabel sx={{color:'black'}}
                     control={
                       <Switch
                         value={isContinue}

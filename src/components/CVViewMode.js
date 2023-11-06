@@ -46,6 +46,7 @@ export default function CVViewMode({ cvdata }) {
           alignItems: 'center',
           minHeight: '100vh',
           width: '100%',
+          backgroundColor:'#fff'
         }}
       >
         <Box
