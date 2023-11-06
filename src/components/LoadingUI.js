@@ -7,7 +7,7 @@ export default function LoadingUI() {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', justifyContent: 'center', height: '100vh' }}>
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <ReactLoading type='spokes' color='#000000' />
+                <ReactLoading type='spokes' color='grey' />
             </Box>
             <Typography textAlign='center' sx={{ padding: 3 }}>Please wait ...</Typography>
         </Box>

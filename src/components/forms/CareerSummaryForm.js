@@ -27,7 +27,6 @@ export default function CareerSummaryForm({ isCareerSummaryEditMode, career_summ
             flexDirection: 'column',
             width: '100%',
             gap:2,
-            backgroundColor:'#fff'
         }} component={'form'} >
 
             <Typography variant="h6">

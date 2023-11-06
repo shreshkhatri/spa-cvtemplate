@@ -40,7 +40,7 @@ export default function CVSectionButtons({ keys, CVMenuButtonHandlers }) {
               case 'projects':
                 return <Button key={index} sx={{ textTransform:'none',backgroundColor: 'success.main', flexGrow: 1, padding: 1 }} variant="contained" size="small" onClick={() => CVMenuButtonHandlers.addProjects()}>Add Projects </Button>
               case 'publications':
-                return <Button key={index}  sx={{ textTransform:'none',backgroundColor: 'text.primary', flexGrow: 1, padding: 1 }} variant="contained" size="small" onClick={() => CVMenuButtonHandlers.addPublications()}>Add Publications</Button>
+                return <Button key={index}  sx={{ textTransform:'none', flexGrow: 1, padding: 1 }} variant="contained" size="small" onClick={() => CVMenuButtonHandlers.addPublications()}>Add Publications</Button>
               case 'technical_skills':
                 return <Button key={index}  sx={{ textTransform:'none',backgroundColor: 'text.secondary', flexGrow: 1, padding: 1 }} variant="contained" size="small" onClick={() => CVMenuButtonHandlers.addTechnicalSkillsSection()}>Add Technical Skills</Button>
               case 'editorial_experience':
@@ -54,7 +54,7 @@ export default function CVSectionButtons({ keys, CVMenuButtonHandlers }) {
               case 'awards_honors':
                 return <Button key={index}  sx={{ textTransform:'none',backgroundColor: 'error.main', flexGrow: 1, padding: 1 }} variant="contained" size="small" onClick={() => CVMenuButtonHandlers.addAwardSection()}>Add Awards / Honors</Button>
               case 'conferences':
-                return <Button key={index}  sx={{ textTransform:'none',backgroundColor: 'text.primary', flexGrow: 1, padding: 1 }} variant="contained" size="small" onClick={() => CVMenuButtonHandlers.addConferencesSection()}>Add Conferences</Button>
+                return <Button key={index}  sx={{ textTransform:'none', flexGrow: 1, padding: 1 }} variant="contained" size="small" onClick={() => CVMenuButtonHandlers.addConferencesSection()}>Add Conferences</Button>
               case 'journals':
                 return <Button key={index}  sx={{ textTransform:'none',backgroundColor: 'info.main', flexGrow: 1, padding: 1 }} variant="contained" size="small" onClick={() => CVMenuButtonHandlers.addJournalsSection()}>Add Journals</Button>
                 case 'accreditations_experience':

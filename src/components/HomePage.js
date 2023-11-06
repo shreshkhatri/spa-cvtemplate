@@ -30,12 +30,12 @@ export default function Home() {
                         component="h3"
                         variant="h3"
                         align="center"
-                        color="text.primary"
+                      
                         gutterBottom
                     >
                         Build CV with us
                     </Typography>
-                    <Typography variant="h5" align="center" color="text.secondary" paragraph>
+                    <Typography variant="h5" align="center" paragraph>
                         Welcome to theCV.org App, where you can effortlessly create, save, and download your professional CV in PDF format.<br></br><br></br> Sign up today and take the first step towards a brighter tomorrow. Your dream career awaits – lets make it happen together!
                     </Typography>
                     <Stack
